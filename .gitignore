@@ -1,0 +1,12 @@
+.idea/workspace.xml
+
+ # node modules
+node_modules/
+package-lock.json
+logs/
+allure-report/
+allure-results/
+
+.idea/
+*.apk
+*.ipa
