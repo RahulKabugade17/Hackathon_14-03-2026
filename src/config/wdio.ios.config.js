@@ -1,12 +1,12 @@
-import { baseConfig, logPath } from '../wdio.base.config.js';
+import { baseConfig, logPath } from './wdio.base.config.js';
 import path from 'path';
 
-const relativePath = 'apps/iosApp.app';
+const relativePath = 'apps/iosApp.ipa';
 const absolutePath = path.resolve(relativePath);
 const host = 'localhost';
 const port = 4723;
-const deviceName = 'iPhone 15';
-const deviceVersion = '17.0';
+const deviceName = 'iPhone 16';
+const deviceVersion = '18.3';
 const isHeadless = false;
 const appPath = absolutePath;
 

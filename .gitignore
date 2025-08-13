@@ -9,4 +9,4 @@ allure-results/
 
 .idea/
 *.apk
-*.ipa
+*.app

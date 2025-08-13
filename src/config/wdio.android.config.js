@@ -3,14 +3,12 @@ import path from "path";
 import allure from '@wdio/allure-reporter';
 import os from "os";
 
-// APK path from apps folder
+// Updated APK and device details
 const relativePath = 'apps/app-uat-debug.apk';
 const appPath = path.resolve(relativePath);
 const host = '0.0.0.0';
 const port = 4723;
-// Updated device name for Pixel 7
 const deviceName = 'Pixel 7';
-// Updated Android version to 16
 const deviceVersion = '16.0';
 const launchTimeout = 120000;
 const readyTimeout = 120000;
@@ -18,27 +16,10 @@ const isHeadless = false;
 
 const droidConf = {
     ...baseConfig,
-    // Disable Bidi protocol globally
-    enableBiDi: false,
-    services: [
-        [
-            'appium',
-            {
-                command: 'appium',
-                logPath: logPath,
-                args: {
-                    address: host,
-                    port: port,
-                    sessionOverride: true,
-                    debugLogSpacing: true,
-                    logLevel: 'debug',
-                    // Disable Bidi in Appium service
-                    '--disable-bidi': true,
-                },
-            },
-        ],
-    ],
+    // Remove Appium service to avoid Bidi issues
+    services: [],
     hostname: host,
+    path: '/wd/hub',
     port: port,
     specs: ['../features/*.feature'],
     capabilities: [
@@ -53,15 +34,6 @@ const droidConf = {
             'appium:avdReadyTimeout': readyTimeout,
             'appium:autoGrantPermissions': true,
             'appium:isHeadless': isHeadless,
-            // Additional capabilities for Android 16 and Pixel 7
-            'appium:noReset': false,
-            'appium:fullReset': true,
-            'appium:newCommandTimeout': 60,
-            'appium:autoAcceptAlerts': true,
-            'appium:autoDismissAlerts': true,
-            // Disable Bidi protocol to avoid WebDriver Bidi errors
-            'appium:webSocketUrl': false,
-            'appium:enableBiDi': false,
         },
     ],
 
@@ -74,7 +46,7 @@ const droidConf = {
             disableMochaHooks: true,
             useCucumberStepReporter: true,
             reportedEnvironmentVars: {
-                Application: 'Birla Opus App',
+                Application: 'Testing Webdriver io App',
                 Platform: 'Android',
                 Environment: 'QA',
                 App_Version: '1.0.0',
