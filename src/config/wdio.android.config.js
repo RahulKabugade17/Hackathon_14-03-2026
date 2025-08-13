@@ -3,16 +3,18 @@ import path from "path";
 import allure from '@wdio/allure-reporter';
 import os from "os";
 
-const relativePath = 'apps/androidApp.apk';
-const absolutePath = path.resolve(relativePath);
+// APK path from apps folder
+const relativePath = 'apps/app-uat-debug.apk';
+const appPath = path.resolve(relativePath);
 const host = '0.0.0.0';
 const port = 4723;
-const deviceName = 'emulator-5554';
-const deviceVersion = '12.0';
+// Updated device name for Pixel 7
+const deviceName = 'Pixel 7';
+// Updated Android version to 16
+const deviceVersion = '16.0';
 const launchTimeout = 120000;
 const readyTimeout = 120000;
 const isHeadless = false;
-const appPath = absolutePath;
 
 const droidConf = {
     ...baseConfig,
@@ -47,6 +49,12 @@ const droidConf = {
             'appium:avdReadyTimeout': readyTimeout,
             'appium:autoGrantPermissions': true,
             'appium:isHeadless': isHeadless,
+            // Additional capabilities for Android 16 and Pixel 7
+            'appium:noReset': false,
+            'appium:fullReset': true,
+            'appium:newCommandTimeout': 60,
+            'appium:autoAcceptAlerts': true,
+            'appium:autoDismissAlerts': true,
         },
     ],
 
@@ -59,7 +67,7 @@ const droidConf = {
             disableMochaHooks: true,
             useCucumberStepReporter: true,
             reportedEnvironmentVars: {
-                Application: 'Testing Webdriver io App',
+                Application: 'Birla Opus App',
                 Platform: 'Android',
                 Environment: 'QA',
                 App_Version: '1.0.0',
