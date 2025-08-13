@@ -18,6 +18,8 @@ const isHeadless = false;
 
 const droidConf = {
     ...baseConfig,
+    // Disable Bidi protocol globally
+    enableBiDi: false,
     services: [
         [
             'appium',
@@ -30,6 +32,8 @@ const droidConf = {
                     sessionOverride: true,
                     debugLogSpacing: true,
                     logLevel: 'debug',
+                    // Disable Bidi in Appium service
+                    '--disable-bidi': true,
                 },
             },
         ],
@@ -55,6 +59,9 @@ const droidConf = {
             'appium:newCommandTimeout': 60,
             'appium:autoAcceptAlerts': true,
             'appium:autoDismissAlerts': true,
+            // Disable Bidi protocol to avoid WebDriver Bidi errors
+            'appium:webSocketUrl': false,
+            'appium:enableBiDi': false,
         },
     ],
 

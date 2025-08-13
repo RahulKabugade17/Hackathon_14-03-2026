@@ -20,6 +20,8 @@ export const baseConfig = {
     connectionRetryTimeout: retryTimeout,
     connectionRetryCount: retryCount,
     outputDir: logPath,
+    // Disable Bidi protocol to avoid WebDriver Bidi errors
+    enableBiDi: false,
 
     framework: 'cucumber',
     cucumberOpts: {
