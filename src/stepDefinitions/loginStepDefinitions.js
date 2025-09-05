@@ -1,22 +1,15 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
-import HomePage from "../pages/home";
-import LoginPage from "../pages/login";
-
-const homePage = new HomePage();
+import { When, Then } from '@cucumber/cucumber';
+import LoginPage from '../pages/login';
+import loginData from '../data/login.example.json';
 const loginPage = new LoginPage();
-
-Given('The user navigates to Login Screen', async () => {
-    await homePage.openLogin();
+When('user enters mobile and requests OTP', async function () {
+    await loginPage.enterMobile(loginData.mobile);
 });
 
-When(/^the user enters "(.*)" and "(.*)"$/, async function(email, password) {
-    await loginPage.enterCredentials(email, password);
+When('submits otp', async function () {
+    await loginPage.submitOtp(loginData.otp);
 });
 
-When('clicks on the login button', async () => {
-    await loginPage.clickLoginButton();
-});
-
-Then('user should be successfully logged in', async() => {
-    await expect(await loginPage.getSuccessMsg()).toEqual('You are logged in!');
+Then('user is logged in', async function () {
+    await loginPage.assertLoggedIn();
 });

@@ -20,9 +20,6 @@ export const baseConfig = {
     connectionRetryTimeout: retryTimeout,
     connectionRetryCount: retryCount,
     outputDir: logPath,
-    // Disable Bidi protocol to avoid WebDriver Bidi errors
-    enableBiDi: false,
-
     framework: 'cucumber',
     cucumberOpts: {
         timeout: cucumberTimeout,
@@ -30,13 +27,6 @@ export const baseConfig = {
         tags: ['@smoke'],
     },
 
-    /**
-     * Gets executed before test execution begins. At this point you can access to all global
-     * variables like `browser`. It is the perfect place to define custom commands.
-     * @param {Array.<Object>} capabilities list of capabilities details
-     * @param {Array.<String>} specs        List of spec file paths that are to be run
-     * @param {Object}         browser      instance of created browser/device session
-     */
     before: async function (capabilities, specs) {
         try {
             await import('../utils/CustomCommands.js');

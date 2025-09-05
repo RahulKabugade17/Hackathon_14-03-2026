@@ -3,28 +3,33 @@ import path from "path";
 import allure from '@wdio/allure-reporter';
 import os from "os";
 
-// Updated APK and device details
 const relativePath = 'apps/app-uat-debug.apk';
 const appPath = path.resolve(relativePath);
-const host = '0.0.0.0';
-const port = 4723;
-const deviceName = 'Pixel 7';
-const deviceVersion = '16.0';
+const deviceName = 'RZCWA000BGL';
+const deviceVersion = '15.0';
 const launchTimeout = 120000;
 const readyTimeout = 120000;
 const isHeadless = false;
 
 const droidConf = {
     ...baseConfig,
-    // Remove Appium service to avoid Bidi issues
-    services: [],
-    hostname: host,
-    path: '/wd/hub',
-    port: port,
+    hostname: '0.0.0.0',
+    port: 4723,
+    path: '/',
     specs: ['../features/*.feature'],
+    services: [
+        ['appium', {
+            args: {
+                port: 4723,
+                address: '0.0.0.0',
+                relaxedSecurity: true
+            },
+            command: 'appium'
+        }]
+    ],
+
     capabilities: [
         {
-            browserName: 'Android',
             platformName: 'Android',
             'appium:platformVersion': deviceVersion,
             'appium:deviceName': deviceName,
@@ -46,7 +51,7 @@ const droidConf = {
             disableMochaHooks: true,
             useCucumberStepReporter: true,
             reportedEnvironmentVars: {
-                Application: 'Testing Webdriver io App',
+                Application: 'Birla Opus App',
                 Platform: 'Android',
                 Environment: 'QA',
                 App_Version: '1.0.0',

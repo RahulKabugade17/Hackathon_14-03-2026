@@ -1,7 +1,7 @@
 import { baseConfig, logPath } from './wdio.base.config.js';
 import path from 'path';
 
-const relativePath = 'apps/iosApp.ipa';
+const relativePath = 'apps/DevServiceFoods.app';
 const absolutePath = path.resolve(relativePath);
 const host = 'localhost';
 const port = 4723;

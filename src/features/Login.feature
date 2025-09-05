@@ -1,12 +1,11 @@
 @smoke
-Feature: Login Functionality
+Feature: Login
 
-  Scenario Outline: Validate login
-    Given The user navigates to Login Screen
-    When the user enters "<email>" and "<password>"
-    And clicks on the login button
-    Then user should be successfully logged in
+  Scenario Outline: Login with mobile and OTP
+    When user enters "<mobile>" and requests OTP
+    And submits "<otp>"
+    Then user is logged in
 
     Examples:
-      | email                    | password      |
-      | testing.login@gmail.com1 | testingmobile |
+      | mobile   | otp    |
+      | <mobile> | <otp>  |
