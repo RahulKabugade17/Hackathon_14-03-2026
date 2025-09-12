@@ -1,4 +1,4 @@
-import { waitAndClick, waitAndFindElement } from '../utils/CustomCommands.js';
+import { waitAndClick, waitAndFindElement } from "../utils/CustomCommands.js";
 
 class LoginPage {
   selectors = {
@@ -11,7 +11,8 @@ class LoginPage {
       ios: '//XCUIElementTypeTextField[@label="Phone Number"]',
     },
     privacyPolicyCheckbox: {
-      droid: 'android=new UiSelector().className("android.view.ViewGroup").instance(27)',
+      droid:
+        'android=new UiSelector().className("android.view.ViewGroup").instance(27)',
       ios: '//XCUIElementTypeCheckBox[@name="privacy_policy"]',
     },
     requestOtpButton: {
@@ -22,6 +23,16 @@ class LoginPage {
       droid: 'android=new UiSelector().className("android.widget.EditText")',
       ios: 'android=new UiSelector().className("android.widget.EditText")',
     },
+    
+    CloseBanner: {
+        droid: '~inapp_close_btn',
+        ios: '~inapp_close_btn',
+    }, 
+   
+      homePageVerificationElement: {
+        droid: 'android=new UiSelector().className("android.view.View").instance(0)',
+        ios: 'android=new UiSelector().className("android.view.View").instance(0)',
+    },
   };
 
   getLocator(selector) {
@@ -29,14 +40,18 @@ class LoginPage {
   }
 
   async clickLanguageContinue() {
-    const langBtn = await waitAndFindElement(this.getLocator(this.selectors.languageContinueButton));
+    const langBtn = await waitAndFindElement(
+      this.getLocator(this.selectors.languageContinueButton)
+    );
     if (await langBtn.isDisplayed()) {
       await langBtn.click();
     }
   }
 
   async enterMobileAndRequestOtp(mobile) {
-    const phoneField = await waitAndFindElement(this.getLocator(this.selectors.phoneNumberField));
+    const phoneField = await waitAndFindElement(
+      this.getLocator(this.selectors.phoneNumberField)
+    );
     await phoneField.click();
     await phoneField.setValue(mobile);
     await waitAndClick(this.getLocator(this.selectors.privacyPolicyCheckbox));
@@ -44,9 +59,11 @@ class LoginPage {
   }
 
   async submitOtp(otp) {
-    const otpField = await waitAndFindElement(this.getLocator(this.selectors.otpField));
+    const otpField = await waitAndFindElement(
+      this.getLocator(this.selectors.otpField)
+    );
     await otpField.setValue(otp);
-    // Optional: press submit/confirm button if exists
+
   }
 
   async loginWithMobileAndOtp(mobile, otp) {
@@ -54,6 +71,21 @@ class LoginPage {
     if (otp) {
       await this.submitOtp(otp);
     }
+  }
+
+  async verifyHomeScreen() {
+    const closeButton = await $(
+      this.getLocator(this.selectors.CloseBanner)
+    );
+
+    if (await closeButton.isDisplayed()) {
+      await closeButton.click();
+    }
+
+    const homeElement = await waitAndFindElement(
+      this.getLocator(this.selectors.homePageVerificationElement)
+    );
+    await expect(homeElement).toBeDisplayed();
   }
 }
 
