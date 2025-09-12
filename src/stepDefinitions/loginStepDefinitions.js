@@ -1,15 +1,17 @@
-import { When, Then } from '@cucumber/cucumber';
-import LoginPage from '../pages/login';
-import loginData from '../data/login.example.json';
-const loginPage = new LoginPage();
-When('user enters mobile and requests OTP', async function () {
-    await loginPage.enterMobile(loginData.mobile);
+import { Given, When, Then } from "@wdio/cucumber-framework";
+import loginPage from "../pages/login.js";
+import loginData from "../fixtures/login.json";
+
+Given("user is on the mobile login screen", async function () {
+  await loginPage.clickLanguageContinue();
 });
 
-When('submits otp', async function () {
-    await loginPage.submitOtp(loginData.otp);
+When("user logs in with mobile number and OTP", async function () {
+  const { mobileNumber, otp } = loginData;  
+  await loginPage.loginWithMobileAndOtp(mobileNumber, otp);
 });
 
-Then('user is logged in', async function () {
-    await loginPage.assertLoggedIn();
+Then("user should be logged in successfully", async function () {
+  
+   await loginPage.verifyHomeScreen();
 });

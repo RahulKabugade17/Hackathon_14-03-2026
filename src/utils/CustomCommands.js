@@ -55,3 +55,34 @@ function validateAndGetPlatformKey(platform) {
   }
   return platformKey;
 }
+
+export async function waitAndClick(selector) {
+  const element = (typeof selector === 'string' || selector.droid || selector.ios)
+    ? await $(selector.droid || selector.ios || selector)
+    : selector;
+  console.log("Waiting for element to exist...");
+  await element.waitForExist({ timeout: 90000 });
+  await element.waitForDisplayed({ timeout: 90000 });
+  await element.click();
+}
+
+
+export async function waitAndFindElement(selector) {
+  const element = (typeof selector === 'string' || selector.droid || selector.ios)
+    ? await $(selector.droid || selector.ios || selector)
+    : selector;
+
+  await element.waitForExist({ timeout: 90000 });
+  await element.waitForDisplayed({ timeout: 90000 });
+  return element;
+}
+
+
+export async function waitForElementVisible(selector) {
+  const el = await $(selector);
+  await el.waitForDisplayed({ timeout: 15000 });
+  return el.isDisplayed();
+}
+
+
+

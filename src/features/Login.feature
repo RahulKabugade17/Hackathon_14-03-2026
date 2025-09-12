@@ -1,11 +1,7 @@
 @smoke
 Feature: Login
 
-  Scenario Outline: Login with mobile and OTP
-    When user enters "<mobile>" and requests OTP
-    And submits "<otp>"
-    Then user is logged in
-
-    Examples:
-      | mobile   | otp    |
-      | <mobile> | <otp>  |
+Scenario: Login with mobile and OTP
+  Given user is on the mobile login screen
+  When user logs in with mobile number and OTP 
+  Then user should be logged in successfully
