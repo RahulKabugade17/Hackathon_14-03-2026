@@ -2,7 +2,7 @@
   "name": "appium-mobile-starter",
   "version": "1.0.0",
   "scripts": {
-    "android": "npx wdio src/config/wdio.android.config.js",
+    "android": "node ./node_modules/@wdio/cli/bin/wdio.js ./src/config/wdio.android.config.js",
     "ios": "npx wdio ./src/config/wdio.ios.config.js",
     "report": "npm run allure:generate && npm run allure:open",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "appium-uiautomator2-driver": "^4.2.1",
-    "appium-xcuitest-driver": "^9.2.1"
+    "appium-xcuitest-driver": "^9.2.1",
+    "axios": "^1.13.2"
   }
 }

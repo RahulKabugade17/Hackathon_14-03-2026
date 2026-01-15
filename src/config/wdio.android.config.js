@@ -1,46 +1,64 @@
-import { baseConfig, logPath } from './wdio.base.config.js';
-import path from "path";
-import allure from '@wdio/allure-reporter';
-import os from "os";
+import { baseConfig } from './wdio.base.config.js';
+import path from 'path';
+import os from 'os';
 
-const relativePath = 'apps/app-uat-debug.apk';
+const relativePath = 'apps/app-uat.apk';
 const appPath = path.resolve(relativePath);
-const deviceName = 'RZCWA000BGL';
-const deviceVersion = '15.0';
-const launchTimeout = 120000;
-const readyTimeout = 120000;
-const isHeadless = false;
+
+const deviceName = 'ZD222W38XD';
+const deviceVersion = '16.0';
 
 const droidConf = {
     ...baseConfig,
-    hostname: '0.0.0.0',
+
+    runner: 'local',
+    maxInstances: 1,
+
+    hostname: '127.0.0.1',
     port: 4723,
     path: '/',
+
     specs: ['../features/*.feature'],
+
+    connectionRetryTimeout: 150000,
+    connectionRetryCount: 3,
+    specFileRetries: 2,
+    specFileRetriesDelay: 5,
+
+    framework: 'cucumber',
+
     services: [
         ['appium', {
             args: {
                 port: 4723,
-                address: '0.0.0.0',
+                address: '127.0.0.1',
                 relaxedSecurity: true
             },
             command: 'appium'
         }]
     ],
 
-    capabilities: [
-        {
-            platformName: 'Android',
-            'appium:platformVersion': deviceVersion,
-            'appium:deviceName': deviceName,
-            'appium:app': appPath,
-            'appium:automationName': 'UiAutomator2',
-            'appium:avdLaunchTimeout': launchTimeout,
-            'appium:avdReadyTimeout': readyTimeout,
-            'appium:autoGrantPermissions': true,
-            'appium:isHeadless': isHeadless,
-        },
-    ],
+    capabilities: [{
+        platformName: 'Android',
+        'appium:platformVersion': deviceVersion,
+        'appium:deviceName': deviceName,
+        'appium:automationName': 'UiAutomator2',
+        'appium:app': appPath,
+        'appium:autoGrantPermissions': true,
+        'appium:noReset': false,
+        'appium:fullReset': false,
+        'appium:chromedriverAutodownload': true,
+        'appium:enablePerformanceLogging': true,
+        'appium:newCommandTimeout': 600,
+        'appium:adbExecTimeout': 120000,
+        'appium:uiautomator2ServerInstallTimeout': 60000,
+        'wdio:allowInsecure': ['adb_shell']
+    }],
+
+    logLevel: 'error',
+    bail: 0,
+    baseUrl: 'http://localhost',
+    waitforTimeout: 20000,
 
     reporters: [
         'spec',
@@ -48,19 +66,26 @@ const droidConf = {
             outputDir: 'allure-results',
             disableWebdriverStepsReporting: true,
             disableWebdriverScreenshotsReporting: false,
-            disableMochaHooks: true,
             useCucumberStepReporter: true,
             reportedEnvironmentVars: {
                 Application: 'Birla Opus App',
                 Platform: 'Android',
                 Environment: 'QA',
-                App_Version: '1.0.0',
                 Device_Id: deviceName,
                 Device_Version: deviceVersion,
-                node_version: process.version,
-            },
+                Node_Version: process.version,
+                OS: os.platform()
+            }
         }]
     ],
+
+    cucumberOpts: {
+        require: [
+            './src/stepDefinitions/**/*.js',
+            './src/support/hooks.js'
+        ],
+        timeout: 120000
+    }
 };
 
 export const config = droidConf;

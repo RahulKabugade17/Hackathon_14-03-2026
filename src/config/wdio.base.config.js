@@ -2,43 +2,42 @@ import allure from '@wdio/allure-reporter';
 import * as os from "os";
 
 const maxInstances = 1;
-const cucumberTimeout = 60000;
-const waitTimeout = 10000;
-const retryTimeout = 120000;
-const retryCount = 2;
-const logType = 'debug';
+const cucumberTimeout = 120000;
+const waitTimeout = 20000;
+const retryTimeout = 150000;
+const retryCount = 3;
+const logType = 'info';
 const bailCount = 0;
 
 export const logPath = './logs';
+
 export const baseConfig = {
     runner: 'local',
-    path: '/wd/hub',
-    maxInstances: maxInstances,
+
+    maxInstances,
+
     logLevel: logType,
     bail: bailCount,
+
     waitforTimeout: waitTimeout,
     connectionRetryTimeout: retryTimeout,
     connectionRetryCount: retryCount,
+
     outputDir: logPath,
     framework: 'cucumber',
+
     cucumberOpts: {
         timeout: cucumberTimeout,
-        require: ['./src/stepDefinitions/**/*.js'],
-        tags: ['@smoke'],
+        require: ['./step_definitions/**/*.js'],
+        tagExpression: '@smoke'
     },
 
-    before: async function (capabilities, specs) {
+    before: async function () {
         try {
             await import('../utils/CustomCommands.js');
+            console.log('✔ Custom commands loaded');
         } catch (err) {
-            console.warn('Warning: Failed to import custom commands:', err);
-        }
-    },
-
-    afterStep: async function (step, context, { error }) {
-        if (error) {
-            const screenshot = await browser.takeScreenshot();
-            allure.addAttachment('Screenshot on Failure', Buffer.from(screenshot, 'base64'), 'image/png');
+            console.warn('⚠ Failed to load custom commands:', err);
         }
     },
 
@@ -46,10 +45,17 @@ export const baseConfig = {
         await driver.startRecordingScreen();
     },
 
+    afterStep: async function (step, scenario, { error }) {
+        if (error) {
+            const screenshot = await browser.takeScreenshot();
+            allure.addAttachment('Failure Screenshot', Buffer.from(screenshot, 'base64'), 'image/png');
+        }
+    },
+
     afterScenario: async function (world, result) {
         const video = await driver.stopRecordingScreen();
         if (result.passed === false) {
-            allure.addAttachment('Screen Recording', Buffer.from(video, 'base64'), 'video/mp4');
+            allure.addAttachment('Failure Recording', Buffer.from(video, 'base64'), 'video/mp4');
         }
-    },
+    }
 };
