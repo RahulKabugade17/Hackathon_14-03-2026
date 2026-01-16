@@ -11,23 +11,14 @@ class HomePage {
             ios: '',
         },
     };
-
     async skipOnboarding() {
-        try {
-            const el = await $(this.selectors.onboardingSkipButton);
-            if (await el.isDisplayed()) {
-                await waitAndClick(this.selectors.onboardingSkipButton);
-            }
-        } catch { }
+        await waitAndClick(this.selectors.onboardingSkipButton);
+        console.log('[HOME] Onboarding skipped');
     }
 
     async closePromo() {
-        try {
-            const el = await $(this.selectors.promoCloseButton);
-            if (await el.isDisplayed()) {
-                await waitAndClick(this.selectors.promoCloseButton);
-            }
-        } catch { }
+        await waitAndClick(this.selectors.promoCloseButton);
+        console.log('[HOME] Promo closed');
     }
 }
 

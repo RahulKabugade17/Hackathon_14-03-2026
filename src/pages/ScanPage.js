@@ -1,28 +1,13 @@
-import { waitAndClick } from '../utils/CustomCommands.js';
-const path = require('path');
-const fs = require('fs');
+import { waitAndClick, waitForElementVisible } from '../utils/CustomCommands.js';
 
 class ScanPage {
-
     selectors = {
         scanButton: {
-            droid: '//android.widget.TextView[@text="Scan"]',
+            droid: '~Scan',
             ios: '',
         },
         onboardingSkipButton: {
             droid: '~Skip',
-            ios: '',
-        },
-        manualEntryButton: {
-            droid: '~Enter code manually',
-            ios: '',
-        },
-        scanSuccessMessage: {
-            droid: '//*[@text="Coupon Validated Successfully"]',
-            ios: '',
-        },
-        scanErrorMessage: {
-            droid: '//*[@text="Invalid QR Code"]',
             ios: '',
         }
     };
@@ -30,10 +15,12 @@ class ScanPage {
     async goToScan() {
         await waitForElementVisible(this.selectors.scanButton);
         await waitAndClick(this.selectors.scanButton);
+        console.log('[SCAN] Scan button clicked');
     }
 
     async skipOnboarding() {
         await waitAndClick(this.selectors.onboardingSkipButton);
+        console.log('[SCAN] Onboarding skipped');
     }
 }
 

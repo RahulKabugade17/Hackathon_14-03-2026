@@ -1,22 +1,54 @@
+/* ================= PLATFORM RESOLUTION ================= */
+
 const platformKeyMap = {
   android: 'droid',
-  ios: 'ios',
+  ios: 'ios'
 };
 
 browser.overwriteCommand('$', async ($, selector) => {
-  if (typeof selector === 'string') return $(selector);
-  return $(getSelectorByPlatform(selector));
+  // already a WebdriverIO element
+  if (selector?.elementId) {
+    return selector;
+  }
+
+  // normal selector
+  if (typeof selector === 'string') {
+    return $(selector);
+  }
+
+  // platform selector object
+  if (selector?.droid || selector?.ios) {
+    return $(getSelectorByPlatform(selector));
+  }
+
+  throw new Error(
+    `[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`
+  );
 });
 
 browser.overwriteCommand('$$', async ($$, selector) => {
-  if (typeof selector === 'string') return $$(selector);
-  return $$(getSelectorByPlatform(selector));
+  if (typeof selector === 'string') {
+    return $$(selector);
+  }
+
+  if (selector?.droid || selector?.ios) {
+    return $$(getSelectorByPlatform(selector));
+  }
+
+  throw new Error(
+    `[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`
+  );
 });
 
 function getSelectorByPlatform(selector) {
   const platform = getPlatform();
-  const platformKey = validateAndGetPlatformKey(platform);
-  return selector[platformKey];
+  const key = platformKeyMap[platform];
+
+  if (!key || !selector[key]) {
+    throw new Error(`Selector not set for ${platform} platform`);
+  }
+
+  return selector[key];
 }
 
 function getPlatform() {
@@ -24,44 +56,32 @@ function getPlatform() {
   return driver.isIOS ? 'ios' : 'android';
 }
 
-function validateAndGetPlatformKey(platform) {
-  const platformKey = platformKeyMap[platform];
-  if (!platformKey) {
-    throw new Error(`Selector not set for ${platform} platform.`);
-  }
-  return platformKey;
-}
+/* ================= COMMON ACTIONS ================= */
 
-// ==================== SAFE COMMANDS ====================
-
-export async function waitAndFindElement(selector) {
-  let element;
-
-  if (typeof selector === 'string') {
-    element = await $(selector);
-  } else if (selector?.droid || selector?.ios) {
-    element = await $(selector.droid || selector.ios);
-  } else {
-    element = selector;
-  }
-
-  await element.waitForExist({ timeout: 90000 });
-  await element.waitForDisplayed({ timeout: 90000 });
+export async function waitAndFindElement(selector, timeout = 15000) {
+  const element = selector?.elementId ? selector : await $(selector);
+  await element.waitForExist({ timeout });
+  await element.waitForDisplayed({ timeout });
   return element;
 }
 
-export async function waitAndClick(selector) {
-  const element = await waitAndFindElement(selector);
-  await element.click();
+export async function waitAndClick(selector, timeout = 15000) {
+  const el = await waitAndFindElement(selector, timeout);
+  await el.click();
 }
 
-export async function waitForElementVisible(selector) {
-  const el = await $(selector);
-  await el.waitForDisplayed({ timeout: 15000 });
-  return el.isDisplayed();
+export async function setValueFast(selector, value) {
+  const el = await waitAndFindElement(selector);
+  await el.setValue(value);
 }
 
-// ==================== SYSTEM PERMISSIONS ====================
+export async function clickAndType(selector, value) {
+  const el = await waitAndFindElement(selector);
+  await el.click();
+  await driver.keys(value);
+}
+
+/* ================= SYSTEM PERMISSIONS ================= */
 
 export async function handleSystemPermissions() {
   const permissionButtons = [
@@ -69,7 +89,7 @@ export async function handleSystemPermissions() {
     'com.android.permissioncontroller:id/permission_allow_foreground_only_button',
     'com.android.permissioncontroller:id/permission_allow_one_time_button',
     'android:id/button1',
-    'android:id/button2',
+    'android:id/button2'
   ];
 
   for (let i = 0; i < 5; i++) {
@@ -80,28 +100,35 @@ export async function handleSystemPermissions() {
           await el.click();
           await driver.pause(500);
         }
-      } catch { }
+      } catch {
+        // ignore
+      }
     }
   }
 }
+export async function waitForElementVisible(selector, timeout = 15000) {
+  return waitAndFindElement(selector, timeout);
+}
 
-// ==================== GESTURES ====================
+/* ================= SWIPE ================= */
 
 export async function swipeScreen(startY = 0.8, endY = 0.2) {
   const { width, height } = await driver.getWindowRect();
 
-  await driver.performActions([{
-    type: 'pointer',
-    id: 'finger1',
-    parameters: { pointerType: 'touch' },
-    actions: [
-      { type: 'pointerMove', duration: 0, x: width / 2, y: height * startY },
-      { type: 'pointerDown', button: 0 },
-      { type: 'pause', duration: 500 },
-      { type: 'pointerMove', duration: 800, x: width / 2, y: height * endY },
-      { type: 'pointerUp', button: 0 }
-    ]
-  }]);
+  await driver.performActions([
+    {
+      type: 'pointer',
+      id: 'finger1',
+      parameters: { pointerType: 'touch' },
+      actions: [
+        { type: 'pointerMove', duration: 0, x: width / 2, y: height * startY },
+        { type: 'pointerDown', button: 0 },
+        { type: 'pause', duration: 500 },
+        { type: 'pointerMove', duration: 800, x: width / 2, y: height * endY },
+        { type: 'pointerUp', button: 0 }
+      ]
+    }
+  ]);
 
   await driver.releaseActions();
 }
