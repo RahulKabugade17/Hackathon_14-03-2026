@@ -1,5 +1,6 @@
 import allure from '@wdio/allure-reporter';
 import * as os from "os";
+import "dotenv/config";
 
 const maxInstances = 1;
 const cucumberTimeout = 120000;
@@ -26,11 +27,6 @@ export const baseConfig = {
     outputDir: logPath,
     framework: 'cucumber',
 
-    cucumberOpts: {
-        timeout: cucumberTimeout,
-        require: ['./step_definitions/**/*.js'],
-        tagExpression: '@smoke'
-    },
 
     before: async function () {
         try {

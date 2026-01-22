@@ -6,7 +6,7 @@ package-lock.json
 logs/
 allure-report/
 allure-results/
-
+.env
 .idea/
 *.apk
 *.app

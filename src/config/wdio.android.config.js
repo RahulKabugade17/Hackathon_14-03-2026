@@ -1,12 +1,16 @@
 import { baseConfig } from './wdio.base.config.js';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import os from 'os';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const relativePath = 'apps/app-uat.apk';
 const appPath = path.resolve(relativePath);
 
-const deviceName = 'ZD222W38XD';
-const deviceVersion = '16.0';
+const deviceName = 'RZCW81NN8YD';
+const deviceVersion = '15.0';
 
 const droidConf = {
     ...baseConfig,
@@ -18,12 +22,14 @@ const droidConf = {
     port: 4723,
     path: '/',
 
-    specs: ['../features/*.feature'],
+    specs: [
+        path.resolve(__dirname, '../features/**/*.feature')
+    ],
 
     connectionRetryTimeout: 150000,
-    connectionRetryCount: 3,
-    specFileRetries: 2,
-    specFileRetriesDelay: 5,
+    connectionRetryCount: 0,
+    specFileRetries: 0,
+    specFileRetriesDelay: 0,
 
     framework: 'cucumber',
 
@@ -84,7 +90,8 @@ const droidConf = {
             './src/stepDefinitions/**/*.js',
             './src/support/hooks.js'
         ],
-        timeout: 120000
+        timeout: 120000,
+        tagExpression: process.env.TAGS || ''
     }
 };
 
