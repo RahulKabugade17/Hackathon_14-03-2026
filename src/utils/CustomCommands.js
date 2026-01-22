@@ -1,53 +1,37 @@
-/* ================= PLATFORM RESOLUTION ================= */
-
 const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
 
 browser.overwriteCommand('$', async ($, selector) => {
-  // already a WebdriverIO element
   if (selector?.elementId) {
     return selector;
   }
-
-  // normal selector
   if (typeof selector === 'string') {
     return $(selector);
   }
-
-  // platform selector object
   if (selector?.droid || selector?.ios) {
     return $(getSelectorByPlatform(selector));
   }
-
-  throw new Error(
-    `[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`
-  );
+  throw new Error(`[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`);
 });
 
 browser.overwriteCommand('$$', async ($$, selector) => {
   if (typeof selector === 'string') {
     return $$(selector);
   }
-
   if (selector?.droid || selector?.ios) {
     return $$(getSelectorByPlatform(selector));
   }
-
-  throw new Error(
-    `[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`
-  );
+  throw new Error(`[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`);
 });
 
 function getSelectorByPlatform(selector) {
   const platform = getPlatform();
   const key = platformKeyMap[platform];
-
   if (!key || !selector[key]) {
     throw new Error(`Selector not set for ${platform} platform`);
   }
-
   return selector[key];
 }
 
@@ -56,17 +40,15 @@ function getPlatform() {
   return driver.isIOS ? 'ios' : 'android';
 }
 
-/* ================= COMMON ACTIONS ================= */
-
 export async function waitAndFindElement(selector, timeout = 15000) {
   const element = selector?.elementId ? selector : await $(selector);
   await element.waitForExist({ timeout });
-  await element.waitForDisplayed({ timeout });
   return element;
 }
 
 export async function waitAndClick(selector, timeout = 15000) {
   const el = await waitAndFindElement(selector, timeout);
+  await el.waitForDisplayed({ timeout });
   await el.click();
 }
 
@@ -81,8 +63,6 @@ export async function clickAndType(selector, value) {
   await driver.keys(value);
 }
 
-/* ================= SYSTEM PERMISSIONS ================= */
-
 export async function handleSystemPermissions() {
   const permissionButtons = [
     'com.android.permissioncontroller:id/permission_allow_button',
@@ -91,7 +71,6 @@ export async function handleSystemPermissions() {
     'android:id/button1',
     'android:id/button2'
   ];
-
   for (let i = 0; i < 5; i++) {
     for (const id of permissionButtons) {
       try {
@@ -100,21 +79,20 @@ export async function handleSystemPermissions() {
           await el.click();
           await driver.pause(500);
         }
-      } catch {
-        // ignore
-      }
+      } catch { }
     }
   }
 }
+
 export async function waitForElementVisible(selector, timeout = 15000) {
-  return waitAndFindElement(selector, timeout);
+  const el = await waitAndFindElement(selector, timeout);
+  await el.waitForDisplayed({ timeout });
+  return el;
 }
 
-/* ================= SWIPE ================= */
 
 export async function swipeScreen(startY = 0.8, endY = 0.2) {
   const { width, height } = await driver.getWindowRect();
-
   await driver.performActions([
     {
       type: 'pointer',
@@ -129,6 +107,5 @@ export async function swipeScreen(startY = 0.8, endY = 0.2) {
       ]
     }
   ]);
-
   await driver.releaseActions();
 }

@@ -9,8 +9,8 @@ const __dirname = path.dirname(__filename);
 const relativePath = 'apps/app-uat.apk';
 const appPath = path.resolve(relativePath);
 
-const deviceName = 'RZCW81NN8YD';
-const deviceVersion = '15.0';
+const deviceName = 'ZD222W38XD';
+const deviceVersion = '16.0';
 
 const droidConf = {
     ...baseConfig,

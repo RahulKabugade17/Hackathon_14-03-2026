@@ -1,7 +1,6 @@
 import { waitAndClick, waitForElementVisible, setValueFast, clickAndType } from '../utils/CustomCommands.js';
 
 class LoginPage {
-
     selectors = {
         mobileInput: {
             droid: '~~signin-mobile-input',
@@ -15,26 +14,17 @@ class LoginPage {
             droid: '~~signin-submit-btn',
             ios: '',
         },
-        otpField1: {
-            droid: '~~otp-code-field-1',
+        otpField0: {
+            droid: '~~otp-code-field-0',
             ios: '',
         },
-        confirmLocationButton: {
-            droid: '~~confirm-location-confirm-button',
+        notRegisteredMessage: {
+            droid: 'android=new UiSelector().textContains("This number is not registered with us")',
             ios: '',
         },
-        contractorPhoneInput: {
-            droid: '~~validate-mobile-phone-input',
-            ios: '',
-        },
-        contractorPhoneNextButton: {
-            droid: '~~validate-mobile-next-button',
-            ios: '',
-        },
-        contractorDetailsNextButton: {
-            droid: '~~contractor-details-next-button',
-            ios: '',
-        },
+        referralSkip: { droid: '~~referral-skip-button' },
+        onboardingNext: { droid: '~~onboarding-next-button' },
+        onboardingSkip: { droid: '~~onboarding-skip-button' }
     };
 
     async enterMobile(mobile) {
@@ -49,37 +39,31 @@ class LoginPage {
     async clickSendOtp() {
         await waitAndClick(this.selectors.requestOtpButton);
     }
-    async clickConfirmLocationButton() {
-        await waitAndClick(this.selectors.confirmLocationButton);
-    }
 
-    async enterContractorPhone(phone) {
-        await waitForElementVisible(this.selectors.contractorPhoneInput);
-        await setValueFast(this.selectors.contractorPhoneInput, phone);
-    }
-
-    async clickContractorPhoneNextButton() {
-        await waitAndClick(this.selectors.contractorPhoneNextButton);
-    }
-
-    async clickContractorDetailsNextButton() {
-        await waitAndClick(this.selectors.contractorDetailsNextButton);
-    }
-
-    async requestOtp(mobile) {
-        await this.enterMobile(mobile);
-        await this.acceptTermsAndPrivacy();
-        await this.clickSendOtp();
-
-        const errorType = await this.detectMobileErrorType();
-        await this.handleMobileError(errorType);
-    }
     async enterOtp(otp) {
-        await waitForElementVisible(this.selectors.otpField1);
-        await clickAndType(this.selectors.otpField1, otp);
-        console.log('[OTP] OTP entered');
+        await waitForElementVisible(this.selectors.otpField0);
+        await clickAndType(this.selectors.otpField0, otp);
     }
 
+    async getNotRegisteredMessage() {
+        await waitForElementVisible(this.selectors.notRegisteredMessage);
+        return await $(this.selectors.notRegisteredMessage.droid).getText();
+    }
+
+    async isAtLoginPage() {
+        try {
+            await waitForElementVisible(this.selectors.mobileInput);
+            return await $(this.selectors.mobileInput.droid).isDisplayed();
+        } catch (e) {
+            return false;
+        }
+    }
+    async handleOverlays() {
+        await waitAndClick(this.selectors.referralSkip);
+        await waitAndClick(this.selectors.onboardingNext);
+        await waitAndClick(this.selectors.onboardingNext);
+        await waitAndClick(this.selectors.onboardingSkip);
+    }
 }
 
 export default new LoginPage();

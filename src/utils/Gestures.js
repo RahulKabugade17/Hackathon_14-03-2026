@@ -1,220 +1,45 @@
 let SCREEN_SIZE;
 
-/**
- * The values in the below object are percentages of the screen
- */
 const SWIPE_DIRECTION = {
-  down: {
-    start: {
-      x: 50,
-      y: 15,
-    },
-    end: {
-      x: 50,
-      y: 85,
-    },
-  },
-  left: {
-    start: {
-      x: 95,
-      y: 50,
-    },
-    end: {
-      x: 5,
-      y: 50,
-    },
-  },
-  right: {
-    start: {
-      x: 5,
-      y: 50,
-    },
-    end: {
-      x: 95,
-      y: 50,
-    },
-  },
-  up: {
-    start: {
-      x: 50,
-      y: 85,
-    },
-    end: {
-      x: 50,
-      y: 15,
-    },
-  },
+  up: { x: 0, y: -1 },
+  down: { x: 0, y: 1 },
+  left: { x: -1, y: 0 },
+  right: { x: 1, y: 0 },
 };
 
-/**
- * Gestures class for Mobile to do swipe gestures on device.
- * https://github.com/webdriverio/appium-boilerplate/blob/master/tests/helpers/Gestures.js
- */
 class Gestures {
-  /**
-   * Check if an element is visible and if not scroll down a portion of the screen to
-   * check if it visible after a x amount of scrolls
-   *
-   * @param {element} element
-   * @param {object} options
-   */
-  static checkIfDisplayedWithScrollDown(element, options) {
-    if (
-      (!element.isExisting() || !element.isDisplayed()) &&
-      options.amount <= options.maxScrolls
-    ) {
-      this.swipeUp(options.percent);
-      this.checkIfDisplayedWithScrollDown(element, {
-        maxScrolls: options.maxScrolls,
-        percent: options.percent,
-        amount: options.amount + 1,
-      });
-    } else if (options.amount > options.maxScrolls) {
-      throw new Error(
-        `The element '${element.selector}' could not be found or is not visible.`
-      );
-    }
+
+  static async swipeUp(percent = 0.7) {
+    await this.swipe('up', percent);
   }
 
-  /**
-   * Swipe down based on a percentage
-   *
-   * @param {number} percentage from 0 - 1
-   */
-  static swipeDown(percentage = 1) {
-    this.swipeOnPercentage(
-      this._calculateXY(SWIPE_DIRECTION.down.start, percentage),
-      this._calculateXY(SWIPE_DIRECTION.down.end, percentage)
-    );
+  static async swipeDown(percent = 0.7) {
+    await this.swipe('down', percent);
   }
 
-  /**
-   * Swipe Up based on a percentage
-   *
-   * @param {number} percentage from 0 - 1
-   */
-  static swipeUp(percentage = 1) {
-    this.swipeOnPercentage(
-      this._calculateXY(SWIPE_DIRECTION.up.start, percentage),
-      this._calculateXY(SWIPE_DIRECTION.up.end, percentage)
-    );
-  }
+  static async swipe(direction, percent) {
+    SCREEN_SIZE = SCREEN_SIZE || await driver.getWindowRect();
 
-  /**
-   * Swipe left based on a percentage
-   *
-   * @param {number} percentage from 0 - 1
-   */
-  static swipeLeft(percentage = 1) {
-    this.swipeOnPercentage(
-      this._calculateXY(SWIPE_DIRECTION.left.start, percentage),
-      this._calculateXY(SWIPE_DIRECTION.left.end, percentage)
-    );
-  }
+    const startX = Math.floor(SCREEN_SIZE.width / 2);
+    const startY = Math.floor(SCREEN_SIZE.height / 2);
 
-  /**
-   * Swipe right based on a percentage
-   *
-   * @param {number} percentage from 0 - 1
-   */
-  static swipeRight(percentage = 1) {
-    this.swipeOnPercentage(
-      this._calculateXY(SWIPE_DIRECTION.right.start, percentage),
-      this._calculateXY(SWIPE_DIRECTION.right.end, percentage)
-    );
-  }
+    const endX = Math.floor(startX + (SCREEN_SIZE.width * percent * SWIPE_DIRECTION[direction].x));
+    const endY = Math.floor(startY + (SCREEN_SIZE.height * percent * SWIPE_DIRECTION[direction].y));
 
-  /**
-   * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are
-   * percentages of the screen.
-   *
-   * @param {object} from { x: 50, y: 50 }
-   * @param {object} to { x: 25, y: 25 }
-   *
-   * @example
-   * <pre>
-   *   // This is a swipe to the left
-   *   const from = { x: 50, y:50 }
-   *   const to = { x: 25, y:50 }
-   * </pre>
-   */
-  static swipeOnPercentage(from, to) {
-    SCREEN_SIZE = SCREEN_SIZE || driver.getWindowRect();
-    const pressOptions = this._getDeviceScreenCoordinates(SCREEN_SIZE, from);
-    const moveToScreenCoordinates = this._getDeviceScreenCoordinates(
-      SCREEN_SIZE,
-      to
-    );
-    this.swipe(pressOptions, moveToScreenCoordinates);
-  }
+    await driver.performActions([{
+      type: 'pointer',
+      id: 'finger1',
+      parameters: { pointerType: 'touch' },
+      actions: [
+        { type: 'pointerMove', duration: 0, x: startX, y: startY },
+        { type: 'pointerDown', button: 0 },
+        { type: 'pause', duration: 300 },
+        { type: 'pointerMove', duration: 800, x: endX, y: endY },
+        { type: 'pointerUp', button: 0 }
+      ]
+    }]);
 
-  /**
-   * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
-   *
-   * @param {object} from { x: 50, y: 50 }
-   * @param {object} to { x: 25, y: 25 }
-   *
-   * @example
-   * <pre>
-   *   // This is a swipe to the left
-   *   const from = { x: 50, y:50 }
-   *   const to = { x: 25, y:50 }
-   * </pre>
-   */
-  static swipe(from, to) {
-    driver.touchPerform([
-      {
-        action: 'press',
-        options: from,
-      },
-      {
-        action: 'wait',
-        options: {
-          ms: 1000,
-        },
-      },
-      {
-        action: 'moveTo',
-        options: to,
-      },
-      {
-        action: 'release',
-      },
-    ]);
-  }
-
-  /**
-   * Get the screen coordinates based on a device his screensize
-   *
-   * @param {number} screenSize the size of the screen
-   * @param {object} coordinates like { x: 50, y: 50 }
-   *
-   * @return {{x: number, y: number}}
-   *
-   * @private
-   */
-  static _getDeviceScreenCoordinates(screenSize, coordinates) {
-    return {
-      x: Math.round(screenSize.width * (coordinates.x / 100)),
-      y: Math.round(screenSize.height * (coordinates.y / 100)),
-    };
-  }
-
-  /**
-   * Calculate the x y coordinates based on a percentage
-   *
-   * @param {object} coordinates
-   * @param {number} percentage
-   *
-   * @return {{x: number, y: number}}
-   *
-   * @private
-   */
-  static _calculateXY({ x, y }, percentage) {
-    return {
-      x: x * percentage,
-      y: y * percentage,
-    };
+    await driver.releaseActions();
   }
 }
 
