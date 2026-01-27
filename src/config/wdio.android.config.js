@@ -6,13 +6,12 @@ import os from 'os';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const relativePath = 'apps/app-uat.apk';
-const appPath = path.resolve(relativePath);
+const appPath = path.resolve('apps/app-uat.apk');
 
-const deviceName = 'RZCW81NN8YD';
-const deviceVersion = '15.0';
+const deviceName = 'ZD222W38XD';
+const deviceVersion = '16.0';
 
-const droidConf = {
+export const config = {
     ...baseConfig,
 
     runner: 'local',
@@ -26,21 +25,16 @@ const droidConf = {
         path.resolve(__dirname, '../features/**/*.feature')
     ],
 
-    connectionRetryTimeout: 150000,
-    connectionRetryCount: 0,
-    specFileRetries: 0,
-    specFileRetriesDelay: 0,
-
     framework: 'cucumber',
 
     services: [
         ['appium', {
+            command: 'appium',
             args: {
                 port: 4723,
                 address: '127.0.0.1',
                 relaxedSecurity: true
-            },
-            command: 'appium'
+            }
         }]
     ],
 
@@ -53,8 +47,6 @@ const droidConf = {
         'appium:autoGrantPermissions': true,
         'appium:noReset': false,
         'appium:fullReset': false,
-        'appium:chromedriverAutodownload': true,
-        'appium:enablePerformanceLogging': true,
         'appium:newCommandTimeout': 600,
         'appium:adbExecTimeout': 120000,
         'appium:uiautomator2ServerInstallTimeout': 60000,
@@ -62,9 +54,6 @@ const droidConf = {
     }],
 
     logLevel: 'error',
-    bail: 0,
-    baseUrl: 'http://localhost',
-    waitforTimeout: 20000,
 
     reporters: [
         'spec',
@@ -72,7 +61,6 @@ const droidConf = {
             outputDir: 'allure-results',
             disableWebdriverStepsReporting: true,
             disableWebdriverScreenshotsReporting: false,
-            useCucumberStepReporter: true,
             reportedEnvironmentVars: {
                 Application: 'Birla Opus App',
                 Platform: 'Android',
@@ -87,12 +75,10 @@ const droidConf = {
 
     cucumberOpts: {
         require: [
-            './src/stepDefinitions/**/*.js',
-            './src/support/hooks.js'
+            './src/stepDefinitions/**/*.js'
         ],
         timeout: 120000,
+        scenarioLevelReporter: true,
         tagExpression: process.env.TAGS || ''
     }
 };
-
-export const config = droidConf;

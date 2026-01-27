@@ -70,14 +70,10 @@ class LoginPage {
         await this.enterMobile(mobile);
         await this.acceptTermsAndPrivacy();
         await this.clickSendOtp();
-
-        const errorType = await this.detectMobileErrorType();
-        await this.handleMobileError(errorType);
     }
     async enterOtp(otp) {
         await waitForElementVisible(this.selectors.otpField1);
         await clickAndType(this.selectors.otpField1, otp);
-        console.log('[OTP] OTP entered');
     }
 
 }

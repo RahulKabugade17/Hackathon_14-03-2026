@@ -29,9 +29,5 @@ export async function loginAs(persona) {
     if (persona === 'trade_contractor') {
         await LoginPage.clickConfirmLocationButton();
     }
-
-    await HomePage.closePromo();
-    await HomePage.skipOnboarding();
-
     console.log(`[LOGIN FLOW COMPLETED] Persona: ${persona}`);
 }

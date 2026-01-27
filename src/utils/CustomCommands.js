@@ -83,29 +83,29 @@ export async function clickAndType(selector, value) {
 
 /* ================= SYSTEM PERMISSIONS ================= */
 
-export async function handleSystemPermissions() {
+export async function handleSystemPermissions(timeout = 3000) {
   const permissionButtons = [
-    'com.android.permissioncontroller:id/permission_allow_button',
-    'com.android.permissioncontroller:id/permission_allow_foreground_only_button',
-    'com.android.permissioncontroller:id/permission_allow_one_time_button',
-    'android:id/button1',
-    'android:id/button2'
+    'id=com.android.permissioncontroller:id/permission_allow_button',
+    'id=com.android.permissioncontroller:id/permission_allow_foreground_only_button',
+    'id=com.android.permissioncontroller:id/permission_allow_one_time_button',
+    'id=android:id/button1',
+    'id=android:id/button2'
   ];
 
-  for (let i = 0; i < 5; i++) {
-    for (const id of permissionButtons) {
-      try {
-        const el = await $(`id=${id}`);
-        if (await el.isDisplayed()) {
-          await el.click();
-          await driver.pause(500);
-        }
-      } catch {
-        // ignore
+  const start = Date.now();
+
+  while (Date.now() - start < timeout) {
+    for (const selector of permissionButtons) {
+      const el = await $(selector);
+      if (await el.isExisting()) {
+        await el.click();
+        return;
       }
     }
+    await driver.pause(300);
   }
 }
+
 export async function waitForElementVisible(selector, timeout = 15000) {
   return waitAndFindElement(selector, timeout);
 }

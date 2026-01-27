@@ -1,19 +1,19 @@
 {
+  "contractor": {
+    "mobileNumber": "8200589287",
+    "otp": "123456"
+  },
   "painter": {
     "mobileNumber": "9669931175",
     "otp": "123456",
-    "contractorMobileNumber": "9577822456"
+    "contractorMobileNumber": "8200589287"
   },
-  "contractor": {
-    "mobileNumber": "9577822456",
+  "trade_contractor": {
+    "mobileNumber": "6888777777",
     "otp": "123456"
   },
   "institutional_contractor": {
     "mobileNumber": "8778955455",
-    "otp": "123456"
-  },
-  "trade_contractor": {
-    "mobileNumber": "6888777777",
     "otp": "123456"
   }
 }
