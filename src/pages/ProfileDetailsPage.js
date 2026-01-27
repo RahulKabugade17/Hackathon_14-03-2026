@@ -12,6 +12,7 @@ class ProfileDetailsPage {
     async selectContractorPersona() {
         await waitAndClick(this.selectors.profileDetailsStep);
         await waitAndClick(this.selectors.contractorCard);
+        console.log('[HOME] Contractor persona selected');
     }
 
     async enterDetails(fname, lname) {
@@ -19,6 +20,7 @@ class ProfileDetailsPage {
         await setValueFast(this.selectors.firstNameInput, fname);
         await setValueFast(this.selectors.lastNameInput, lname);
         await waitAndClick(this.selectors.finishButton);
+        console.log('[HOME] Profile details entered');
     }
 }
 

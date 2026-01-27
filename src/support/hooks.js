@@ -17,22 +17,43 @@ Before(async () => {
 });
 
 After(async function (scenario) {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const scenarioName = scenario.pickle?.name
+        ?.replace(/[^a-zA-Z0-9]/g, '_')
+        ?.toLowerCase();
+
     if (scenario.result?.status === 'FAILED') {
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-
-        if (!fs.existsSync('./logs')) {
-            fs.mkdirSync('./logs');
-        }
-
         try {
+            if (!fs.existsSync('./screenshots')) {
+                fs.mkdirSync('./screenshots');
+            }
+
+            const screenshot = await driver.takeScreenshot();
+            const screenshotPath = `./screenshots/${scenarioName}-${timestamp}.png`;
+
+            fs.writeFileSync(
+                screenshotPath,
+                screenshot,
+                'base64'
+            );
+
+            await this.attach(screenshot, 'image/png');
+
+        } catch (err) {
+        }
+        try {
+            if (!fs.existsSync('./logs')) {
+                fs.mkdirSync('./logs');
+            }
+
             const logs = await driver.getLogs('logcat');
-            fs.writeFileSync(`./logs/logcat-${timestamp}.txt`, JSON.stringify(logs, null, 2));
-            console.log('[ARTIFACT] Logcat saved');
+            fs.writeFileSync(
+                `./logs/logcat-${scenarioName}-${timestamp}.txt`,
+                JSON.stringify(logs, null, 2)
+            );
         } catch {
-            console.warn('[ARTIFACT] Logcat capture failed');
         }
     }
-
     try {
         await driver.terminateApp(APP_ID);
         console.log('[CLEANUP] App terminated');

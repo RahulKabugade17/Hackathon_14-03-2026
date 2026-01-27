@@ -8,11 +8,13 @@ import LocationPage from '../pages/LocationPage.js';
 import ProfileDetailsPage from '../pages/ProfileDetailsPage.js';
 import PanKycPage from '../pages/PanKycPage.js';
 import BankKycPage from '../pages/BankKycPage.js';
+import DeleteAccountPage from '../pages/DeleteAccountPage.js';
 import loginData from '../fixtures/login.json' with { type: 'json' };
 
 Given('I launch the Birla Opus app', async () => {
     await LanguagePage.clickonEnglishOption();
     await LanguagePage.clickonSelectLanguageButton();
+    await handleSystemPermissions();
     await handleSystemPermissions();
 });
 
@@ -52,7 +54,7 @@ Then('I verify my profile on the dashboard', async () => {
 });
 
 When('I perform irreversible account deletion with OTP', async () => {
-    await ProfilePage.deleteAccount(loginData.contractor.otp);
+    await DeleteAccountPage.deleteAccount(loginData.contractor.otp);
 });
 
 Then('I verify the account is successfully deleted and released for reuse', async () => {

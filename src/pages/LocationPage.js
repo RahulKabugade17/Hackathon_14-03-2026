@@ -25,6 +25,7 @@ class LocationPage {
         await waitAndClick(this.selectors.pincodeOption);
         await waitAndClick(this.selectors.nextButton);
         await waitAndClick(this.selectors.confirmButton);
+        console.log('[HOME] Location selected');
     }
 }
 
