@@ -4,17 +4,45 @@ const platformKeyMap = {
 };
 
 browser.overwriteCommand('$', async ($, selector) => {
+
+  // Already an element
   if (selector?.elementId) {
     return selector;
   }
+
+  // Plain string selector
   if (typeof selector === 'string') {
     return $(selector);
   }
+
+  // Platform-based selector object
   if (selector?.droid || selector?.ios) {
-    return $(getSelectorByPlatform(selector));
+    const resolved = driver.isIOS ? selector.ios : selector.droid;
+
+    // 🔥 HANDLE ARRAY HERE (THIS WAS MISSING)
+    if (Array.isArray(resolved)) {
+      for (const sel of resolved) {
+        try {
+          const el = await $(sel);
+          if (await el.isExisting()) {
+            return el;
+          }
+        } catch { }
+      }
+      throw new Error(
+        `[SELECTOR ERROR] None of the selectors matched: ${JSON.stringify(resolved)}`
+      );
+    }
+
+    // Single selector
+    return $(resolved);
   }
-  throw new Error(`[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`);
+
+  throw new Error(
+    `[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`
+  );
 });
+
 
 browser.overwriteCommand('$$', async ($$, selector) => {
   if (typeof selector === 'string') {

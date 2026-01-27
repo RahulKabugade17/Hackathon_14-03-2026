@@ -4,10 +4,12 @@ class DeleteAccountPage {
     selectors = {
         deleteAccountClickHere: {
             droid: [
-                '~~delete-account-click-here', // WDIO accessibility id
-                'android=new UiSelector().description("delete-account-click-here")',
-                '//android.widget.TextView[@content-desc="delete-account-click-here"]',
-                '//android.widget.TextView[contains(@text,"delete your Opus ID")]'
+                '~~delete-account-click-here',
+                'android=new UiSelector().description("~~delete-account-click-here")',
+                'android=new UiSelector().resourceId("~~delete-account-click-here")',
+                '//android.widget.TextView[@content-desc="~~delete-account-click-here"]',
+                '//android.widget.TextView[contains(@text,"delete your Opus ID")]',
+                '//android.widget.TextView[contains(@text,"click here")]'
             ]
         },
         deleteAnywayButton: { droid: '~~delete-account-confirm-button' },
@@ -22,12 +24,12 @@ class DeleteAccountPage {
             await Gestures.swipeUp(0.6);
             await driver.pause(600);
         }
-        await waitAndClick(this.selectors.deleteAccountClickHere);
-        console.log('[HOME] Delete Account Click Here');
-        await waitForElementVisible(this.selectors.deleteAccountClickHere);
-        await waitForElementVisible(this.selectors.deleteAnywayButton);
-        await waitAndClick(this.selectors.deleteAnywayButton, 10000);
-        await waitForElementVisible(this.selectors.deleteOtpInput0);
+        const el = await $(this.selectors.deleteAccountClickHere);
+        await el.waitForDisplayed({ timeout: 1500 });
+        await el.click();
+        console.log('[HOME] Clicked Delete Account Click Here');
+        await waitAndClick(this.selectors.deleteAnywayButton);
+        console.log('[DIALOG] Clicked Delete Anyway');
         await clickAndType(this.selectors.deleteOtpInput0, otp);
         await waitAndClick(this.selectors.deleteAccountSubmit);
         await waitAndClick(this.selectors.understandButton);
