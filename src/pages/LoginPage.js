@@ -40,9 +40,27 @@ class LoginPage {
         await waitAndClick(this.selectors.requestOtpButton);
     }
 
+    async enterContractorPhone(phone) {
+        await waitForElementVisible(this.selectors.contractorPhoneInput);
+        await setValueFast(this.selectors.contractorPhoneInput, phone);
+    }
+
+    async clickContractorPhoneNextButton() {
+        await waitAndClick(this.selectors.contractorPhoneNextButton);
+    }
+
+    async clickContractorDetailsNextButton() {
+        await waitAndClick(this.selectors.contractorDetailsNextButton);
+    }
+
+    async requestOtp(mobile) {
+        await this.enterMobile(mobile);
+        await this.acceptTermsAndPrivacy();
+        await this.clickSendOtp();
+    }
     async enterOtp(otp) {
-        await waitForElementVisible(this.selectors.otpField0);
-        await clickAndType(this.selectors.otpField0, otp);
+        await waitForElementVisible(this.selectors.otpField1);
+        await clickAndType(this.selectors.otpField1, otp);
     }
 
     async getNotRegisteredMessage() {

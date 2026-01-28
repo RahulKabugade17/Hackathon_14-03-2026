@@ -1,6 +1,5 @@
 import LanguagePage from '../pages/LanguagePage.js';
 import LoginPage from '../pages/LoginPage.js';
-import HomePage from '../pages/HomePage.js';
 import loginData from '../fixtures/login.json' with { type: 'json' };
 import { handleSystemPermissions } from '../utils/CustomCommands.js';
 
@@ -29,9 +28,5 @@ export async function loginAs(persona) {
     if (persona === 'trade_contractor') {
         await LoginPage.clickConfirmLocationButton();
     }
-
-    await HomePage.closePromo();
-    await HomePage.skipOnboarding();
-
     console.log(`[LOGIN FLOW COMPLETED] Persona: ${persona}`);
 }

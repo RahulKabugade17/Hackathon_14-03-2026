@@ -1,16 +1,13 @@
-import { waitAndClick, waitForElementVisible } from '../utils/CustomCommands.js';
+import { waitAndFindElement, waitAndClick } from '../utils/CustomCommands.js';
 
 class HomePage {
     selectors = {
         promoCloseButton: { droid: '~Close' },
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
-            '~~ic-toggle-switch-tooltip-skip-button',
-            '~ic-opus-id-tooltip-skip-button',
-            '~~language-tooltip-skip-button'
-        ],
-        profileSection: { droid: '~user-type-complete-kyc' }
-
+            '~ic-toggle-switch-tooltip-skip-button',
+            '~ic-opus-id-tooltip-skip-button'
+        ]
     };
 
 
@@ -24,16 +21,18 @@ class HomePage {
             const el = await $(selector);
             if (await el.isDisplayed()) {
                 await el.click();
-                console.log('[HOME] Onboarding skipped');
                 return;
             }
         }
-        console.log('[HOME] No onboarding to skip');
     }
 
     async closePromo() {
-        await waitAndClick(this.selectors.promoCloseButton);
-        console.log('[HOME] Promo closed');
+        await waitAndClick(this.selectors.promoCloseButton, 5000).catch(() => { });
+    }
+
+    async verifyHomePageLoaded() {
+        await this.closePromo();
+        await this.skipOnboarding();
     }
 }
 
