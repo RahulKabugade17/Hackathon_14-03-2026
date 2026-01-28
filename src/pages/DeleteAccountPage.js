@@ -19,22 +19,22 @@ class DeleteAccountPage {
         finalDeleteButton: { droid: '~~delete-button' }
     };
 
-    // async deleteAccount(otp) {
-    //     for (let i = 0; i < 2; i++) {
-    //         await Gestures.swipeUp(0.6);
-    //         await driver.pause(600);
-    //     }
-    //     const el = await $(this.selectors.deleteAccountClickHere);
-    //     await el.waitForDisplayed({ timeout: 1500 });
-    //     await el.click();
-    //     console.log('[HOME] Clicked Delete Account Click Here');
-    //     await waitAndClick(this.selectors.deleteAnywayButton);
-    //     console.log('[DIALOG] Clicked Delete Anyway');
-    //     await clickAndType(this.selectors.deleteOtpInput0, otp);
-    //     await waitAndClick(this.selectors.deleteAccountSubmit);
-    //     await waitAndClick(this.selectors.understandButton);
-    //     await waitAndClick(this.selectors.finalDeleteButton);
-    // }
+    async deleteAccount(otp) {
+        for (let i = 0; i < 2; i++) {
+            await Gestures.swipeUp(0.6);
+            await driver.pause(600);
+        }
+        const el = await $(this.selectors.deleteAccountClickHere);
+        await el.waitForDisplayed({ timeout: 1500 });
+        await el.click();
+        console.log('[HOME] Clicked Delete Account Click Here');
+        await waitAndClick(this.selectors.deleteAnywayButton);
+        console.log('[DIALOG] Clicked Delete Anyway');
+        await clickAndType(this.selectors.deleteOtpInput0, otp);
+        await waitAndClick(this.selectors.deleteAccountSubmit);
+        await waitAndClick(this.selectors.understandButton);
+        await waitAndClick(this.selectors.finalDeleteButton);
+    }
 }
 
 export default new DeleteAccountPage();
