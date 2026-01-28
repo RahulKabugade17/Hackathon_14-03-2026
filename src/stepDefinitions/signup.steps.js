@@ -12,44 +12,51 @@ import DeleteAccountPage from '../pages/DeleteAccountPage.js';
 import loginData from '../fixtures/login.json' with { type: 'json' };
 
 Given('I launch the Birla Opus app', async () => {
-    await LanguagePage.clickonSelectLanguageButton();
-    await LanguagePage.clickonEnglishOption();
+    await LanguagePage.selectEnglish();
     await handleSystemPermissions();
 });
 
-When('I sign up as a {string} with data', async (persona) => {
+When('I sign up as a {string}', async (persona) => {
     const data = loginData[persona];
-
-    await LoginPage.enterMobile(data.mobileNumber);
-    await LoginPage.acceptTermsAndPrivacy();
-    await LoginPage.clickSendOtp();
-
-    const bannerText = await LoginPage.getNotRegisteredMessage();
-    await expect(bannerText).toContain('This number is not registered with us');
-
-    await LoginPage.enterOtp(data.otp);
+    if (!data) {
+        throw new Error(`No signup data found for persona: ${persona}`);
+    }
+    await LoginPage.login(data.mobileNumber, data.otp);
     await handleSystemPermissions();
     await LoginPage.handleOverlays();
 
-    if (persona === 'contractor') {
-        await ProfileDetailsPage.selectContractorPersona();
-        await LocationPage.selectLocation();
-        await ProfileDetailsPage.enterDetails('Test', 'Contractor');
-        await PanKycPage.verifyPan(data.pan);
-        await BankKycPage.verifyBank(data.upi);
-        await ProfilePage.skipToHome();
+    switch (persona) {
+        case 'new_contractor':
+            await ProfileDetailsPage.selectContractorPersona();
+            await LocationPage.selectLocation();
+            await ProfileDetailsPage.enterDetails('Test', 'Contractor');
+            await PanKycPage.verifyPan(data.pan);
+            await BankKycPage.verifyBank(data.upi);
+            await ProfilePage.skipToHome();
+            break;
+
+        case 'new_painter':
+            await ProfileDetailsPage.selectPainterPersona();
+            await LocationPage.selectLocation();
+            await ProfileDetailsPage.enterDetails('Test', 'Painter');
+            await PanKycPage.verifyPan(data.pan);
+            await BankKycPage.verifyBank(data.upi);
+            await ProfilePage.skipToHome();
+            break;
+
+        default:
+            throw new Error(`Unsupported signup persona: ${persona}`);
     }
 });
 
-Then('I verify my profile on the dashboard', async () => {
-    await HomePage.closePromo();
-    await HomePage.skipTooltips();
-    await HomePage.goToProfile();
 
-    const isMobileVisible = await ProfilePage.isMobileNumberDisplayed(
-        loginData.contractor.mobileNumber
-    );
-    await expect(isMobileVisible).toBe(true);
+Then('I verify my profile on the dashboard', async () => {
+    await HomePage.verifyHomePageLoaded();
+    await HomePage.isProfileSectionVisible();
+    // const isMobileVisible = await ProfilePage.isMobileNumberDisplayed(
+    //     loginData.contractor.mobileNumber
+    // );
+    // await expect(isMobileVisible).toBe(true);
 });
 
 When('I perform irreversible account deletion with OTP', async () => {

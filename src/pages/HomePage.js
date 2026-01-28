@@ -7,7 +7,8 @@ class HomePage {
             '~topcard-opus-id-tooltip-skip-button',
             '~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
-        ]
+        ],
+        profileSection: { droid: '~user-type-complete-kyc' }
     };
 
     async skipOnboarding() {
@@ -27,6 +28,11 @@ class HomePage {
     async verifyHomePageLoaded() {
         await this.closePromo();
         await this.skipOnboarding();
+    }
+
+    async isProfileSectionVisible() {
+        const el = await waitForElementVisible(this.selectors.profileSection);
+        return el.isDisplayed();
     }
 }
 

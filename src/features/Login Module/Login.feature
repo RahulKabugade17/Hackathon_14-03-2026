@@ -7,7 +7,7 @@ Feature: Login works for all personas
 
     Examples:
       | persona                  |
-      | contractor               |
-      | institutional_contractor |
-      | painter                  |
-      | trade_contractor         |
+      | login_contractor               |
+      | login_institutional_contractor |
+      | login_painter                  |
+      | login_trade_contractor         |

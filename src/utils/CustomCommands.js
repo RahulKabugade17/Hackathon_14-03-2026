@@ -110,17 +110,25 @@ export async function handleSystemPermissions(timeout = 3000) {
     'id=android:id/button2'
   ];
 
-  const start = Date.now();
+  const endTime = Date.now() + timeout;
 
-  while (Date.now() - start < timeout) {
+  while (Date.now() < endTime) {
+    let handled = false;
+
     for (const selector of permissionButtons) {
       const el = await $(selector);
-      if (await el.isExisting()) {
+      if (await el.isDisplayed()) {
         await el.click();
-        return;
+        handled = true;
+        await driver.pause(500); // allow next dialog to appear
+        break;
       }
     }
-    await driver.pause(300);
+
+    // if no permission found in this loop, wait and retry
+    if (!handled) {
+      await driver.pause(300);
+    }
   }
 }
 

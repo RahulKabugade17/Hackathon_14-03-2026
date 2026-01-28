@@ -10,14 +10,6 @@ class LanguagePage {
         await waitAndClick(this.selectors.englishOption);
         await waitAndClick(this.selectors.selectLanguageButton);
     }
-
-    async clickonEnglishOption() {
-        await waitAndClick(this.selectors.englishOption);
-    }
-
-    async clickonSelectLanguageButton() {
-        await waitAndClick(this.selectors.selectLanguageButton);
-    }
 }
 
 export default new LanguagePage();
