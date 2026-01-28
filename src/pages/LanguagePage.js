@@ -11,13 +11,9 @@ class LanguagePage {
             ios: '',
         },
     };
-    async clickonSelectLanguageButton() {
+    async selectEnglish() {
         await waitAndClick(this.selectors.selectLanguageButton);
-
-    }
-    async clickonEnglishOption() {
         await waitAndClick(this.selectors.englishOption);
-
     }
 }
 

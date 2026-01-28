@@ -23,18 +23,6 @@ class LoginPage {
             droid: '~~confirm-location-confirm-button',
             ios: '',
         },
-        contractorPhoneInput: {
-            droid: '~~validate-mobile-phone-input',
-            ios: '',
-        },
-        contractorPhoneNextButton: {
-            droid: '~~validate-mobile-next-button',
-            ios: '',
-        },
-        contractorDetailsNextButton: {
-            droid: '~~contractor-details-next-button',
-            ios: '',
-        },
     };
 
     async enterMobile(mobile) {
@@ -53,25 +41,10 @@ class LoginPage {
         await waitAndClick(this.selectors.confirmLocationButton);
     }
 
-    async enterContractorPhone(phone) {
-        await waitForElementVisible(this.selectors.contractorPhoneInput);
-        await setValueFast(this.selectors.contractorPhoneInput, phone);
-    }
-
-    async clickContractorPhoneNextButton() {
-        await waitAndClick(this.selectors.contractorPhoneNextButton);
-    }
-
-    async clickContractorDetailsNextButton() {
-        await waitAndClick(this.selectors.contractorDetailsNextButton);
-    }
-
-    async requestOtp(mobile) {
+    async login(mobile, otp) {
         await this.enterMobile(mobile);
         await this.acceptTermsAndPrivacy();
         await this.clickSendOtp();
-    }
-    async enterOtp(otp) {
         await waitForElementVisible(this.selectors.otpField1);
         await clickAndType(this.selectors.otpField1, otp);
     }

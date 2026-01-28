@@ -1,4 +1,4 @@
-@smoke @login
+@login
 Feature: Login works for all personas
 
   Scenario Outline: Login validation - <persona>
