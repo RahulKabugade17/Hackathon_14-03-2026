@@ -14,7 +14,6 @@ class BankKycPage {
         await setValueFast(this.selectors.upiInput, upi);
         await waitAndClick(this.selectors.nextButton);
         await waitAndClick(this.selectors.addButton);
-        console.log('[HOME] Bank verified');
     }
 }
 

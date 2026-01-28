@@ -15,13 +15,13 @@
     "mobileNumber": "8778955455",
     "otp": "123456"
   },
-  "signup_contractor": {
+  "contractor": {
     "mobileNumber": "8382838286",
     "otp": "123456",
     "pan": "AKQPG4938F",
     "upi": "7703874730@ybl"
   },
-  "signup_painter": {
+  "painter": {
     "mobileNumber": "8382838284",
     "otp": "123456",
     "pan": "AUJPV1970D",

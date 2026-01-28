@@ -1,12 +1,11 @@
 @E2E @Signup
-Feature: User Registration for multiple personas
+Feature: User signup onboarding
 
-  Scenario Outline: Register new user as <persona>
-    Given I launch the Birla Opus app
-    When I sign up as a "<persona>"
-    Then I verify my profile on the dashboard
+  Scenario Outline: New user onboarding completes successfully
+    Given I am onboarded as "<persona>"
+    Then I should land on the home dashboard
 
     Examples:
-      | persona        |
-      | signup_contractor |
-      | signup_painter    |
+      | persona |
+      | contractor |
+      | painter |

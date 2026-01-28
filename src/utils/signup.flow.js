@@ -4,21 +4,19 @@ import ProfileDetailsPage from '../pages/ProfileDetailsPage.js';
 import LocationPage from '../pages/LocationPage.js';
 import PanKycPage from '../pages/PanKycPage.js';
 import BankKycPage from '../pages/BankKycPage.js';
-import { handleSystemPermissions } from '../utils/CustomCommands.js';
+import { handleSystemPermissions, waitAndClick } from '../utils/CustomCommands.js';
 
 export async function signupAs(persona, data) {
     if (!data) {
         throw new Error(`Signup data missing for persona: ${persona}`);
     }
-
-
     await LoginPage.login(data.mobileNumber, data.otp);
-
     await handleSystemPermissions();
     await LoginPage.handleOverlays();
+    await ProfileDetailsPage.openProfileDetailsStep();
 
     switch (persona) {
-        case 'signup_contractor':
+        case 'contractor':
             await ProfileDetailsPage.selectContractorPersona();
             await LocationPage.selectLocation();
             await ProfileDetailsPage.enterDetails('Test', 'Contractor');
@@ -26,7 +24,7 @@ export async function signupAs(persona, data) {
             await BankKycPage.verifyBank(data.upi);
             break;
 
-        case 'signup_painter':
+        case 'painter':
             await ProfileDetailsPage.selectPainterPersona();
             await ProfileDetailsPage.addContractorDetails(data.contractorMobileNumber);
             await LocationPage.selectLocation();

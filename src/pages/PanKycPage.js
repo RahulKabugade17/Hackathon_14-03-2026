@@ -16,7 +16,6 @@ class PanKycPage {
         await setValueFast(this.selectors.panInput, pan);
         await waitAndClick(this.selectors.verifyButton);
         await waitAndClick(this.selectors.saveButton);
-        console.log('[HOME] Pan verified');
     }
 }
 

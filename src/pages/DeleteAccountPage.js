@@ -27,9 +27,7 @@ class DeleteAccountPage {
         const el = await $(this.selectors.deleteAccountClickHere);
         await el.waitForDisplayed({ timeout: 1500 });
         await el.click();
-        console.log('[HOME] Clicked Delete Account Click Here');
         await waitAndClick(this.selectors.deleteAnywayButton);
-        console.log('[DIALOG] Clicked Delete Anyway');
         await clickAndType(this.selectors.deleteOtpInput0, otp);
         await waitAndClick(this.selectors.deleteAccountSubmit);
         await waitAndClick(this.selectors.understandButton);

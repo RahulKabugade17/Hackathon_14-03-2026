@@ -14,15 +14,11 @@ class ProfileDetailsPage {
     };
 
     async selectContractorPersona() {
-        await waitAndClick(this.selectors.profileDetailsStep);
         await waitAndClick(this.selectors.contractorCard);
-        console.log('[HOME] Contractor persona selected');
     }
 
     async selectPainterPersona() {
-        await waitAndClick(this.selectors.profileDetailsStep);
         await waitAndClick(this.selectors.painterCard);
-        console.log('[HOME] Painter persona selected');
     }
 
     async addContractorDetails(phone) {
@@ -30,7 +26,6 @@ class ProfileDetailsPage {
         await setValueFast(this.selectors.contractorPhoneInput, phone);
         await waitAndClick(this.selectors.contractorPhoneNextButton);
         await waitAndClick(this.selectors.contractorDetailsNextButton);
-        console.log('[HOME] Contractor details added');
     }
 
 
@@ -39,7 +34,9 @@ class ProfileDetailsPage {
         await setValueFast(this.selectors.firstNameInput, fname);
         await setValueFast(this.selectors.lastNameInput, lname);
         await waitAndClick(this.selectors.finishButton);
-        console.log('[HOME] Profile details entered');
+    }
+    async openProfileDetailsStep() {
+        await waitAndClick(this.selectors.profileDetailsStep);
     }
 }
 
