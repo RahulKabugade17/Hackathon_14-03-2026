@@ -18,7 +18,7 @@ export async function signupAs(persona, data) {
     await LoginPage.handleOverlays();
 
     switch (persona) {
-        case 'new_contractor':
+        case 'signup_contractor':
             await ProfileDetailsPage.selectContractorPersona();
             await LocationPage.selectLocation();
             await ProfileDetailsPage.enterDetails('Test', 'Contractor');
@@ -26,9 +26,9 @@ export async function signupAs(persona, data) {
             await BankKycPage.verifyBank(data.upi);
             break;
 
-        case 'new_painter':
+        case 'signup_painter':
             await ProfileDetailsPage.selectPainterPersona();
-            await ProfileDetailsPage.addContractorDetails(data.mobileNumber);
+            await ProfileDetailsPage.addContractorDetails(data.contractorMobileNumber);
             await LocationPage.selectLocation();
             await ProfileDetailsPage.enterDetails('Test', 'Painter');
             await PanKycPage.verifyPan(data.pan);

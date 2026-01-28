@@ -16,13 +16,6 @@ export const baseConfig = {
         await driver.execute('mobile: clearApp', { appId: APP_ID });
         await driver.activateApp(APP_ID);
     },
-    afterCommand: async function () {
-        try {
-            await handleSystemPermissions(1500);
-        } catch (e) {
-            // ignore – permission dialog may not exist
-        }
-    },
 
     afterStep: async function (step, scenario, { error }) {
         if (error) {

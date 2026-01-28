@@ -1,4 +1,4 @@
-import { waitAndClick, waitForElementVisible, setValueFast, clickAndType } from '../utils/CustomCommands.js';
+import { waitAndClick, waitForElementVisible, setValueFast, clickAndType, handleSystemPermissions } from '../utils/CustomCommands.js';
 
 class LoginPage {
     selectors = {
@@ -31,23 +31,12 @@ class LoginPage {
         onboardingSkip: { droid: '~~onboarding-skip-button' }
     };
 
-    async enterMobile(mobile) {
-        await waitForElementVisible(this.selectors.mobileInput);
-        await setValueFast(this.selectors.mobileInput, mobile);
-    }
-
-    async acceptTermsAndPrivacy() {
-        await waitAndClick(this.selectors.termsCheckbox);
-    }
-
-    async clickSendOtp() {
-        await waitAndClick(this.selectors.requestOtpButton);
-    }
 
     async login(mobile, otp) {
-        await this.enterMobile(mobile);
-        await this.acceptTermsAndPrivacy();
-        await this.clickSendOtp();
+        await waitForElementVisible(this.selectors.mobileInput);
+        await setValueFast(this.selectors.mobileInput, mobile);
+        await waitAndClick(this.selectors.termsCheckbox);
+        await waitAndClick(this.selectors.requestOtpButton);
         await waitForElementVisible(this.selectors.otpField0);
         await clickAndType(this.selectors.otpField0, otp);
     }
@@ -69,6 +58,7 @@ class LoginPage {
         }
     }
     async handleOverlays() {
+        await handleSystemPermissions();
         await waitAndClick(this.selectors.referralSkip);
         await waitAndClick(this.selectors.onboardingNext);
         await waitAndClick(this.selectors.onboardingNext);

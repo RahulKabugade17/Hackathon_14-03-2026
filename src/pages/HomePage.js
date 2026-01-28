@@ -1,4 +1,8 @@
-import { waitAndFindElement, waitAndClick } from '../utils/CustomCommands.js';
+import {
+    waitAndFindElement,
+    waitAndClick,
+    waitForElementVisible
+} from '../utils/CustomCommands.js';
 
 class HomePage {
     selectors = {
@@ -26,13 +30,14 @@ class HomePage {
     }
 
     async verifyHomePageLoaded() {
+        await driver.pause(600);
         await this.closePromo();
         await this.skipOnboarding();
     }
 
     async isProfileSectionVisible() {
         const el = await waitForElementVisible(this.selectors.profileSection);
-        return el.isDisplayed();
+        return await el.isDisplayed();
     }
 }
 
