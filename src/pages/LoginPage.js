@@ -22,6 +22,10 @@ class LoginPage {
             droid: 'android=new UiSelector().textContains("This number is not registered with us")',
             ios: '',
         },
+        confirmLocationButton: {
+            droid: '~~confirm-location-confirm-button',
+            ios: '',
+        },
         referralSkip: { droid: '~~referral-skip-button' },
         onboardingNext: { droid: '~~onboarding-next-button' },
         onboardingSkip: { droid: '~~onboarding-skip-button' }
@@ -59,13 +63,16 @@ class LoginPage {
         await this.clickSendOtp();
     }
     async enterOtp(otp) {
-        await waitForElementVisible(this.selectors.otpField1);
-        await clickAndType(this.selectors.otpField1, otp);
+        await waitForElementVisible(this.selectors.otpField0);
+        await clickAndType(this.selectors.otpField0, otp);
     }
 
     async getNotRegisteredMessage() {
         await waitForElementVisible(this.selectors.notRegisteredMessage);
         return await $(this.selectors.notRegisteredMessage.droid).getText();
+    }
+    async clickConfirmLocationButton() {
+        await waitAndClick(this.selectors.confirmLocationButton);
     }
 
     async isAtLoginPage() {

@@ -9,9 +9,9 @@ export async function loginAs(persona) {
     if (!data) {
         throw new Error(`Login data not found for persona: ${persona}`);
     }
-
-    await LanguagePage.clickonSelectLanguageButton();
+    await handleSystemPermissions();
     await LanguagePage.clickonEnglishOption();
+    await LanguagePage.clickonSelectLanguageButton();
     await handleSystemPermissions();
 
     await LoginPage.enterMobile(data.mobileNumber);

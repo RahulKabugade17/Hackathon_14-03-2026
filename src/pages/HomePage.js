@@ -10,13 +10,7 @@ class HomePage {
         ]
     };
 
-
-
-    async goToProfile() {
-        await waitAndClick(this.selectors.profileSection);
-    }
-
-    async skipTooltips() {
+    async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
             const el = await $(selector);
             if (await el.isDisplayed()) {

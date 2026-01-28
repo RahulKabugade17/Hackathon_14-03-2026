@@ -12,9 +12,8 @@ import DeleteAccountPage from '../pages/DeleteAccountPage.js';
 import loginData from '../fixtures/login.json' with { type: 'json' };
 
 Given('I launch the Birla Opus app', async () => {
-    await LanguagePage.clickonEnglishOption();
     await LanguagePage.clickonSelectLanguageButton();
-    await handleSystemPermissions();
+    await LanguagePage.clickonEnglishOption();
     await handleSystemPermissions();
 });
 

@@ -69,12 +69,20 @@ function getPlatform() {
 }
 
 export async function waitAndFindElement(selector, timeout = 15000) {
-  const element = selector?.elementId ? selector : await $(selector);
+  if (!selector) {
+    throw new Error('❌ waitAndFindElement called with undefined selector');
+  }
+
+  const element = selector.elementId ? selector : await $(selector);
   await element.waitForExist({ timeout });
   return element;
 }
 
 export async function waitAndClick(selector, timeout = 15000) {
+  if (!selector) {
+    throw new Error('❌ waitAndClick called with undefined selector');
+  }
+
   const el = await waitAndFindElement(selector, timeout);
   await el.waitForDisplayed({ timeout });
   await el.click();
