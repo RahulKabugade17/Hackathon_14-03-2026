@@ -45,6 +45,7 @@ export const config = {
         'appium:automationName': 'UiAutomator2',
         'appium:app': appPath,
         'appium:autoGrantPermissions': true,
+        'appium:ignoreHiddenApiPolicyError': true,
         'appium:noReset': false,
         'appium:fullReset': false,
         'appium:newCommandTimeout': 600,
