@@ -12,8 +12,8 @@
     "mobileNumber": "6888777777",
     "otp": "123456"
   },
-  "institutional_contractor": {
-    "mobileNumber": "8778955455",
-    "otp": "123456"
-  }
+  // "institutional_contractor": {
+  //   "mobileNumber": "8778955455",
+  //   "otp": "123456"
+  // }
 }
