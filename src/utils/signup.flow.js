@@ -4,6 +4,7 @@ import ProfileDetailsPage from '../pages/ProfileDetailsPage.js';
 import LocationPage from '../pages/LocationPage.js';
 import PanKycPage from '../pages/PanKycPage.js';
 import BankKycPage from '../pages/BankKycPage.js';
+import Bankaccountpage from '../pages/Bankaccountpage.js';
 import { handleSystemPermissions, waitAndClick } from '../utils/CustomCommands.js';
 
 export async function signupAs(persona, data) {
@@ -30,7 +31,7 @@ export async function signupAs(persona, data) {
             await LocationPage.selectLocation();
             await ProfileDetailsPage.enterDetails('Test', 'Painter');
             await PanKycPage.verifyPan(data.pan);
-            await BankKycPage.verifyBank(data.upi);
+            await Bankaccountpage.verifyBankDetails(data.account_number, data.ifsc_code);
             break;
 
         default:

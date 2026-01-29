@@ -25,7 +25,8 @@
     "mobileNumber": "8382838284",
     "otp": "123456",
     "pan": "AUJPV1970D",
-    "upi": "7703874730@ybl",
-    "contractorMobileNumber": "8200589287"
+    "contractorMobileNumber": "8200589287",
+    "account_number": "39331318804",
+    "ifsc_code": "SBIN0006505"
   }
 }

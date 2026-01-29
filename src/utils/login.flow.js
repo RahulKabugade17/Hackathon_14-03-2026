@@ -15,7 +15,7 @@ export async function loginAs(persona) {
 
     await LoginPage.login(data.mobileNumber, data.otp);
 
-    if (persona === 'trade_contractor') {
+    if (persona === 'login_trade_contractor') {
         await LoginPage.clickConfirmLocationButton();
     }
     console.log(`[LOGIN FLOW COMPLETED] Persona: ${persona}`);
