@@ -8,9 +8,6 @@ import Bankaccountpage from '../pages/Bankaccountpage.js';
 import { handleSystemPermissions, waitAndClick } from '../utils/CustomCommands.js';
 
 export async function signupAs(persona, data) {
-    if (!data) {
-        throw new Error(`Signup data missing for persona: ${persona}`);
-    }
     await LoginPage.login(data.mobileNumber, data.otp);
     await handleSystemPermissions();
     await LoginPage.handleOverlays();

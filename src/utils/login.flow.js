@@ -5,18 +5,11 @@ import { handleSystemPermissions } from '../utils/CustomCommands.js';
 
 export async function loginAs(persona) {
     const data = loginData[persona];
-
-    if (!data) {
-        throw new Error(`Login data not found for persona: ${persona}`);
-    }
     await handleSystemPermissions();
     await LanguagePage.selectEnglish();
     await handleSystemPermissions();
-
     await LoginPage.login(data.mobileNumber, data.otp);
-
     if (persona === 'login_trade_contractor') {
         await LoginPage.clickConfirmLocationButton();
     }
-    console.log(`[LOGIN FLOW COMPLETED] Persona: ${persona}`);
 }

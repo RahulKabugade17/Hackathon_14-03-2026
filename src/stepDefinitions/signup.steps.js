@@ -5,14 +5,10 @@ import LanguagePage from '../pages/LanguagePage.js';
 import { handleSystemPermissions } from '../utils/CustomCommands.js';
 import loginData from '../fixtures/login.json' with { type: 'json' };
 
-Given('I am onboarded as {string}', async function (persona) {
+Given('I am registered as {string}', async function (persona) {
     await LanguagePage.selectEnglish();
     await handleSystemPermissions();
-
     await signupAs(persona, loginData[persona]);
-
-    this.persona = persona;
-    console.log(`[ONBOARDED] Persona: ${persona}`);
 });
 
 Then('I should land on the home dashboard', async () => {
