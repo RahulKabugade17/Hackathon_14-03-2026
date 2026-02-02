@@ -2,15 +2,42 @@ import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/Cust
 
 class ProfileDetailsPage {
     selectors = {
-        contractorCard: { droid: '~~usertype-select-contractor' },
-        painterCard: { droid: '~~usertype-select-painter' },
-        firstNameInput: { droid: '~~user-details-firstname-input' },
-        lastNameInput: { droid: '~~user-details-lastname-input' },
-        finishButton: { droid: '~~user-details-finish-button' },
-        profileDetailsStep: { droid: '~~required-step-item-0' },
-        contractorPhoneInput: { droid: '~~validate-mobile-phone-input' },
-        contractorPhoneNextButton: { droid: '~~validate-mobile-next-button' },
-        contractorDetailsNextButton: { droid: '~~contractor-details-next-button' },
+        contractorCard: {
+            droid: '~~usertype-select-contractor',
+            ios: ''
+        },
+        painterCard: {
+            droid: '~~usertype-select-painter',
+            ios: ''
+        },
+        firstNameInput: {
+            droid: '~~user-details-firstname-input',
+            ios: ''
+        },
+        lastNameInput: {
+            droid: '~~user-details-lastname-input',
+            ios: ''
+        },
+        finishButton: {
+            droid: '~~user-details-finish-button',
+            ios: ''
+        },
+        profileDetailsStep: {
+            droid: '~~required-step-item-0',
+            ios: ''
+        },
+        contractorPhoneInput: {
+            droid: '~~validate-mobile-phone-input',
+            ios: ''
+        },
+        contractorPhoneNextButton: {
+            droid: '~~validate-mobile-next-button',
+            ios: ''
+        },
+        contractorDetailsNextButton: {
+            droid: '~~contractor-details-next-button',
+            ios: ''
+        },
     };
 
     async selectContractorPersona() {

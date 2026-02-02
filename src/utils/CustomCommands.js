@@ -157,3 +157,13 @@ export async function swipeScreen(startY = 0.8, endY = 0.2) {
   ]);
   await driver.releaseActions();
 }
+export async function clickIfPresent(selector, timeout = 2000) {
+  try {
+    const element = await $(selector.droid); // Android
+    if (await element.waitForDisplayed({ timeout })) {
+      await element.click();
+    }
+  } catch (e) {
+    // Element not present → ignore
+  }
+}

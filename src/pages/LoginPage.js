@@ -22,11 +22,19 @@ class LoginPage {
             droid: '~~confirm-location-confirm-button',
             ios: '',
         },
-        referralSkip: { droid: '~~referral-skip-button' },
-        onboardingNext: { droid: '~~onboarding-next-button' },
-        onboardingSkip: { droid: '~~onboarding-skip-button' }
+        referralSkip: {
+            droid: '~~referral-skip-button',
+            ios: ''
+        },
+        onboardingNext: {
+            droid: '~~onboarding-next-button',
+            ios: ''
+        },
+        onboardingSkip: {
+            droid: '~~onboarding-skip-button',
+            ios: ''
+        }
     };
-
 
     async login(mobile, otp) {
         await waitForElementVisible(this.selectors.mobileInput);

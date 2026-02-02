@@ -2,14 +2,38 @@ import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/Cust
 
 class Bankaccountpage {
     selectors = {
-        bankStep: { droid: '~~required-step-item-0' },
-        nextButton: { droid: '~~upi-details-proceed-bank-button' },
-        accountNumberInput: { droid: '~~bank-details-account-number-input' },
-        confirmAccountNumberInput: { droid: '~~bank-details-re-account-number-input' },
-        ifscCodeInput: { droid: '~~bank-details-ifsc-code-input' },
-        checkbox: { droid: '~~bank-details-checkbox' },
-        submitButton: { droid: '~~bank-details-next-button' },
-        confirmBankButton: { droid: '~~confirm-bank-yes-button' }
+        bankStep: {
+            droid: '~~required-step-item-0',
+            ios: ''
+        },
+        nextButton: {
+            droid: '~~upi-details-proceed-bank-button',
+            ios: ''
+        },
+        accountNumberInput: {
+            droid: '~~bank-details-account-number-input',
+            ios: ''
+        },
+        confirmAccountNumberInput: {
+            droid: '~~bank-details-re-account-number-input',
+            ios: ''
+        },
+        ifscCodeInput: {
+            droid: '~~bank-details-ifsc-code-input',
+            ios: ''
+        },
+        checkbox: {
+            droid: '~~bank-details-checkbox',
+            ios: ''
+        },
+        submitButton: {
+            droid: '~~bank-details-next-button',
+            ios: ''
+        },
+        confirmBankButton: {
+            droid: '~~confirm-bank-yes-button',
+            ios: ''
+        }
     };
 
     async verifyBankDetails(accountNumber, ifscCode) {

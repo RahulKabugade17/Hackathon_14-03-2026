@@ -4,8 +4,14 @@ import DeleteAccountPage from './DeleteAccountPage.js';
 
 class ProfilePage {
     selectors = {
-        userName: { droid: '~~user-name-complete-kyc' },
-        skipHomeButton: { droid: '~~required-steps-skip-home-button' }
+        userName: {
+            droid: '~~user-name-complete-kyc',
+            ios: ''
+        },
+        skipHomeButton: {
+            droid: '~~required-steps-skip-home-button',
+            ios: ''
+        }
     };
 
     async isUserLoggedIn() {

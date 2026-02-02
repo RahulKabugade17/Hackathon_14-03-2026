@@ -1,4 +1,4 @@
-import { waitAndClick, waitForElementVisible, clickAndType } from '../utils/CustomCommands.js';
+import { waitAndClick, clickIfPresent, waitForElementVisible, clickAndType } from '../utils/CustomCommands.js';
 import Gestures from '../utils/Gestures.js';
 class DeleteAccountPage {
     selectors = {
@@ -12,21 +12,33 @@ class DeleteAccountPage {
                 '//android.widget.TextView[contains(@text,"click here")]'
             ]
         },
-        deleteAnywayButton: { droid: '~~delete-account-confirm-button' },
-        deleteOtpInput0: { droid: '~~delete-account-otp-input-0' },
-        deleteAccountSubmit: { droid: '~~delete-account-otp-submit-button' },
-        understandButton: { droid: '~~understand-button' },
-        finalDeleteButton: { droid: '~~delete-button' }
+        deleteAnywayButton: {
+            droid: '~~delete-account-confirm-button',
+            ios: ''
+        },
+        deleteOtpInput0: {
+            droid: '~~delete-account-otp-input-0',
+            ios: ''
+        },
+        deleteAccountSubmit: {
+            droid: '~~delete-account-otp-submit-button',
+            ios: ''
+        },
+        understandButton: {
+            droid: '~~understand-button',
+            ios: ''
+        },
+        finalDeleteButton: {
+            droid: '~~delete-button',
+            ios: ''
+        }
     };
 
     async deleteAccount(otp) {
         for (let i = 0; i < 2; i++) {
             await Gestures.swipeUp(0.6);
-            await driver.pause(600);
         }
-        const el = await $(this.selectors.deleteAccountClickHere);
-        await el.waitForDisplayed({ timeout: 1500 });
-        await el.click();
+        await clickIfPresent(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);
         await clickAndType(this.selectors.deleteOtpInput0, otp);
         await waitAndClick(this.selectors.deleteAccountSubmit);
@@ -35,4 +47,4 @@ class DeleteAccountPage {
     }
 }
 
-export default new DeleteAccountPage();
+export default new DeleteAccountPage(); 

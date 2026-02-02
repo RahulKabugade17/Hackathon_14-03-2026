@@ -2,11 +2,26 @@ import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/Cust
 
 class PanKycPage {
     selectors = {
-        panStep: { droid: '~~required-step-item-0' },
-        skipToPanButton: { droid: '~~aadhar-skip-to-pan-button' },
-        panInput: { droid: '~~pan-input' },
-        verifyButton: { droid: '~~pan-verify-button' },
-        saveButton: { droid: '~~verify-pan-save-button' }
+        panStep: {
+            droid: '~~required-step-item-0',
+            ios: ''
+        },
+        skipToPanButton: {
+            droid: '~~aadhar-skip-to-pan-button',
+            ios: ''
+        },
+        panInput: {
+            droid: '~~pan-input',
+            ios: ''
+        },
+        verifyButton: {
+            droid: '~~pan-verify-button',
+            ios: ''
+        },
+        saveButton: {
+            droid: '~~verify-pan-save-button',
+            ios: ''
+        }
     };
 
     async verifyPan(pan) {
