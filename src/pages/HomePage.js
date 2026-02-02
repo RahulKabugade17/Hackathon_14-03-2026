@@ -9,7 +9,7 @@ class HomePage {
         promoCloseButton: { droid: '~Close' },
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
-            '~ic-toggle-switch-tooltip-skip-button',
+            '~~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
         ],
         profileSection: { droid: '~user-type-complete-kyc' }
