@@ -3,15 +3,42 @@ import { waitAndClick, waitForElementVisible } from '../utils/CustomCommands.js'
 class HelpCenterPage {
 
     selectors = {
-        helpCenterEntry: '~help-center-button',
-        callNowButton: '~~helpCenter-callNow-button',
-        faqsButton: '~~helpCenter-faqs-button',
-        viewAllIssuesButton: '~~helpCenter-viewAllIssues-button',
-        raiseTransactionIssueButton: '~~helpCenter-raiseTransactionIssue-button',
-        findMoreHelpButton: '~~helpCenter-findMoreHelp-button',
-        learnMoreButton: '~~helpCenter-learnMore-icon',
-        onboardingNextButton: '~~onboarding-next-button',
-        onboardingSkipButton: '~~onboarding-skip-button'
+        helpCenterEntry: {
+            droid: '~help-center-button',
+            ios: ''
+        },
+        callNowButton: {
+            droid: '~~helpCenter-callNow-button',
+            ios: ''
+        },
+        faqsButton: {
+            droid: '~~helpCenter-faqs-button',
+            ios: ''
+        },
+        viewAllIssuesButton: {
+            droid: '~~helpCenter-viewAllIssues-button',
+            ios: ''
+        },
+        raiseTransactionIssueButton: {
+            droid: '~~helpCenter-raiseTransactionIssue-button',
+            ios: ''
+        },
+        findMoreHelpButton: {
+            droid: '~~helpCenter-findMoreHelp-button',
+            ios: ''
+        },
+        learnMoreButton: {
+            droid: '~~helpCenter-learnMore-icon',
+            ios: ''
+        },
+        onboardingNextButton: {
+            droid: '~~onboarding-next-button',
+            ios: ''
+        },
+        onboardingSkipButton: {
+            droid: '~~onboarding-skip-button',
+            ios: ''
+        }
     };
 
     get faqWebView() {

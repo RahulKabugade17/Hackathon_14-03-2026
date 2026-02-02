@@ -4,12 +4,30 @@ import {
 
 class SignoutPage {
     selectors = {
-        openDrawerMenu: { droid: '~open-drawer-menu' },
-        languageTooltipSubmitButton: { droid: '~language-tooltip-submit-button' },
-        myProjectsTooltipSubmitButton: { droid: '~my-projects-tooltip-submit-button' },
-        icMyProjectsTooltipSubmitButton: { droid: '~ic-my-projects-tooltip-submit-button' },
-        signoutButton: { droid: '~sign-out-button' },
-        logoutButton: { droid: '~logout-button' }
+        openDrawerMenu: {
+            droid: '~open-drawer-menu',
+            ios: ''
+        },
+        languageTooltipSubmitButton: {
+            droid: '~language-tooltip-submit-button',
+            ios: ''
+        },
+        myProjectsTooltipSubmitButton: {
+            droid: '~my-projects-tooltip-submit-button',
+            ios: ''
+        },
+        icMyProjectsTooltipSubmitButton: {
+            droid: '~ic-my-projects-tooltip-submit-button',
+            ios: ''
+        },
+        signoutButton: {
+            droid: '~sign-out-button',
+            ios: ''
+        },
+        logoutButton: {
+            droid: '~logout-button',
+            ios: ''
+        }
     };
 
     async openDrawerMenu() {

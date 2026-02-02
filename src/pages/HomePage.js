@@ -6,13 +6,19 @@ import {
 
 class HomePage {
     selectors = {
-        promoCloseButton: { droid: '~Close' },
+        promoCloseButton: {
+            droid: '~Close',
+            ios: ''
+        },
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
             '~~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
         ],
-        profileSection: { droid: '~user-type-complete-kyc' }
+        profileSection: {
+            droid: '~user-type-complete-kyc',
+            ios: ''
+        }
     };
 
     async skipOnboarding() {

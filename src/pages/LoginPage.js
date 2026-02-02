@@ -22,9 +22,18 @@ class LoginPage {
             droid: '~~confirm-location-confirm-button',
             ios: '',
         },
-        referralSkip: { droid: '~~referral-skip-button' },
-        onboardingNext: { droid: '~~onboarding-next-button' },
-        onboardingSkip: { droid: '~~onboarding-skip-button' }
+        referralSkip: {
+            droid: '~~referral-skip-button',
+            ios: ''
+        },
+        onboardingNext: {
+            droid: '~~onboarding-next-button',
+            ios: ''
+        },
+        onboardingSkip: {
+            droid: '~~onboarding-skip-button',
+            ios: ''
+        }
     };
 
 
@@ -42,7 +51,6 @@ class LoginPage {
     }
 
     async handleOverlays() {
-        await handleSystemPermissions();
         await waitAndClick(this.selectors.referralSkip);
         await waitAndClick(this.selectors.onboardingNext);
         await waitAndClick(this.selectors.onboardingNext);
