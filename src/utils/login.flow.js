@@ -1,6 +1,6 @@
 import LanguagePage from '../pages/LanguagePage.js';
 import LoginPage from '../pages/LoginPage.js';
-import loginData from '../fixtures/login.json' with { type: 'json' };
+import loginData from '../fixtures/Login/login.json' with { type: 'json' };
 import { handleSystemPermissions } from '../utils/CustomCommands.js';
 
 export async function loginAs(persona) {

@@ -26,19 +26,14 @@ class HomePage {
     }
 
     async closePromo() {
-        await waitAndClick(this.selectors.promoCloseButton, 5000).catch(() => { });
+        await waitAndClick(this.selectors.promoCloseButton);
     }
 
     async verifyHomePageLoaded() {
-        await driver.pause(600);
         await this.closePromo();
         await this.skipOnboarding();
     }
 
-    async isProfileSectionVisible() {
-        const el = await waitForElementVisible(this.selectors.profileSection);
-        return await el.isDisplayed();
-    }
 }
 
 export default new HomePage();
