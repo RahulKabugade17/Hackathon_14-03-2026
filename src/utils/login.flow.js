@@ -9,7 +9,7 @@ export async function loginAs(persona) {
     await LanguagePage.selectEnglish();
     await handleSystemPermissions();
     await LoginPage.login(data.mobileNumber, data.otp);
-    if (persona === 'login_trade_contractor') {
+    if (persona === 'trade_contractor') {
         await LoginPage.clickConfirmLocationButton();
     }
 }

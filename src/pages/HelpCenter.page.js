@@ -123,6 +123,22 @@ class HelpCenterPage {
     async navigateBack() {
         await driver.back();
     }
+    async call() {
+        await this.tapCallNow();
+        await this.validateDialerOpened();
+        await this.returnFromDialer();
+    }
+    async faqs() {
+        await this.tapFAQs();
+        await this.verifyFaqScreenOpened();
+        await this.navigateBack();
+    }
+    async Findmorehelp() {
+        await this.tapFindMoreHelp();
+        await this.tapOnboardingNext();
+        await this.tapOnboardingNext();
+        await this.tapOnboardingSkip();
+    }
 }
 
 export default new HelpCenterPage();
