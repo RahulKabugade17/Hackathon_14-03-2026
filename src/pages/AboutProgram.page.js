@@ -29,8 +29,9 @@ class AboutProgramPage {
     }
 
     async verifyPageHeader(menuItem) {
-        await $(`android=new UiSelector().text("${menuItem}")`)
-            .waitForDisplayed({ timeout: 10000 });
+        const header = await $(`android=new UiSelector().text("${menuItem}")`);
+        const actualText = await header.getText();
+        expect(actualText).toEqual(menuItem);
     }
 
     async handleTooltips(persona) {
