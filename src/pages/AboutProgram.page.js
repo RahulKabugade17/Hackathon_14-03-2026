@@ -1,55 +1,36 @@
-import { waitForElementVisible, waitAndClick } from '../utils/CustomCommands.js';
+import { waitAndClick } from '../utils/CustomCommands.js';
 import SignoutPage from './SignoutPage.js';
+import HomePage from './HomePage.js';
 
 class AboutProgramPage {
 
     selectors = {
-        aboutProgramExpand: {
-            droid: '~dropdown-arrow-icon',
-            ios: ''
-        },
-
+        aboutProgramExpand: '~dropdown-arrow-icon',
+        headerBackButton: '~~header-back-button',
         menuItems: {
             'FAQs': '~dropdown-text-faqs',
             'Privacy Policy': '~dropdown-text-privacy-policy',
             'Terms & Conditions': '~dropdown-text-terms-&-conditions',
             'Opus Partner': '~dropdown-text-opus-partner',
             'Loyalty': '~dropdown-text-loyalty'
-        },
-
-        headerBackButton: {
-            droid: '~~header-back-button',
-            ios: ''
         }
     };
+
     async expandAboutProgram() {
         await waitAndClick(this.selectors.aboutProgramExpand);
     }
 
     async clickAboutProgramMenu(menuItem) {
-        const selector = this.selectors.menuItems[menuItem];
-
-        if (!selector) {
-            throw new Error(`No accessibility id mapped for menu item: ${menuItem}`);
-        }
-
-        await waitAndClick({ droid: selector });
+        await waitAndClick(this.selectors.menuItems[menuItem]);
     }
 
     async clickHeaderBackButton() {
         await waitAndClick(this.selectors.headerBackButton);
     }
 
-    /* ---------------- VERIFICATION ---------------- */
-
-    async verifyPageHeader(menuItemText) {
-        const headerSelector = {
-            droid: `android=new UiSelector().text("${menuItemText}")`,
-            ios: ''
-        };
-
-        const header = await $(headerSelector.droid);
-        await header.waitForDisplayed({ timeout: 10000 });
+    async verifyPageHeader(menuItem) {
+        await $(`android=new UiSelector().text("${menuItem}")`)
+            .waitForDisplayed({ timeout: 10000 });
     }
 
     async handleTooltips(persona) {
@@ -64,6 +45,15 @@ class AboutProgramPage {
         else if (persona === 'painter') {
             await SignoutPage.languageTooltipSubmitButton();
         }
+    }
+
+    async openAboutProgram(menuItem, persona) {
+        await HomePage.verifyHomePageLoaded();
+        await this.handleTooltips(persona);
+        await this.expandAboutProgram();
+        await this.clickAboutProgramMenu(menuItem);
+        await this.verifyPageHeader(menuItem);
+        await this.clickHeaderBackButton();
     }
 }
 
