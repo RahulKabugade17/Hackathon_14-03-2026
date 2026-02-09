@@ -157,3 +157,23 @@ export async function swipeScreen(startY = 0.8, endY = 0.2) {
   ]);
   await driver.releaseActions();
 }
+
+export async function closeWebViewPopup() {
+  try {
+    const contexts = await driver.getContexts();
+    const webview = contexts.find(c => c.includes('WEBVIEW'));
+    if (!webview) return;
+
+    await driver.switchContext(webview);
+    const closeBtn = await $('span');
+    if (await closeBtn.isDisplayed()) {
+      await closeBtn.click();
+    }
+    await driver.switchContext('NATIVE_APP');
+  } catch (e) {
+    console.log(`WebView popup clearing skipped or failed: ${e.message}`);
+    // Ensure we are back in native app context
+    try { await driver.switchContext('NATIVE_APP'); } catch { }
+  }
+}
+
