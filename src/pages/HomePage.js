@@ -1,18 +1,11 @@
-import { waitAndFindElement, waitAndClick } from '../utils/CustomCommands.js';
-
 class HomePage {
     selectors = {
-        promoCloseButton: {
-            droid: '~Close',
-            ios: '',
-        },
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
             '~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
         ]
     };
-
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
             const el = await $(selector);
@@ -22,15 +15,8 @@ class HomePage {
             }
         }
     }
-
-    async closePromo() {
-        await waitAndClick(this.selectors.promoCloseButton, 5000).catch(() => { });
-    }
-
     async verifyHomePageLoaded() {
-        await this.closePromo();
         await this.skipOnboarding();
     }
 }
-
 export default new HomePage();
