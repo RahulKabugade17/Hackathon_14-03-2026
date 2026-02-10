@@ -16,6 +16,7 @@ class HomePage {
         }
     }
     async verifyHomePageLoaded() {
+        await driver.pause(5000);
         await this.skipOnboarding();
     }
 }
