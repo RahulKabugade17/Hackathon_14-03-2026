@@ -11,5 +11,5 @@ Given('I am registered as {string}', async function (persona) {
 });
 
 Then('I should land on the home dashboard', async () => {
-    await HomePage.verifyHomePageLoaded();
+    await HomePage.skipOnboarding();
 });

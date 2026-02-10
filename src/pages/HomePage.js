@@ -6,10 +6,6 @@ import {
 
 class HomePage {
     selectors = {
-        promoCloseButton: {
-            droid: '~Close',
-            ios: ''
-        },
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
             '~~ic-toggle-switch-tooltip-skip-button',
@@ -24,20 +20,11 @@ class HomePage {
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
             const el = await $(selector);
-            if (await el.isDisplayed()) {
+            if (await el.waitForDisplayed({ timeout: 5000 })) {
                 await el.click();
                 return;
             }
         }
-    }
-
-    async closePromo() {
-        await waitAndClick(this.selectors.promoCloseButton);
-    }
-
-    async verifyHomePageLoaded() {
-        await this.closePromo();
-        await this.skipOnboarding();
     }
 
 }
