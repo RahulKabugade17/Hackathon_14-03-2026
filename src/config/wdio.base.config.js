@@ -8,10 +8,6 @@ export const baseConfig = {
     framework: 'cucumber',
     waitforTimeout: 20000,
 
-    before: async function () {
-        await import('../utils/CustomCommands.js');
-    },
-
     beforeScenario: async function () {
         await driver.execute('mobile: clearApp', { appId: APP_ID });
         await driver.activateApp(APP_ID);
