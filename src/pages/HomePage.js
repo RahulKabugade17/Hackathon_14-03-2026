@@ -1,9 +1,3 @@
-import {
-    waitAndFindElement,
-    waitAndClick,
-    waitForElementVisible
-} from '../utils/CustomCommands.js';
-
 class HomePage {
     selectors = {
         onboardingSkipButtons: [
@@ -16,7 +10,6 @@ class HomePage {
             ios: ''
         }
     };
-
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
             const el = await $(selector);
@@ -26,7 +19,9 @@ class HomePage {
             }
         }
     }
-
+    async verifyHomePageLoaded() {
+        await driver.pause(5000);
+        await this.skipOnboarding();
+    }
 }
-
 export default new HomePage();
