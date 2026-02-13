@@ -38,8 +38,9 @@ class DeleteAccountPage {
         for (let i = 0; i < 2; i++) {
             await Gestures.swipeUp(0.6);
         }
-        await clickIfPresent(this.selectors.deleteAccountClickHere);
+        await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);
+        await waitForElementVisible(this.selectors.deleteOtpInput0, 15000);
         await clickAndType(this.selectors.deleteOtpInput0, otp);
         await waitAndClick(this.selectors.deleteAccountSubmit);
         await waitAndClick(this.selectors.understandButton);

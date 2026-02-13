@@ -5,7 +5,6 @@ import { handleSystemPermissions } from '../utils/CustomCommands.js';
 
 export async function loginAs(persona) {
     const data = loginData[persona];
-    await handleSystemPermissions();
     await LanguagePage.selectEnglish();
     await handleSystemPermissions();
     await LoginPage.login(data.mobileNumber, data.otp);

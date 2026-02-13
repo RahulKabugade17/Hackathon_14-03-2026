@@ -1,3 +1,5 @@
+import { waitAndClick } from "../utils/CustomCommands.js";
+
 class HomePage {
     selectors = {
         onboardingSkipButtons: [
@@ -6,9 +8,10 @@ class HomePage {
             '~ic-opus-id-tooltip-skip-button'
         ],
         profileSection: {
-            droid: '~user-type-complete-kyc',
+            droid: '~opus-id-value-complete-kyc',
             ios: ''
-        }
+        },
+
     };
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
@@ -22,6 +25,7 @@ class HomePage {
     async verifyHomePageLoaded() {
         await driver.pause(5000);
         await this.skipOnboarding();
+        await waitAndClick(this.selectors.profileSection);
     }
 }
 export default new HomePage();
