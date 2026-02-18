@@ -17,7 +17,7 @@ export const config = {
     runner: 'local',
     maxInstances: 1,
 
-    hostname: '127.0.0.1',
+    hostname: 'localhost',
     port: 4723,
     path: '/',
 
@@ -26,17 +26,6 @@ export const config = {
     ],
 
     framework: 'cucumber',
-
-    services: [
-        ['appium', {
-            command: 'appium',
-            args: {
-                port: 4723,
-                address: '127.0.0.1',
-                relaxedSecurity: true
-            }
-        }]
-    ],
 
     capabilities: [{
         platformName: 'Android',
@@ -51,7 +40,10 @@ export const config = {
         'appium:newCommandTimeout': 600,
         'appium:adbExecTimeout': 120000,
         'appium:uiautomator2ServerInstallTimeout': 60000,
-        'wdio:allowInsecure': ['adb_shell']
+        'wdio:allowInsecure': ['adb_shell'],
+        'appium:appPackage': 'com.birlaopusid.contractorportal.uat',
+        'appium:appActivity': 'com.birlaopusid.contractorportal.MainActivity',
+        'appium:appWaitActivity': '*'
     }],
 
     logLevel: 'error',
@@ -76,7 +68,7 @@ export const config = {
 
     cucumberOpts: {
         require: [
-            './src/stepDefinitions/**/*.js'
+            path.resolve(__dirname, '../stepDefinitions/**/*.js')
         ],
         timeout: 120000,
         scenarioLevelReporter: true,

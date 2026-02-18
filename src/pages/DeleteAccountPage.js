@@ -40,7 +40,7 @@ class DeleteAccountPage {
         }
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);
-        await waitForElementVisible(this.selectors.deleteOtpInput0, 15000);
+        await waitForElementVisible(this.selectors.deleteOtpInput0, 30000);
         await clickAndType(this.selectors.deleteOtpInput0, otp);
         await waitAndClick(this.selectors.deleteAccountSubmit);
         await waitAndClick(this.selectors.understandButton);

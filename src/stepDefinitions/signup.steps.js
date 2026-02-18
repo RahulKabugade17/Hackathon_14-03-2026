@@ -7,8 +7,8 @@ import DeleteAccountPage from '../pages/DeleteAccountPage.js';
 import loginData from '../fixtures/Login/login.json' with { type: 'json' };
 
 Given('I am registered as {string}', async function (persona) {
-    await handleSystemPermissions();
     await LanguagePage.selectEnglish();
+    await handleSystemPermissions();
     await signupAs(persona);
 });
 

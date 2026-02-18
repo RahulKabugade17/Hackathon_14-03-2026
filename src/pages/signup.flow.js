@@ -13,11 +13,7 @@ import kycData from '../fixtures/Sign Up/kyc.json' with { type: 'json' };
 export async function signupAs(persona) {
 
     const signup = signupData[persona];
-    const kyc = kycData; // shared KYC
-
-    if (!signup) {
-        throw new Error(`Signup data missing for persona: ${persona}`);
-    }
+    const kyc = kycData;
 
     await LoginPage.login(signup.mobileNumber, signup.otp);
     await handleSystemPermissions();
