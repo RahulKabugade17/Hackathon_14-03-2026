@@ -33,7 +33,15 @@ class DeleteAccountPage {
             ios: ''
         }
     };
-
+    async enterOtp(otp) {
+        const digits = otp.split('');
+        for (let i = 0; i < digits.length; i++) {
+            const field = await $(`~~delete-account-otp-input-${i}`);
+            await field.waitForDisplayed({ timeout: 1000 });
+            await field.clearValue();
+            await field.setValue(digits[i]);
+        }
+    }
     async deleteAccount(otp) {
         for (let i = 0; i < 2; i++) {
             await Gestures.swipeUp(0.6);
@@ -41,7 +49,7 @@ class DeleteAccountPage {
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);
         await waitForElementVisible(this.selectors.deleteOtpInput0, 30000);
-        await clickAndType(this.selectors.deleteOtpInput0, otp);
+        await this.enterOtp(otp);
         await waitAndClick(this.selectors.deleteAccountSubmit);
         await waitAndClick(this.selectors.understandButton);
         await waitAndClick(this.selectors.finalDeleteButton);

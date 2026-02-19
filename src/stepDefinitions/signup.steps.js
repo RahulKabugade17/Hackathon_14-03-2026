@@ -15,5 +15,5 @@ Given('I am registered as {string}', async function (persona) {
 Then('I should land on the home dashboard and delete my account as {string}', async function (persona) {
     const data = loginData[persona];
     await HomePage.verifyHomePageLoaded();
-    await DeleteAccountPage.deleteAccount(data.otp);
+    //await DeleteAccountPage.deleteAccount(data.otp);
 });

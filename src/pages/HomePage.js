@@ -4,7 +4,7 @@ class HomePage {
     selectors = {
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
-            '~~ic-toggle-switch-tooltip-skip-button',
+            '~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
         ],
         profileSection: {
@@ -15,10 +15,14 @@ class HomePage {
     };
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
-            const el = await $(selector);
-            if (await el.waitForDisplayed({ timeout: 5000 })) {
+            try {
+                const elements = await $$(selector);
+                if (elements.length === 0) continue;
+                const el = elements[0];
+                await el.waitForDisplayed({ timeout: 3000 });
                 await el.click();
                 return;
+            } catch (err) {
             }
         }
     }
