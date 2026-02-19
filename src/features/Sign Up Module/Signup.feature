@@ -7,5 +7,5 @@ Feature: User registration
 
     Examples:
       | persona     |
+      | painter     |
       | contractor  |
-
