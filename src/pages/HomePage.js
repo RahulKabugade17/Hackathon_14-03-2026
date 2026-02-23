@@ -8,14 +8,10 @@ class HomePage {
     };
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
-            try {
-                const elements = await $$(selector);
-                if (elements.length === 0) continue;
-                const el = elements[0];
-                await el.waitForDisplayed({ timeout: 3000 });
+            const el = await $(selector);
+            if (await el.isDisplayed()) {
                 await el.click();
                 return;
-            } catch (err) {
             }
         }
     }
