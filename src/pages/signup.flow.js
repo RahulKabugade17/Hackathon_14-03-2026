@@ -16,7 +16,6 @@ export async function signupAs(persona) {
     const kyc = kycData;
 
     await LoginPage.login(signup.mobileNumber, signup.otp);
-    await handleSystemPermissions();
     await LoginPage.handleOverlays();
     await ProfileDetailsPage.openProfileDetailsStep();
 
