@@ -1,6 +1,6 @@
 import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/CustomCommands.js';
 
-class Bankaccountpage {
+class BankAccountPage {
     selectors = {
         bankStep: {
             droid: '~~required-step-item-0',
@@ -49,4 +49,4 @@ class Bankaccountpage {
     }
 }
 
-export default new Bankaccountpage();
+export default new BankAccountPage();

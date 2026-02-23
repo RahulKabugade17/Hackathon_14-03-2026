@@ -1,8 +1,6 @@
 import SignoutPage from './SignoutPage.js';
-import loginData from '../fixtures/Login/login.json' with { type: 'json' };
 
 export async function signoutAs(persona) {
-    const data = loginData[persona];
     await SignoutPage.openDrawerMenu();
     if (persona === 'institutional_contractor') {
         await SignoutPage.icMyProjectsTooltipSubmitButton();

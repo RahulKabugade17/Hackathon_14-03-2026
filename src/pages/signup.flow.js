@@ -4,7 +4,7 @@ import ProfileDetailsPage from './ProfileDetailsPage.js';
 import LocationPage from './LocationPage.js';
 import PanKycPage from './PanKycPage.js';
 import BankKycPage from './BankKycPage.js';
-import Bankaccountpage from './Bankaccountpage.js';
+import BankAccountPage from './Bankaccountpage.js';
 
 import signupData from '../fixtures/Sign Up/signup.json' with { type: 'json' };
 import kycData from '../fixtures/Sign Up/kyc.json' with { type: 'json' };
@@ -29,7 +29,7 @@ export async function signupAs(persona) {
             await LocationPage.selectLocation();
             await ProfileDetailsPage.enterDetails('Test', 'Painter');
             await PanKycPage.verifyPan(kyc.pan);
-            await Bankaccountpage.verifyBankDetails(kyc.account_number, kyc.ifsc_code);
+            await BankAccountPage.verifyBankDetails(kyc.account_number, kyc.ifsc_code);
             break;
     }
     await ProfilePage.skipToHome();
