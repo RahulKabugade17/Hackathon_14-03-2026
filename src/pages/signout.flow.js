@@ -1,18 +1,19 @@
 import SignoutPage from './SignoutPage.js';
-import loginData from '../fixtures/Login/login.json' with { type: 'json' };
 
 export async function signoutAs(persona) {
-    const data = loginData[persona];
     await SignoutPage.openDrawerMenu();
-    if (persona === 'institutional_contractor') {
-        await SignoutPage.icMyProjectsTooltipSubmitButton();
-    }
-    else if (persona === 'contractor' || persona === 'trade_contractor') {
-        await SignoutPage.languageTooltipSubmitButton();
-        await SignoutPage.myProjectsTooltipSubmitButton();
-    }
-    else if (persona === 'painter') {
-        await SignoutPage.languageTooltipSubmitButton();
+    const tooltipSelectors = [
+        SignoutPage.selectors.languageTooltipSubmitButton,
+        SignoutPage.selectors.myProjectsTooltipSubmitButton,
+        SignoutPage.selectors.icMyProjectsTooltipSubmitButton
+    ];
+
+    // run multiple passes to handle animation/race
+    for (let i = 0; i < 2; i++) {
+        for (const selector of tooltipSelectors) {
+            await clickIfPresent(selector);
+        }
+        await driver.pause(200);
     }
     await SignoutPage.signout();
 }

@@ -1,45 +1,27 @@
-import {
-    waitAndFindElement,
-    waitAndClick,
-    waitForElementVisible
-} from '../utils/CustomCommands.js';
-
 class HomePage {
     selectors = {
-        promoCloseButton: {
-            droid: '~Close',
-            ios: ''
-        },
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
-            '~~ic-toggle-switch-tooltip-skip-button',
+            '~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
-        ],
-        profileSection: {
-            droid: '~user-type-complete-kyc',
-            ios: ''
-        }
+        ]
     };
-
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
-            const el = await $(selector);
-            if (await el.isDisplayed()) {
+            try {
+                const elements = await $$(selector);
+                if (elements.length === 0) continue;
+                const el = elements[0];
+                await el.waitForDisplayed({ timeout: 3000 });
                 await el.click();
                 return;
+            } catch (err) {
             }
         }
     }
-
-    async closePromo() {
-        await waitAndClick(this.selectors.promoCloseButton);
-    }
-
     async verifyHomePageLoaded() {
-        await this.closePromo();
+        await driver.pause(5000);
         await this.skipOnboarding();
     }
-
 }
-
 export default new HomePage();

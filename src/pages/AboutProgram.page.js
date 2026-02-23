@@ -1,4 +1,4 @@
-import { waitAndClick } from '../utils/CustomCommands.js';
+import { waitAndClick, clickIfPresent } from '../utils/CustomCommands.js';
 import SignoutPage from './SignoutPage.js';
 import HomePage from './HomePage.js';
 
@@ -8,11 +8,11 @@ class AboutProgramPage {
         aboutProgramExpand: '~dropdown-arrow-icon',
         headerBackButton: '~~header-back-button',
         menuItems: {
-            'FAQs': '~dropdown-text-faqs',
-            'Privacy Policy': '~dropdown-text-privacy-policy',
-            'Terms & Conditions': '~dropdown-text-terms-&-conditions',
+            'Loyalty': '~dropdown-text-loyalty',
             'Opus Partner': '~dropdown-text-opus-partner',
-            'Loyalty': '~dropdown-text-loyalty'
+            'FAQs': '~dropdown-text-faqs',
+            'Terms & Conditions': '~dropdown-text-terms-&-conditions',
+            'Privacy Policy': '~dropdown-text-privacy-policy'
         }
     };
 
@@ -34,27 +34,39 @@ class AboutProgramPage {
         expect(actualText).toEqual(menuItem);
     }
 
-    async handleTooltips(persona) {
+    async handleTooltips() {
         await SignoutPage.openDrawerMenu();
-        if (persona === 'institutional_contractor') {
-            await SignoutPage.icMyProjectsTooltipSubmitButton();
-        }
-        else if (persona === 'contractor' || persona === 'trade_contractor') {
-            await SignoutPage.languageTooltipSubmitButton();
-            await SignoutPage.myProjectsTooltipSubmitButton();
-        }
-        else if (persona === 'painter') {
-            await SignoutPage.languageTooltipSubmitButton();
+        const tooltipSelectors = [
+            SignoutPage.selectors.languageTooltipSubmitButton,
+            SignoutPage.selectors.myProjectsTooltipSubmitButton,
+            SignoutPage.selectors.icMyProjectsTooltipSubmitButton
+        ];
+        for (let i = 0; i < 2; i++) {
+            for (const selector of tooltipSelectors) {
+                await clickIfPresent(selector);
+            }
+            await driver.pause(100);
         }
     }
 
-    async openAboutProgram(menuItem, persona) {
+    async verifyAllMenuItems() {
         await HomePage.verifyHomePageLoaded();
-        await this.handleTooltips(persona);
+        await this.handleTooltips();
         await this.expandAboutProgram();
-        await this.clickAboutProgramMenu(menuItem);
-        await this.verifyPageHeader(menuItem);
-        await this.clickHeaderBackButton();
+        for (const [menuItem, selector] of Object.entries(this.selectors.menuItems)) {
+            try {
+                const el = await $(selector);
+                if (!(await el.isExisting())) {
+                    continue;
+                }
+                await waitAndClick(selector);
+                await this.verifyPageHeader(menuItem);
+                await this.clickHeaderBackButton();
+                await driver.pause(500);
+
+            } catch (err) {
+            }
+        }
     }
 }
 

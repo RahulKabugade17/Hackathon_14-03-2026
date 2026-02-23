@@ -1,6 +1,7 @@
 import { waitAndClick, waitForElementVisible, setValueFast, clickAndType, handleSystemPermissions } from '../utils/CustomCommands.js';
 
 class LoginPage {
+
     selectors = {
         mobileInput: {
             droid: '~~signin-mobile-input',
@@ -36,7 +37,6 @@ class LoginPage {
         }
     };
 
-
     async login(mobile, otp) {
         await waitForElementVisible(this.selectors.mobileInput);
         await setValueFast(this.selectors.mobileInput, mobile);
@@ -51,6 +51,7 @@ class LoginPage {
     }
 
     async handleOverlays() {
+        await handleSystemPermissions();
         await waitAndClick(this.selectors.referralSkip);
         await waitAndClick(this.selectors.onboardingNext);
         await waitAndClick(this.selectors.onboardingNext);
