@@ -1,6 +1,7 @@
-import { waitAndClick, waitForElementVisible, setValueFast, clickAndType, handleSystemPermissions } from '../utils/CustomCommands.js';
+import { waitAndClick, waitForElementVisible, setValueFast, clickAndType } from '../utils/CustomCommands.js';
 
 class LoginPage {
+
     selectors = {
         mobileInput: {
             droid: '~~signin-mobile-input',

@@ -27,6 +27,17 @@ export const config = {
 
     framework: 'cucumber',
 
+    services: [
+        ['appium', {
+            command: 'appium',
+            args: {
+                port: 4723,
+                address: '127.0.0.1',
+                relaxedSecurity: true
+            }
+        }]
+    ],
+
     capabilities: [{
         platformName: 'Android',
         'appium:platformVersion': deviceVersion,

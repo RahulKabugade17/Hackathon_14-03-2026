@@ -1,41 +1,54 @@
+/* =====================================================
+   PLATFORM RESOLUTION
+===================================================== */
+
 const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
 
-browser.overwriteCommand('$', async ($, selector) => {
+/* =====================================================
+   OVERWRITE $
+===================================================== */
 
-  // Already an element
+browser.overwriteCommand('$', async (original$, selector) => {
+  if (!selector) {
+    throw new Error('❌ $ called with undefined selector');
+  }
+
+  // Already WebdriverIO element
   if (selector?.elementId) {
     return selector;
   }
 
   // Plain string selector
   if (typeof selector === 'string') {
-    return $(selector);
+    return original$(selector);
   }
 
   // Platform-based selector object
   if (selector?.droid || selector?.ios) {
-    const resolved = driver.isIOS ? selector.ios : selector.droid;
+    const resolved = getSelectorByPlatform(selector);
 
-    // 🔥 HANDLE ARRAY HERE (THIS WAS MISSING)
+    // ✅ ARRAY fallback support
     if (Array.isArray(resolved)) {
       for (const sel of resolved) {
         try {
-          const el = await $(sel);
+          const el = await original$(sel);
           if (await el.isExisting()) {
             return el;
           }
-        } catch { }
+        } catch {
+          // ignore and try next
+        }
       }
+
       throw new Error(
         `[SELECTOR ERROR] None of the selectors matched: ${JSON.stringify(resolved)}`
       );
     }
 
-    // Single selector
-    return $(resolved);
+    return original$(resolved);
   }
 
   throw new Error(
@@ -43,23 +56,40 @@ browser.overwriteCommand('$', async ($, selector) => {
   );
 });
 
+/* =====================================================
+   OVERWRITE $$
+===================================================== */
 
-browser.overwriteCommand('$$', async ($$, selector) => {
+browser.overwriteCommand('$$', async (original$$, selector) => {
+  if (!selector) {
+    throw new Error('❌ $$ called with undefined selector');
+  }
+
   if (typeof selector === 'string') {
-    return $$(selector);
+    return original$$(selector);
   }
+
   if (selector?.droid || selector?.ios) {
-    return $$(getSelectorByPlatform(selector));
+    return original$$(getSelectorByPlatform(selector));
   }
-  throw new Error(`[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`);
+
+  throw new Error(
+    `[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`
+  );
 });
+
+/* =====================================================
+   PLATFORM HELPERS
+===================================================== */
 
 function getSelectorByPlatform(selector) {
   const platform = getPlatform();
   const key = platformKeyMap[platform];
+
   if (!key || !selector[key]) {
     throw new Error(`Selector not set for ${platform} platform`);
   }
+
   return selector[key];
 }
 
@@ -68,23 +98,29 @@ function getPlatform() {
   return driver.isIOS ? 'ios' : 'android';
 }
 
+/* =====================================================
+   COMMON ACTIONS
+===================================================== */
+
 export async function waitAndFindElement(selector, timeout = 15000) {
   if (!selector) {
     throw new Error('❌ waitAndFindElement called with undefined selector');
   }
 
-  const element = selector.elementId ? selector : await $(selector);
+  const element = selector?.elementId ? selector : await $(selector);
+
   await element.waitForExist({ timeout });
+  await element.waitForDisplayed({ timeout });
+
   return element;
 }
 
-export async function waitAndClick(selector, timeout = 15000) {
-  if (!selector) {
-    throw new Error('❌ waitAndClick called with undefined selector');
-  }
+export async function waitForElementVisible(selector, timeout = 15000) {
+  return waitAndFindElement(selector, timeout);
+}
 
+export async function waitAndClick(selector, timeout = 15000) {
   const el = await waitAndFindElement(selector, timeout);
-  await el.waitForDisplayed({ timeout });
   await el.click();
 }
 
@@ -99,7 +135,20 @@ export async function clickAndType(selector, value) {
   await driver.keys(value);
 }
 
-/* ================= SYSTEM PERMISSIONS ================= */
+export async function clickIfPresent(selector, timeout = 2000) {
+  try {
+    const el = await $(selector);
+    if (await el.waitForDisplayed({ timeout })) {
+      await el.click();
+    }
+  } catch {
+    // Element not present — ignore safely
+  }
+}
+
+/* =====================================================
+   SYSTEM PERMISSIONS (ANDROID)
+===================================================== */
 
 export async function handleSystemPermissions(timeout = 3000) {
   const permissionButtons = [
@@ -116,31 +165,32 @@ export async function handleSystemPermissions(timeout = 3000) {
     let handled = false;
 
     for (const selector of permissionButtons) {
-      const el = await $(selector);
-      if (await el.isDisplayed()) {
-        await el.click();
-        handled = true;
-        await driver.pause(500); // allow next dialog to appear
-        break;
+      try {
+        const el = await $(selector);
+        if (await el.isDisplayed()) {
+          await el.click();
+          handled = true;
+          await driver.pause(500);
+          break;
+        }
+      } catch {
+        // ignore
       }
     }
 
-    // if no permission found in this loop, wait and retry
     if (!handled) {
       await driver.pause(300);
     }
   }
 }
 
-export async function waitForElementVisible(selector, timeout = 15000) {
-  const el = await waitAndFindElement(selector, timeout);
-  await el.waitForDisplayed({ timeout });
-  return el;
-}
-
+/* =====================================================
+   SWIPE UTILITY
+===================================================== */
 
 export async function swipeScreen(startY = 0.8, endY = 0.2) {
   const { width, height } = await driver.getWindowRect();
+
   await driver.performActions([
     {
       type: 'pointer',
@@ -155,15 +205,6 @@ export async function swipeScreen(startY = 0.8, endY = 0.2) {
       ]
     }
   ]);
+
   await driver.releaseActions();
-}
-export async function clickIfPresent(selector, timeout = 2000) {
-  try {
-    const element = await $(selector.droid); // Android
-    if (await element.waitForDisplayed({ timeout })) {
-      await element.click();
-    }
-  } catch (e) {
-    // Element not present → ignore
-  }
 }
