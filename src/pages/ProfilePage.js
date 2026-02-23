@@ -1,6 +1,4 @@
-import { waitAndClick, waitForElementVisible, clickAndType } from '../utils/CustomCommands.js';
-import Gestures from '../utils/Gestures.js';
-import DeleteAccountPage from './DeleteAccountPage.js';
+import { waitAndClick, waitForElementVisible } from '../utils/CustomCommands.js';
 
 class ProfilePage {
     selectors = {

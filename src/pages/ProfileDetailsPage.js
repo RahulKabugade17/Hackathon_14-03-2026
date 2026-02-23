@@ -55,7 +55,6 @@ class ProfileDetailsPage {
         await waitAndClick(this.selectors.contractorDetailsNextButton);
     }
 
-
     async enterDetails(fname, lname) {
         await waitForElementVisible(this.selectors.firstNameInput);
         await setValueFast(this.selectors.firstNameInput, fname);
