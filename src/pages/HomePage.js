@@ -1,5 +1,8 @@
 class HomePage {
     selectors = {
+        tooltipTitle: '~topcard-opus-id-tooltip-title',
+        icToggleSwitchTooltipTitle: '~ic-toggle-switch-tooltip-title',
+        icOpusIdTooltipTitle: '~ic-opus-id-tooltip-title',
         onboardingSkipButtons: [
             '~topcard-opus-id-tooltip-skip-button',
             '~ic-toggle-switch-tooltip-skip-button',
@@ -8,19 +11,19 @@ class HomePage {
     };
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
-            try {
-                const elements = await $$(selector);
-                if (elements.length === 0) continue;
-                const el = elements[0];
-                await el.waitForDisplayed({ timeout: 3000 });
+            const el = await $(selector);
+            if (await el.isDisplayed()) {
                 await el.click();
                 return;
-            } catch (err) {
             }
         }
     }
     async verifyHomePageLoaded() {
-        await driver.pause(5000);
+        await Promise.race([
+            $(this.selectors.tooltipTitle).waitForDisplayed({ timeout: 5000 }),
+            $(this.selectors.icToggleSwitchTooltipTitle).waitForDisplayed({ timeout: 5000 }),
+            $(this.selectors.icOpusIdTooltipTitle).waitForDisplayed({ timeout: 5000 })
+        ])
         await this.skipOnboarding();
     }
 }

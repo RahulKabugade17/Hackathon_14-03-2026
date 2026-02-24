@@ -6,8 +6,8 @@ Feature: Login works for all personas
     Then I should see the dashboard
 
     Examples:
-      | persona                  |
-      | contractor               |
-      | institutional_contractor |
+      | persona                  | 
       | painter                  |
+      | contractor               |
       | trade_contractor         |
+      | institutional_contractor |

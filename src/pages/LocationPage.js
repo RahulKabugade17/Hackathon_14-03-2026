@@ -2,57 +2,31 @@ import { waitAndClick } from '../utils/CustomCommands.js';
 
 class LocationPage {
     selectors = {
-        stateDropdown: {
-            droid: '~~location-state-dropdown',
-            ios: ''
-        },
-        stateOption: {
-            droid: '~~dropdown-item-Andhra Pradesh',
-            ios: ''
-        },
-        areaDropdown: {
-            droid: '~~location-area-dropdown',
-            ios: ''
-        },
-        areaOption: {
-            droid: '~~dropdown-item-Anantapur',
-            ios: ''
-        },
-        districtDropdown: {
-            droid: '~~location-district-dropdown',
-            ios: ''
-        },
-        districtOption: {
-            droid: '~~dropdown-item-Anantapur',
-            ios: ''
-        },
-        pincodeDropdown: {
-            droid: '~~location-pincode-dropdown',
-            ios: ''
-        },
-        pincodeOption: {
-            droid: '~~dropdown-item-515001',
-            ios: ''
-        },
-        nextButton: {
-            droid: '~~location-next-button',
-            ios: ''
-        },
-        confirmButton: {
-            droid: '~~confirm-location-confirm-button',
-            ios: ''
-        }
+        stateDropdown: { droid: '~~location-state-dropdown', ios: '' },
+        areaDropdown: { droid: '~~location-area-dropdown', ios: '' },
+        districtDropdown: { droid: '~~location-district-dropdown', ios: '' },
+        pincodeDropdown: { droid: '~~location-pincode-dropdown', ios: '' },
+        nextButton: { droid: '~~location-next-button', ios: '' },
+        confirmButton: { droid: '~~confirm-location-confirm-button', ios: '' }
     };
+    getDropdownOption(value) {
+        return {
+            droid: `~~dropdown-item-${value.trim()}`,
+            ios: ''
+        };
+    }
 
-    async selectLocation() {
-        await waitAndClick(this.selectors.stateDropdown);
-        await waitAndClick(this.selectors.stateOption);
-        await waitAndClick(this.selectors.areaDropdown);
-        await waitAndClick(this.selectors.areaOption);
-        await waitAndClick(this.selectors.districtDropdown);
-        await waitAndClick(this.selectors.districtOption);
-        await waitAndClick(this.selectors.pincodeDropdown);
-        await waitAndClick(this.selectors.pincodeOption);
+    async selectLocation(locationData) {
+        const flow = [
+            { dropdown: this.selectors.stateDropdown, value: locationData.state },
+            { dropdown: this.selectors.areaDropdown, value: locationData.area },
+            { dropdown: this.selectors.districtDropdown, value: locationData.district },
+            { dropdown: this.selectors.pincodeDropdown, value: locationData.pincode }
+        ];
+        for (const step of flow) {
+            await waitAndClick(step.dropdown);
+            await waitAndClick(this.getDropdownOption(step.value));
+        }
         await waitAndClick(this.selectors.nextButton);
         await waitAndClick(this.selectors.confirmButton);
     }

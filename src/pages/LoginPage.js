@@ -53,8 +53,9 @@ class LoginPage {
     async handleOverlays() {
         await handleSystemPermissions();
         await waitAndClick(this.selectors.referralSkip);
-        await waitAndClick(this.selectors.onboardingNext);
-        await waitAndClick(this.selectors.onboardingNext);
+        for (let i = 0; i < 2; i++) {
+            await waitAndClick(this.selectors.onboardingNext);
+        }
         await waitAndClick(this.selectors.onboardingSkip);
     }
 }

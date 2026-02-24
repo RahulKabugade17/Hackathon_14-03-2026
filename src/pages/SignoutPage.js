@@ -1,7 +1,4 @@
-import {
-    waitAndClick,
-    clickIfPresent
-} from '../utils/CustomCommands.js';
+import { waitAndClick, } from '../utils/CustomCommands.js';
 
 class SignoutPage {
     selectors = {
@@ -35,29 +32,9 @@ class SignoutPage {
         await waitAndClick(this.selectors.openDrawerMenu);
     }
 
-    async languageTooltipSubmitButton() {
-        await waitAndClick(this.selectors.languageTooltipSubmitButton);
-    }
-
-    async myProjectsTooltipSubmitButton() {
-        await clickIfPresent(this.selectors.myProjectsTooltipSubmitButton);
-    }
-
-    async icMyProjectsTooltipSubmitButton() {
-        await waitAndClick(this.selectors.icMyProjectsTooltipSubmitButton);
-    }
-
-    async signoutButton() {
-        await waitAndClick(this.selectors.signoutButton);
-    }
-
-    async logoutButton() {
-        await waitAndClick(this.selectors.logoutButton);
-    }
-
     async signout() {
-        await this.signoutButton();
-        await this.logoutButton();
+        await waitAndClick(this.selectors.signoutButton);
+        await waitAndClick(this.selectors.logoutButton);
     }
 
 }

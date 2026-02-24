@@ -38,6 +38,10 @@ class ProfileDetailsPage {
             droid: '~~contractor-details-next-button',
             ios: ''
         },
+        skipHomeButton: {
+            droid: '~~required-steps-skip-home-button',
+            ios: ''
+        }
     };
 
     async selectContractorPersona() {
@@ -61,8 +65,13 @@ class ProfileDetailsPage {
         await setValueFast(this.selectors.lastNameInput, lname);
         await waitAndClick(this.selectors.finishButton);
     }
+
     async openProfileDetailsStep() {
         await waitAndClick(this.selectors.profileDetailsStep);
+    }
+
+    async skipToHome() {
+        await waitAndClick(this.selectors.skipHomeButton);
     }
 }
 
