@@ -31,7 +31,6 @@ class HomePage {
             $(this.selectors.icOpusIdTooltipTitle).waitForDisplayed({ timeout: 5000 })
         ])
         await this.skipOnboarding();
-        await this.ClickOnProfileSection();
     }
 }
 export default new HomePage();
