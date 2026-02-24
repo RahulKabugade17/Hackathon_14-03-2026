@@ -1,5 +1,5 @@
-import { waitAndClick, waitForElementVisible, clickAndType } from '../utils/CustomCommands.js';
-import Gestures from '../utils/Gestures.js';
+import { waitAndClick, waitForElementVisible, clickAndType } from '../utils/custom-commands.js';
+import Gestures from '../utils/gestures.js';
 import { execSync } from 'child_process';
 
 class DeleteAccountPage {
@@ -14,7 +14,6 @@ class DeleteAccountPage {
         const digits = otp.split('');
         for (let i = 0; i < digits.length; i++) {
             const field = await $(`~~delete-account-otp-input-${i}`);
-            await field.waitForDisplayed({ timeout: 300 });
             await field.setValue(digits[i]);
         }
     }

@@ -1,7 +1,7 @@
-import LanguagePage from '../pages/LanguagePage.js';
-import LoginPage from '../pages/LoginPage.js';
-import loginData from '../fixtures/Login/login.json' with { type: 'json' };
-import { handleSystemPermissions } from '../utils/CustomCommands.js';
+import LanguagePage from '../page-objects/language.page.js';
+import LoginPage from '../page-objects/login.page.js';
+import loginData from '../test-data/login.data.json' with { type: 'json' };
+import { handleSystemPermissions } from './custom-commands.js';
 
 export async function loginAs(persona) {
     const data = loginData[persona];

@@ -6,7 +6,11 @@ const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
-
+export async function waitForVisible(selector, timeout = 5000) {
+  const el = await $(selector);
+  await el.waitForDisplayed({ timeout });
+  return el;
+}
 /* =====================================================
    OVERWRITE $
 ===================================================== */

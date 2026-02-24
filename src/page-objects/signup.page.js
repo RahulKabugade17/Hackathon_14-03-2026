@@ -1,11 +1,11 @@
-import LoginPage from './LoginPage.js';
-import ProfileDetailsPage from './ProfileDetailsPage.js';
-import LocationPage from './LocationPage.js';
-import PanKycPage from './PanKycPage.js';
-import BankKycPage from './BankKycPage.js';
-import BankAccountPage from './Bankaccountpage.js';
-import signupData from '../fixtures/Sign Up/signup.json' with { type: 'json' };
-import kycData from '../fixtures/Sign Up/kyc.json' with { type: 'json' };
+import LoginPage from './login.page.js';
+import ProfileDetailsPage from './profile.page.js';
+import LocationPage from './location.page.js';
+import PanKycPage from './pankyc.page.js';
+import BankKycPage from './bankupi.page.js';
+import BankAccountPage from './bank-account.page.js';
+import signupData from '../test-data/signup.data.json' with { type: 'json' };
+import kycData from '../test-data/kyc.data.json' with { type: 'json' };
 
 export async function signupAs(persona) {
     const signup = signupData[persona];

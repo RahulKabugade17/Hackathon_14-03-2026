@@ -1,4 +1,4 @@
-import { waitAndClick } from '../utils/CustomCommands.js';
+import { waitAndClick } from '../utils/custom-commands.js';
 
 class LocationPage {
     selectors = {

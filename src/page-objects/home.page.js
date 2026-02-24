@@ -1,5 +1,4 @@
-import { waitAndClick } from '../utils/CustomCommands.js';
-
+import { waitAndClick, waitForVisible } from '../utils/custom-commands.js';
 class HomePage {
     selectors = {
         tooltipTitle: '~topcard-opus-id-tooltip-title',
@@ -26,10 +25,10 @@ class HomePage {
     }
     async verifyHomePageLoaded() {
         await Promise.race([
-            $(this.selectors.tooltipTitle).waitForDisplayed({ timeout: 5000 }),
-            $(this.selectors.icToggleSwitchTooltipTitle).waitForDisplayed({ timeout: 5000 }),
-            $(this.selectors.icOpusIdTooltipTitle).waitForDisplayed({ timeout: 5000 })
-        ])
+            waitForVisible(this.selectors.tooltipTitle),
+            waitForVisible(this.selectors.icToggleSwitchTooltipTitle),
+            waitForVisible(this.selectors.icOpusIdTooltipTitle)
+        ]);
         await this.skipOnboarding();
     }
 }

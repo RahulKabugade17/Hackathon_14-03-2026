@@ -1,4 +1,4 @@
-import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/CustomCommands.js';
+import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/custom-commands.js';
 
 class ProfileDetailsPage {
     selectors = {

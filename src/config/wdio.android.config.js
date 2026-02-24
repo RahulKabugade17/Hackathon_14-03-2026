@@ -73,7 +73,7 @@ export const config = {
 
     cucumberOpts: {
         require: [
-            path.resolve(__dirname, '../stepDefinitions/**/*.js')
+            path.resolve(__dirname, '../step-definitions/**/*.js')
         ],
         timeout: 120000,
         scenarioLevelReporter: true,
