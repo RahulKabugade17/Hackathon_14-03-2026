@@ -4,17 +4,10 @@ import { execSync } from 'child_process';
 
 class DeleteAccountPage {
     selectors = {
-        deleteAccountClickHere: {
-            droid: [
-                '~~delete-account-click-here',
-                'android=new UiSelector().description("delete-account-click-here")',
-                '//android.widget.TextView[contains(@text,"delete your Opus ID")]',
-                '//android.widget.TextView[contains(@text,"click here")]'
-            ]
-        },
-        deleteAnywayButton: { droid: '~~delete-account-confirm-button' },
-        deleteOtpInput0: { droid: '~~delete-account-otp-input-0' },
-        deleteAccountSubmit: { droid: '~~delete-account-otp-submit-button' }
+        deleteAccountClickHere: '~~delete-account-click-here',
+        deleteAnywayButton: '~~delete-account-confirm-button',
+        deleteOtpInput0: '~~delete-account-otp-input-0',
+        deleteAccountSubmit: '~~delete-account-otp-submit-button'
     };
 
     async enterOtp(otp) {
