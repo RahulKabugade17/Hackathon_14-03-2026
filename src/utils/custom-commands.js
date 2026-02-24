@@ -7,14 +7,11 @@ const platformKeyMap = {
   ios: 'ios'
 };
 export async function waitForVisible(selector, timeout = 5000) {
-  const el = await $(selector);
-  await el.waitForDisplayed({ timeout });
-  return el;
+  return waitAndFindElement(selector, timeout);
 }
 /* =====================================================
    OVERWRITE $
 ===================================================== */
-
 browser.overwriteCommand('$', async (original$, selector) => {
   if (!selector) {
     throw new Error('❌ $ called with undefined selector');
@@ -125,7 +122,12 @@ export async function waitForElementVisible(selector, timeout = 15000) {
 
 export async function waitAndClick(selector, timeout = 15000) {
   const el = await waitAndFindElement(selector, timeout);
-  await el.click();
+  try {
+    await el.click();
+  } catch (err) {
+    await driver.pause(300);
+    await el.click();
+  }
 }
 
 export async function setValueFast(selector, value) {

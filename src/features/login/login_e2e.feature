@@ -1,5 +1,5 @@
 @login
-Feature: Login works for all personas
+Feature: Login functionality for all personas
 
   Scenario Outline: Login validation - <persona>
     Given I am logged in as "<persona>"

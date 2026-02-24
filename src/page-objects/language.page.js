@@ -12,7 +12,7 @@ class LanguagePage {
         }
     };
 
-    async selectEnglish() {
+    async selectEnglishLanguage() {
         await waitAndClick(this.selectors.englishOption);
         await waitAndClick(this.selectors.selectLanguageButton);
     }

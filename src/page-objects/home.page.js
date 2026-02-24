@@ -20,7 +20,7 @@ class HomePage {
             }
         }
     }
-    async ClickOnProfileSection() {
+    async clickOnProfileSection() {
         await waitAndClick(this.selectors.profileSection);
     }
     async verifyHomePageLoaded() {

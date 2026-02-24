@@ -7,6 +7,6 @@ Given('I am logged in as {string}', async function (persona) {
     await loginAs(persona);
 });
 
-Then('I should see the dashboard', async () => {
+Then('I should see the dashboard', async function () {
     await HomePage.verifyHomePageLoaded();
 });

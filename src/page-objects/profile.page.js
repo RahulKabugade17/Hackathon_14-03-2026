@@ -66,7 +66,7 @@ class ProfileDetailsPage {
         await waitAndClick(this.selectors.finishButton);
     }
 
-    async openProfileDetailsStep() {
+    async openProfileDetails() {
         await waitAndClick(this.selectors.profileDetailsStep);
     }
 

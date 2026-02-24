@@ -4,14 +4,14 @@ import LocationPage from './location.page.js';
 import PanKycPage from './pankyc.page.js';
 import BankKycPage from './bankupi.page.js';
 import BankAccountPage from './bank-account.page.js';
-import signupData from '../test-data/signup.data.json' with { type: 'json' };
-import kycData from '../test-data/kyc.data.json' with { type: 'json' };
+import signupData from '../test-data/signup.data.json';
+import kycData from '../test-data/kyc.data.json';
 
 export async function signupAs(persona) {
     const signup = signupData[persona];
     await LoginPage.login(signup.mobileNumber, signup.otp);
     await LoginPage.handleOverlays();
-    await ProfileDetailsPage.openProfileDetailsStep();
+    await ProfileDetailsPage.openProfileDetails();
     switch (persona) {
         case 'painter':
             await ProfileDetailsPage.selectPainterPersona();

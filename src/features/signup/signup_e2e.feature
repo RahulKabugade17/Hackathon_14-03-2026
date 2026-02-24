@@ -1,7 +1,7 @@
-@E2E @Signup
-Feature: User registration
+@e2e @signup
+Feature: Validate user registration
 
-  Scenario Outline: New user registration - <persona>
+  Scenario Outline: Validate signup for <persona>
     Given I am registered as "<persona>"
     Then I should land on the home dashboard
 

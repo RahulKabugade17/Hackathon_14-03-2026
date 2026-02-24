@@ -46,7 +46,7 @@ class LoginPage {
         await clickAndType(this.selectors.otpField0, otp);
     }
 
-    async clickConfirmLocationButton() {
+    async confirmLocation() {
         await waitAndClick(this.selectors.confirmLocationButton);
     }
 

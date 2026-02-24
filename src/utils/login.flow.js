@@ -5,10 +5,10 @@ import { handleSystemPermissions } from './custom-commands.js';
 
 export async function loginAs(persona) {
     const data = loginData[persona];
-    await LanguagePage.selectEnglish();
+    await LanguagePage.selectEnglishLanguage();
     await handleSystemPermissions();
     await LoginPage.login(data.mobileNumber, data.otp);
     if (persona === 'trade_contractor') {
-        await LoginPage.clickConfirmLocationButton();
+        await LoginPage.confirmLocation();
     }
 }

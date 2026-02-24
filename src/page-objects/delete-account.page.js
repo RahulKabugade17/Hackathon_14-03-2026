@@ -58,7 +58,7 @@ class DeleteAccountPage {
 
     async completeDeleteInWeb(url) {
         const { chromium } = await import('playwright');
-        const browser = await chromium.launch({ headless: false });
+        const browser = await chromium.launch({ headless: process.env.CI ? true : false });
         const page = await browser.newPage();
         await page.goto(url);
         await page.getByText(/I understand/i).click();
