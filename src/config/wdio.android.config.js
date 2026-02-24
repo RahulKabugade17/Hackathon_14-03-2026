@@ -33,6 +33,7 @@ export const config = {
         platformName: 'Android',
         'appium:platformVersion': deviceVersion,
         'appium:deviceName': deviceName,
+        'appium:udid': deviceName,
         'appium:automationName': 'UiAutomator2',
         'appium:app': appPath,
         'appium:autoGrantPermissions': true,
@@ -40,11 +41,13 @@ export const config = {
         'appium:noReset': false,
         'appium:fullReset': false,
         'appium:newCommandTimeout': 600,
-        'appium:adbExecTimeout': 120000,
+        'appium:adbExecTimeout': 200000,
         'appium:uiautomator2ServerInstallTimeout': 60000,
-        'wdio:allowInsecure': ['adb_shell'],
+        'appium:allowInsecure': ['adb_shell'],
         'appium:appPackage': 'com.birlaopusid.contractorportal.uat',
         'appium:appActivity': 'com.birlaopusid.contractorportal.MainActivity',
+        'appium:chromedriverAutodownload': true,
+        'appium:autoWebviewTimeout': 20000,
         'appium:appWaitActivity': '*'
     }],
 

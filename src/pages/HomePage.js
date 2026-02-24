@@ -1,3 +1,5 @@
+import { waitAndClick } from '../utils/CustomCommands.js';
+
 class HomePage {
     selectors = {
         tooltipTitle: '~topcard-opus-id-tooltip-title',
@@ -7,7 +9,8 @@ class HomePage {
             '~topcard-opus-id-tooltip-skip-button',
             '~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
-        ]
+        ],
+        profileSection: { droid: '~user-type-complete-kyc' }
     };
     async skipOnboarding() {
         for (const selector of this.selectors.onboardingSkipButtons) {
@@ -18,6 +21,9 @@ class HomePage {
             }
         }
     }
+    async ClickOnProfileSection() {
+        await waitAndClick(this.selectors.profileSection);
+    }
     async verifyHomePageLoaded() {
         await Promise.race([
             $(this.selectors.tooltipTitle).waitForDisplayed({ timeout: 5000 }),
@@ -25,6 +31,7 @@ class HomePage {
             $(this.selectors.icOpusIdTooltipTitle).waitForDisplayed({ timeout: 5000 })
         ])
         await this.skipOnboarding();
+        await this.ClickOnProfileSection();
     }
 }
 export default new HomePage();

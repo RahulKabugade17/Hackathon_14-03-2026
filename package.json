@@ -25,6 +25,7 @@
     "appium-xcuitest-driver": "^9.10.5",
     "eslint": "^10.0.1",
     "globals": "^17.3.0",
+    "playwright": "^1.58.2",
     "webdriverio": "^9.19.1"
   },
   "dependencies": {
