@@ -68,7 +68,7 @@ export const config = {
 
     cucumberOpts: {
         require: [
-            './src/stepDefinitions/**/*.js'
+            './src/step-definitions/**/*.js'
         ],
         timeout: 120000,
         scenarioLevelReporter: true,
