@@ -45,6 +45,15 @@ class DeleteAccountPage {
         if (!webview) throw new Error('❌ WebView not found');
         await driver.switchContext(webview);
     }
+    async verifyDeletionSuccess(page) {
+        try {
+            await page.waitForSelector(
+                'text=/deleted successfully|account deleted|successfully removed/i',
+                { timeout: 20000 }
+            );
+            return;
+        } catch { }
+    }
 
     async completeDeleteInWeb(url) {
         const { chromium } = await import('playwright');
@@ -52,8 +61,14 @@ class DeleteAccountPage {
         const page = await browser.newPage();
         await page.goto(url);
         await page.getByText(/I understand/i).click();
-        await page.getByRole('button', { name: /Delete Account/i }).waitFor({ state: 'visible', timeout: 15000 });
-        await page.getByRole('button', { name: /Delete Account/i }).click();
+        const deleteBtn = page.getByRole('button', { name: /Delete Account/i });
+        await deleteBtn.waitFor({ state: 'visible', timeout: 15000 });
+        await Promise.all([
+            page.waitForLoadState('networkidle'),
+            deleteBtn.click()
+        ]);
+        await this.verifyDeletionSuccess(page);
+
     }
 
     async deleteAccount(otp) {
