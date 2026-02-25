@@ -18,14 +18,6 @@ class DeleteAccountPage {
         }
     }
 
-    async clearDeviceLogs() {
-        try {
-            await driver.execute('mobile: shell', { command: 'logcat', args: ['-c'] });
-        } catch {
-            console.log('⚠️ Unable to clear logcat');
-        }
-    }
-
     async extractDeleteUrl() {
         await driver.pause(2500);
         try {
@@ -41,10 +33,8 @@ class DeleteAccountPage {
             const match = line.match(/https?:\/\/[^\s'"]+/i);
             const url = match?.[0]?.trim();
             if (!url) return null;
-            console.log(`[${udid}] Delete_account_web_url: ${url}`);
             return (global.DELETE_URL = url);
         } catch {
-            console.log('❌ Delete URL extraction failed');
             return null;
         }
     }
@@ -58,18 +48,16 @@ class DeleteAccountPage {
 
     async completeDeleteInWeb(url) {
         const { chromium } = await import('playwright');
-        const browser = await chromium.launch({ headless: process.env.CI ? true : false });
+        const browser = await chromium.launch({ headless: !!process.env.CI });
         const page = await browser.newPage();
         await page.goto(url);
         await page.getByText(/I understand/i).click();
         await page.getByRole('button', { name: /Delete Account/i }).waitFor({ state: 'visible', timeout: 15000 });
         await page.getByRole('button', { name: /Delete Account/i }).click();
-        await browser.close();
     }
 
     async deleteAccount(otp) {
         for (let i = 0; i < 2; i++) await Gestures.swipeUp(0.6);
-        await this.clearDeviceLogs();
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);
         await waitForElementVisible(this.selectors.deleteOtpInput0, 30000);
