@@ -1,4 +1,4 @@
-import { waitAndClick } from '../utils/CustomCommands.js';
+import { waitAndClick } from '../utils/custom-commands.js';
 
 class LanguagePage {
     selectors = {
@@ -12,7 +12,7 @@ class LanguagePage {
         }
     };
 
-    async selectEnglish() {
+    async selectEnglishLanguage() {
         await waitAndClick(this.selectors.englishOption);
         await waitAndClick(this.selectors.selectLanguageButton);
     }

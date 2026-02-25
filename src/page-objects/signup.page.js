@@ -1,0 +1,33 @@
+import LoginPage from './login.page.js';
+import ProfileDetailsPage from './profile.page.js';
+import LocationPage from './location.page.js';
+import PanKycPage from './pankyc.page.js';
+import BankKycPage from './bankupi.page.js';
+import BankAccountPage from './bank-account.page.js';
+import signupData from '../test-data/signup.data.json';
+import kycData from '../test-data/kyc.data.json';
+
+export async function signupAs(persona) {
+    const signup = signupData[persona];
+    await LoginPage.login(signup.mobileNumber, signup.otp);
+    await LoginPage.handleOverlays();
+    await ProfileDetailsPage.openProfileDetails();
+    switch (persona) {
+        case 'painter':
+            await ProfileDetailsPage.selectPainterPersona();
+            await ProfileDetailsPage.addContractorDetails(signup.contractorMobileNumber);
+            await LocationPage.selectLocation(signupData.defaultLocation);
+            await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName);
+            await PanKycPage.verifyPan(kycData.pan);
+            await BankAccountPage.verifyBankDetails(kycData.account_number, kycData.ifsc_code);
+            break;
+        case 'contractor':
+            await ProfileDetailsPage.selectContractorPersona();
+            await LocationPage.selectLocation(signupData.defaultLocation);
+            await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName);
+            await PanKycPage.verifyPan(kycData.pan);
+            await BankKycPage.verifyBank(kycData.upi);
+            break;
+    }
+    await ProfileDetailsPage.skipToHome();
+}

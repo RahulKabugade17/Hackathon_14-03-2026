@@ -1,10 +1,10 @@
 {
-  "contractor": {
-    "mobileNumber": "8200589287",
-    "otp": "123456"
-  },
   "painter": {
     "mobileNumber": "6958741230",
+    "otp": "123456"
+  },
+  "contractor": {
+    "mobileNumber": "8200589287",
     "otp": "123456"
   },
   "trade_contractor": {

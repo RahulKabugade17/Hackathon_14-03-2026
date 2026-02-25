@@ -1,0 +1,27 @@
+{
+    "contractor": {
+        "mobileNumber": "8382838286",
+        "otp": "123456",
+        "firstName": "Test",
+        "lastName": "Contractor"
+    },
+    "painter": {
+        "mobileNumber": "8382838289",
+        "otp": "123456",
+        "contractorMobileNumber": "8200589287",
+        "firstName": "Test",
+        "lastName": "Painter"
+    },
+    "defaultLocation": {
+        "state": "Andhra Pradesh",
+        "area": "Anantapur",
+        "district": "Anantapur",
+        "pincode": "515001"
+    },
+    "gujaratLocation": {
+        "state": "Gujarat",
+        "area": "Surat",
+        "district": "Surat",
+        "pincode": "395007"
+    }
+}

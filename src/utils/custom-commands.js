@@ -6,11 +6,12 @@ const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
-
+export async function waitForVisible(selector, timeout = 5000) {
+  return waitAndFindElement(selector, timeout);
+}
 /* =====================================================
    OVERWRITE $
 ===================================================== */
-
 browser.overwriteCommand('$', async (original$, selector) => {
   if (!selector) {
     throw new Error('❌ $ called with undefined selector');
@@ -121,7 +122,12 @@ export async function waitForElementVisible(selector, timeout = 15000) {
 
 export async function waitAndClick(selector, timeout = 15000) {
   const el = await waitAndFindElement(selector, timeout);
-  await el.click();
+  try {
+    await el.click();
+  } catch (err) {
+    await driver.pause(300);
+    await el.click();
+  }
 }
 
 export async function setValueFast(selector, value) {
@@ -150,7 +156,7 @@ export async function clickIfPresent(selector, timeout = 2000) {
    SYSTEM PERMISSIONS (ANDROID)
 ===================================================== */
 
-export async function handleSystemPermissions(timeout = 3000) {
+export async function handleSystemPermissions(timeout = 5000) {
   const permissionButtons = [
     'id=com.android.permissioncontroller:id/permission_allow_button',
     'id=com.android.permissioncontroller:id/permission_allow_foreground_only_button',

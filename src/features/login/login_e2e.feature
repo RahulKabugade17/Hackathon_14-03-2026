@@ -1,5 +1,5 @@
-@smoke @login
-Feature: Login works for all personas
+@login
+Feature: Login functionality for all personas
 
   Scenario Outline: Login validation - <persona>
     Given I am logged in as "<persona>"
@@ -7,7 +7,7 @@ Feature: Login works for all personas
     Then I should be able to sign out as "<persona>"
 
     Examples:
-      | persona                  |
+      | persona                  | 
       | painter                  |
       | contractor               |
       | trade_contractor         |

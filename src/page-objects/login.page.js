@@ -1,4 +1,4 @@
-import { waitAndClick, waitForElementVisible, setValueFast, clickAndType, handleSystemPermissions } from '../utils/CustomCommands.js';
+import { waitAndClick, waitForElementVisible, setValueFast, clickAndType, handleSystemPermissions } from '../utils/custom-commands.js';
 
 class LoginPage {
 
@@ -46,15 +46,16 @@ class LoginPage {
         await clickAndType(this.selectors.otpField0, otp);
     }
 
-    async clickConfirmLocationButton() {
+    async confirmLocation() {
         await waitAndClick(this.selectors.confirmLocationButton);
     }
 
     async handleOverlays() {
         await handleSystemPermissions();
         await waitAndClick(this.selectors.referralSkip);
-        await waitAndClick(this.selectors.onboardingNext);
-        await waitAndClick(this.selectors.onboardingNext);
+        for (let i = 0; i < 2; i++) {
+            await waitAndClick(this.selectors.onboardingNext);
+        }
         await waitAndClick(this.selectors.onboardingSkip);
     }
 }
