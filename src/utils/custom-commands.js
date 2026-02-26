@@ -166,25 +166,25 @@ export async function handleSystemPermissions(timeout = 5000) {
   ];
 
   const endTime = Date.now() + timeout;
-
+  let anyHandled = false;
   while (Date.now() < endTime) {
-    let handled = false;
-
+    let handledThisRound = false;
     for (const selector of permissionButtons) {
       try {
         const el = await $(selector);
         if (await el.isDisplayed()) {
           await el.click();
-          handled = true;
-          await driver.pause(500);
+          anyHandled = true;
+          handledThisRound = true;
+          await driver.pause(600);
           break;
         }
-      } catch {
-        // ignore
-      }
+      } catch { }
     }
-
-    if (!handled) {
+    if (!handledThisRound && !anyHandled) {
+      break;
+    }
+    if (!handledThisRound) {
       await driver.pause(300);
     }
   }

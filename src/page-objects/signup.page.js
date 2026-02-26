@@ -17,14 +17,16 @@ export async function signupAs(persona) {
             await ProfileDetailsPage.selectPainterPersona();
             await ProfileDetailsPage.addContractorDetails(signup.contractorMobileNumber);
             await LocationPage.selectLocation(signupData.defaultLocation);
-            await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName);
+            await ProfileDetailsPage.uploadProfileImage();
+            await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName, signup.email);
             await PanKycPage.verifyPan(kycData.pan);
             await BankAccountPage.verifyBankDetails(kycData.account_number, kycData.ifsc_code);
             break;
         case 'contractor':
             await ProfileDetailsPage.selectContractorPersona();
             await LocationPage.selectLocation(signupData.defaultLocation);
-            await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName);
+            await ProfileDetailsPage.uploadProfileImage();
+            await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName, signup.email);
             await PanKycPage.verifyPan(kycData.pan);
             await BankKycPage.verifyBank(kycData.upi);
             break;
