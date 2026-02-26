@@ -7,13 +7,17 @@ class LocationPage {
         districtDropdown: { droid: '~~location-district-dropdown', ios: '' },
         pincodeDropdown: { droid: '~~location-pincode-dropdown', ios: '' },
         nextButton: { droid: '~~location-next-button', ios: '' },
-        confirmButton: { droid: '~~confirm-location-confirm-button', ios: '' }
+        confirmButton: { droid: '~~confirm-location-confirm-button', ios: '' },
+        currentlocation: { droid: '~~location-use-current-button', ios: '' }
     };
     getDropdownOption(value) {
         return {
             droid: `~~dropdown-item-${value.trim()}`,
             ios: ''
         };
+    }
+    async selectcurrentlocation() {
+        await waitAndClick(this.selectors.currentlocation);
     }
 
     async selectLocation(locationData) {

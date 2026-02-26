@@ -9,3 +9,5 @@ Feature: Validate user registration
       | persona     |
       | painter     |
       | contractor  |
+      | painter-no-kyc     |
+      | contractor-no-kyc  |
