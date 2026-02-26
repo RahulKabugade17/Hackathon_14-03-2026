@@ -3,14 +3,16 @@
         "mobileNumber": "8382838286",
         "otp": "123456",
         "firstName": "Test",
-        "lastName": "Contractor"
+        "lastName": "Contractor",
+        "email": "test@gmail.com"
     },
     "painter": {
-        "mobileNumber": "8382838289",
+        "mobileNumber": "7121212127",
         "otp": "123456",
         "contractorMobileNumber": "8200589287",
         "firstName": "Test",
-        "lastName": "Painter"
+        "lastName": "Painter",
+        "email": "test@gmail.com"
     },
     "defaultLocation": {
         "state": "Andhra Pradesh",
