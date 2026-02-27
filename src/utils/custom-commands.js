@@ -6,7 +6,7 @@ const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
-export async function waitForVisible(selector, timeout = 5000) {
+export async function waitForVisible(selector, timeout = 7000) {
   return waitAndFindElement(selector, timeout);
 }
 /* =====================================================
@@ -156,7 +156,7 @@ export async function clickIfPresent(selector, timeout = 2000) {
    SYSTEM PERMISSIONS (ANDROID)
 ===================================================== */
 
-export async function handleSystemPermissions(timeout = 5000) {
+export async function handleSystemPermissions(timeout = 7000) {
   const permissionButtons = [
     'id=com.android.permissioncontroller:id/permission_allow_button',
     'id=com.android.permissioncontroller:id/permission_allow_foreground_only_button',

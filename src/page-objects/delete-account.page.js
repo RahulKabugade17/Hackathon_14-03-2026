@@ -38,7 +38,6 @@ class DeleteAccountPage {
             return null;
         }
     }
-
     async switchToWebView() {
         await driver.pause(3000);
         const webview = (await driver.getContexts()).find(c => c.includes('WEBVIEW'));
@@ -72,6 +71,7 @@ class DeleteAccountPage {
     }
 
     async deleteAccount(otp) {
+        execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
         for (let i = 0; i < 2; i++) await Gestures.swipeUp(0.6);
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);

@@ -18,6 +18,8 @@ class LocationPage {
     }
     async selectcurrentlocation() {
         await waitAndClick(this.selectors.currentlocation);
+        await waitAndClick(this.selectors.nextButton);
+        await waitAndClick(this.selectors.confirmButton);
     }
 
     async selectLocation(locationData) {
