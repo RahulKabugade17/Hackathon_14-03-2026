@@ -67,7 +67,7 @@ class DeleteAccountPage {
             deleteBtn.click()
         ]);
         await this.verifyDeletionSuccess(page);
-
+        await browser.close();
     }
 
     async deleteAccount(otp) {
