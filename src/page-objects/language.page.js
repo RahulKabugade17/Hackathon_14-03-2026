@@ -2,14 +2,8 @@ import { waitAndClick } from '../utils/custom-commands.js';
 
 class LanguagePage {
     selectors = {
-        englishOption: {
-            droid: '~~select-language-item-en',
-            ios: ''
-        },
-        selectLanguageButton: {
-            droid: '~~select-language-button',
-            ios: ''
-        }
+        englishOption: { droid: '~~select-language-item-en', ios: '' },
+        selectLanguageButton: { droid: '~~select-language-button', ios: '' }
     };
 
     async selectEnglishLanguage() {

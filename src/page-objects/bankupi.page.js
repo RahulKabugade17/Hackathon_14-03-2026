@@ -2,22 +2,10 @@ import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/cust
 
 class BankKycPage {
     selectors = {
-        bankStep: {
-            droid: '~~required-step-item-0',
-            ios: ''
-        },
-        upiInput: {
-            droid: '~~upi-details-upi-id-input',
-            ios: ''
-        },
-        nextButton: {
-            droid: '~~upi-details-next-button',
-            ios: ''
-        },
-        addButton: {
-            droid: '~~confirm-upi-add-button',
-            ios: ''
-        }
+        bankStep: { droid: '~~required-step-item-0', ios: '' },
+        upiInput: { droid: '~~upi-details-upi-id-input', ios: '' },
+        nextButton: { droid: '~~upi-details-next-button', ios: '' },
+        addButton: { droid: '~~confirm-upi-add-button', ios: '' }
     };
 
     async verifyBank(upi) {

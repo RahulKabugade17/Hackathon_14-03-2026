@@ -11,10 +11,7 @@ class LocationPage {
         currentlocation: { droid: '~~location-use-current-button', ios: '' }
     };
     getDropdownOption(value) {
-        return {
-            droid: `~~dropdown-item-${value.trim()}`,
-            ios: ''
-        };
+        return { droid: `~~dropdown-item-${value.trim()}`, ios: '' };
     }
     async selectcurrentlocation() {
         await waitAndClick(this.selectors.currentlocation);

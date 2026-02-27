@@ -67,6 +67,7 @@ class DeleteAccountPage {
             deleteBtn.click()
         ]);
         await this.verifyDeletionSuccess(page);
+        await page.waitForTimeout(1000);
         await browser.close();
     }
 
