@@ -28,28 +28,26 @@ class AboutProgramPage {
         icMyProjectsTooltipSubmitButton: {
             droid: '~ic-my-projects-tooltip-submit-button',
             ios: ''
-        },
+        }
     };
 
     async expandAboutProgram() {
         await waitAndClick(this.selectors.aboutProgramExpand);
     }
 
-    async clickAboutProgramMenu(menuItem) {
-        await waitAndClick(this.selectors.menuItems[menuItem]);
-    }
-
     async clickHeaderBackButton() {
         await waitAndClick(this.selectors.headerBackButton);
     }
 
-    async verifyPageHeader(menuItem) {
-        const header = await $(`android=new UiSelector().text("${menuItem}")`);
-        const actualText = await header.getText();
-        expect(actualText).toEqual(menuItem);
-    }
     async openDrawerMenu() {
         await waitAndClick(this.selectors.openDrawerMenu);
+    }
+
+    async verifyPageHeader(menuItem) {
+        const header = await $(`//*[@text="${menuItem}"]`);
+        await header.waitForDisplayed({ timeout: 10000 });
+        const actualText = await header.getText();
+        expect(actualText).toEqual(menuItem);
     }
 
     async handleTooltips() {
@@ -59,9 +57,15 @@ class AboutProgramPage {
             this.selectors.myProjectsTooltipSubmitButton,
             this.selectors.icMyProjectsTooltipSubmitButton
         ];
-        for (let i = 0; i < 2; i++) {
+        let tooltipFound = true;
+        while (tooltipFound) {
+            tooltipFound = false;
             for (const selector of tooltipSelectors) {
-                await clickIfPresent(selector);
+                const clicked = await clickIfPresent(selector);
+                if (clicked) {
+                    tooltipFound = true;
+                    break;
+                }
             }
         }
     }
@@ -71,18 +75,12 @@ class AboutProgramPage {
         await this.handleTooltips();
         await this.expandAboutProgram();
         for (const [menuItem, selector] of Object.entries(this.selectors.menuItems)) {
-            try {
-                const el = await $(selector);
-                if (!(await el.isExisting())) {
-                    continue;
-                }
-                await waitAndClick(selector);
-                await this.verifyPageHeader(menuItem);
-                await this.clickHeaderBackButton();
-                await driver.pause(500);
-
-            } catch (err) {
-            }
+            const el = await $(selector);
+            if (!(await el.isExisting())) continue;
+            await waitAndClick(selector);
+            await this.verifyPageHeader(menuItem);
+            await this.clickHeaderBackButton();
+            await driver.pause(500);
         }
     }
 }
