@@ -7,6 +7,7 @@ import BankAccountPage from './bank-account.page.js';
 import signupData from '../test-data/signup.data.json';
 import kycData from '../test-data/kyc.data.json';
 import LanguagePage from '../page-objects/language.page.js';
+import Gestures from '../utils/gestures.js';
 import { handleSystemPermissions } from '../utils/custom-commands.js';
 
 export async function signupAs(persona) {
@@ -49,5 +50,6 @@ export async function signupAs(persona) {
             break;
 
     }
+    for (let i = 0; i < 2; i++) await Gestures.swipeUp(0.6);
     await ProfileDetailsPage.skipToHome();
 }
