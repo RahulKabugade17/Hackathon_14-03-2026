@@ -2,76 +2,24 @@ import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/cust
 
 class ProfileDetailsPage {
     selectors = {
-        contractorCard: {
-            droid: '~~usertype-select-contractor',
-            ios: ''
-        },
-        painterCard: {
-            droid: '~~usertype-select-painter',
-            ios: ''
-        },
-        firstNameInput: {
-            droid: '~~user-details-firstname-input',
-            ios: ''
-        },
-        lastNameInput: {
-            droid: '~~user-details-lastname-input',
-            ios: ''
-        },
-        finishButton: {
-            droid: '~~user-details-finish-button',
-            ios: ''
-        },
-        profileDetailsStep: {
-            droid: '~~required-step-item-0',
-            ios: ''
-        },
-        contractorPhoneInput: {
-            droid: '~~validate-mobile-phone-input',
-            ios: ''
-        },
-        contractorPhoneNextButton: {
-            droid: '~~validate-mobile-next-button',
-            ios: ''
-        },
-        contractorDetailsNextButton: {
-            droid: '~~contractor-details-next-button',
-            ios: ''
-        },
-        skipHomeButton: {
-            droid: '~~required-steps-skip-home-button',
-            ios: ''
-        },
-        emailInput: {
-            droid: '~~user-details-email-input',
-            ios: ''
-        },
-        profileImagePicker: {
-            droid: '~~user-details-profile-image-picker',
-            ios: ''
-        },
-        galleryButton: {
-            droid: '~~profile-image-gallery-button',
-            ios: ''
-        },
-        selectionOk: {
-            droid: 'android=new UiSelector().className("android.widget.Button").instance(6)',
-            ios: ''
-        },
-        cropbutton: {
-            droid: '~Crop',
-            ios: ''
-        },
-        dateofbirth: {
-            droid: '~~user-details-dob',
-            ios: ''
-        },
-        datepickerbutton: {
-            droid: '~~datepicker-ok-button',
-            ios: ''
-        },
-        galleryImages:
-            'android=new UiSelector().descriptionMatches("^Photo taken on.*")',
+        contractorCard: { droid: '~~usertype-select-contractor', ios: '' },
+        painterCard: { droid: '~~usertype-select-painter', ios: '' },
+        firstNameInput: { droid: '~~user-details-firstname-input', ios: '' },
+        lastNameInput: { droid: '~~user-details-lastname-input', ios: '' },
+        finishButton: { droid: '~~user-details-finish-button', ios: '' },
+        profileDetailsStep: { droid: '~~required-step-item-0', ios: '' },
+        contractorPhoneInput: { droid: '~~validate-mobile-phone-input', ios: '' },
+        contractorPhoneNextButton: { droid: '~~validate-mobile-next-button', ios: '' },
+        contractorDetailsNextButton: { droid: '~~contractor-details-next-button', ios: '' },
+        skipHomeButton: { droid: '~~required-steps-skip-home-button', ios: '' },
+        emailInput: { droid: '~~user-details-email-input', ios: '' },
+        profileImagePicker: { droid: '~~user-details-profile-image-picker', ios: '' },
+        galleryButton: { droid: '~~profile-image-gallery-button', ios: '' },
+        selectionOk: { droid: 'android=new UiSelector().className("android.widget.Button").instance(6)', ios: '' },
+        cropbutton: { droid: '~Crop', ios: '' },
+        dateofbirth: { droid: '~~user-details-dob', ios: '' },
+        datepickerbutton: { droid: '~~datepicker-ok-button', ios: '' },
+        galleryImages: 'android=new UiSelector().descriptionMatches("^Photo taken on.*")',
     };
 
     async selectContractorPersona() {
