@@ -15,3 +15,6 @@ COPY . .
 
 # Default command to run tests (can be overridden)
 CMD ["npm", "run", "android"]
+
+# Expose any necessary ports (if applicable)
+EXPOSE 4723
