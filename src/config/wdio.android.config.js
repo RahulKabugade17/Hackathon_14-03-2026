@@ -6,10 +6,10 @@ import os from 'os';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const appPath = path.resolve('apps/app-uat.apk');
+const appPath = path.resolve(__dirname, '../../apps/app-uat.apk');
 
-const deviceName = 'ZD222W38XD';
-const deviceVersion = '16.0';
+const deviceName = 'RZ8R91YMHJR';
+const deviceVersion = '12.0';
 
 export const config = {
     ...baseConfig,
@@ -80,3 +80,5 @@ export const config = {
         tagExpression: process.env.TAGS || ''
     }
 };
+
+export default config;

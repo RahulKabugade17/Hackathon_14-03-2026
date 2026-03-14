@@ -1,8 +1,8 @@
 import { baseConfig, logPath } from './wdio.base.config.js';
 import path from 'path';
 
-const relativePath = 'apps/DevServiceFoods.app';
-const absolutePath = path.resolve(relativePath);
+const relativePath = '../../apps/DevServiceFoods.app';
+const absolutePath = path.resolve(__dirname, relativePath);
 const host = 'localhost';
 const port = 4723;
 const deviceName = 'iPhone 16';
@@ -66,3 +66,5 @@ const iosConf = {
 };
 
 export const config = iosConf;
+
+export default config;
