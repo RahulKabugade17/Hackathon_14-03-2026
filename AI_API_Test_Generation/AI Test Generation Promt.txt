@@ -1,0 +1,25 @@
+You are an API testing expert.
+
+Analyze the following Postman API collection.
+
+Generate additional Postman test scripts for each API including:
+
+1. Positive tests
+2. Negative tests
+3. Missing parameter tests
+4. Invalid data tests
+5. Edge case tests
+6. Response validation tests
+
+Each test must use Postman test syntax:
+
+pm.test()
+
+Also include:
+
+- status code validation
+- response schema validation
+- response time validation
+- required field validation
+
+Return the tests in JavaScript format so they can be pasted directly into Postman "Tests" tab.

@@ -1,0 +1,54 @@
+You are a performance testing expert.
+
+Generate a fully functional Apache JMeter JMX file.
+
+Requirements:
+
+Base URL:
+https://api.escuelajs.co
+
+Create a Thread Group with:
+- 10 users
+- Ramp-up: 5 seconds
+- Loop count: 1
+
+APIs flow:
+
+1) POST api/v1/auth/login
+Body:
+{
+ "email": "john@mail.com",
+ "password": "changeme"
+}
+
+Extract token from JSON response using JSON Extractor:
+token → variable name: access_token
+
+2) GET /api/v1/auth/profile
+Header:
+Authorization: Bearer ${access_token}
+
+Extract user id from response:
+data[0].id → variable name: id 
+
+3) GET /api/users/${id} 
+
+
+
+JMX Requirements:
+
+- Include HTTP Request Defaults
+- Include JSON Extractors for access_token and id 
+- Maintain request chaining
+- Include listeners:
+   View Results Tree
+   Summary Report
+   Aggregate Report
+   Graph Results
+
+The JMX must:
+- Run without manual editing
+- Be directly importable into JMeter
+- Execute successfully
+
+Give me ready to use downloadable jmx file.

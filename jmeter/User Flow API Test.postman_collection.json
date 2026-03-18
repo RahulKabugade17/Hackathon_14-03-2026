@@ -1,0 +1,204 @@
+{
+  "info": {
+    "_postman_id": "bd73de4b-3ecc-484a-971c-8782bea1ba85",
+    "name": "User Flow API Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53193482",
+    "_collection_link": "https://go.postman.co/collection/53193482-bd73de4b-3ecc-484a-971c-8782bea1ba85?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"access_token\", jsonData.access_token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"john@mail.com\",\r\n  \"password\": \"changeme\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.escuelajs.co/api/v1/auth/login",
+          "protocol": "https",
+          "host": [
+            "api",
+            "escuelajs",
+            "co"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch User Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();\r",
+              "pm.collectionVariables.set(\"id\", jsonData.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.escuelajs.co/api/v1/auth/profile",
+          "protocol": "https",
+          "host": [
+            "api",
+            "escuelajs",
+            "co"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "profile"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// 1. Status code is 200\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// 2. Response has all required fields\r",
+              "pm.test(\"Response has all required fields\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.all.keys(\"id\", \"email\", \"password\", \"name\", \"role\", \"avatar\", \"creationAt\", \"updatedAt\");\r",
+              "});\r",
+              "\r",
+              "// 3. id is a number\r",
+              "pm.test(\"id is a number\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+              "});\r",
+              "\r",
+              "// 4. email is a string and contains \"@\"\r",
+              "pm.test(\"email is a string and contains '@'\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.email).to.be.a(\"string\");\r",
+              "    pm.expect(jsonData.email).to.include(\"@\");\r",
+              "});\r",
+              "\r",
+              "// 5. name is a non-empty string\r",
+              "pm.test(\"name is a non-empty string\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.name).to.be.a(\"string\").and.to.have.length.above(0);\r",
+              "});\r",
+              "\r",
+              "// 6. role is a string (e.g., \"customer\" or \"admin\")\r",
+              "pm.test(\"role is a string\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.role).to.be.a(\"string\");\r",
+              "});\r",
+              "\r",
+              "// 7. avatar is a string and starts with \"http\"\r",
+              "pm.test(\"avatar is a string and starts with 'http'\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.avatar).to.be.a(\"string\");\r",
+              "    pm.expect(jsonData.avatar).to.match(/^http/);\r",
+              "});\r",
+              "\r",
+              "// 8. creationAt and updatedAt are valid ISO date strings\r",
+              "pm.test(\"creationAt is a valid ISO date string\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.creationAt).to.be.a(\"string\");\r",
+              "    pm.expect(new Date(jsonData.creationAt).toISOString()).to.equal(jsonData.creationAt);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"updatedAt is a valid ISO date string\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.updatedAt).to.be.a(\"string\");\r",
+              "    pm.expect(new Date(jsonData.updatedAt).toISOString()).to.equal(jsonData.updatedAt);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.escuelajs.co/api/v1/users/{{id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "escuelajs",
+            "co"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "users",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "id",
+      "value": ""
+    }
+  ]
+}
