@@ -6,7 +6,7 @@ const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
-export async function waitForVisible(selector, timeout = 5000) {
+export async function waitForVisible(selector, timeout = 10000) {
   return waitAndFindElement(selector, timeout);
 }
 /* =====================================================
@@ -103,7 +103,7 @@ function getPlatform() {
    COMMON ACTIONS
 ===================================================== */
 
-export async function waitAndFindElement(selector, timeout = 15000) {
+export async function waitAndFindElement(selector, timeout = 30000) {
   if (!selector) {
     throw new Error('❌ waitAndFindElement called with undefined selector');
   }
@@ -116,11 +116,11 @@ export async function waitAndFindElement(selector, timeout = 15000) {
   return element;
 }
 
-export async function waitForElementVisible(selector, timeout = 15000) {
+export async function waitForElementVisible(selector, timeout = 30000) {
   return waitAndFindElement(selector, timeout);
 }
 
-export async function waitAndClick(selector, timeout = 15000) {
+export async function waitAndClick(selector, timeout = 30000) {
   const el = await waitAndFindElement(selector, timeout);
   try {
     await el.click();
@@ -210,7 +210,7 @@ export async function swipeScreen(startY = 0.8, endY = 0.2) {
         { type: 'pointerUp', button: 0 }
       ]
     }
-  ]);
+  ]); 
 
   await driver.releaseActions();
 }

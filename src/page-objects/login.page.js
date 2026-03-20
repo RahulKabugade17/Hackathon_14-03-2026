@@ -3,38 +3,14 @@ import { waitAndClick, waitForElementVisible, setValueFast, clickAndType, handle
 class LoginPage {
 
     selectors = {
-        mobileInput: {
-            droid: '~~signin-mobile-input',
-            ios: '',
-        },
-        termsCheckbox: {
-            droid: '~~signin-pressable-unique',
-            ios: '',
-        },
-        requestOtpButton: {
-            droid: '~~signin-submit-btn',
-            ios: '',
-        },
-        otpField0: {
-            droid: '~~otp-code-field-0',
-            ios: '',
-        },
-        confirmLocationButton: {
-            droid: '~~confirm-location-confirm-button',
-            ios: '',
-        },
-        referralSkip: {
-            droid: '~~referral-skip-button',
-            ios: ''
-        },
-        onboardingNext: {
-            droid: '~~onboarding-next-button',
-            ios: ''
-        },
-        onboardingSkip: {
-            droid: '~~onboarding-skip-button',
-            ios: ''
-        }
+        mobileInput: { droid: '~~signin-mobile-input', ios: '', },
+        termsCheckbox: { droid: '~~signin-pressable-unique', ios: '', },
+        requestOtpButton: { droid: '~~signin-submit-btn', ios: '', },
+        otpField0: { droid: '~~otp-code-field-0', ios: '', },
+        confirmLocationButton: { droid: '~~confirm-location-confirm-button', ios: '', },
+        referralSkip: { droid: '~~referral-skip-button', ios: '' },
+        onboardingNext: { droid: '~~onboarding-next-button', ios: '', },
+        onboardingSkip: { droid: '~~onboarding-skip-button', ios: '', }
     };
 
     async login(mobile, otp) {

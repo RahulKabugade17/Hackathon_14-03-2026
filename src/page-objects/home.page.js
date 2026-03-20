@@ -9,6 +9,7 @@ class HomePage {
             '~ic-toggle-switch-tooltip-skip-button',
             '~ic-opus-id-tooltip-skip-button'
         ],
+        completeKycButton: '~complete-kyc-arrow-button',
         profileSection: { droid: '~user-type-complete-kyc' }
     };
     async skipOnboarding() {
@@ -20,6 +21,11 @@ class HomePage {
             }
         }
     }
+
+    async clickCompleteKyc() {
+        await waitAndClick(this.selectors.completeKycButton);
+    }
+    
     async clickOnProfileSection() {
         await waitAndClick(this.selectors.profileSection);
     }

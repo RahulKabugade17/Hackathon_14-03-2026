@@ -1,77 +1,36 @@
-import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/custom-commands.js';
+import { setValueFast, waitAndClick, waitForElementVisible } from '../utils/custom-commands.js';
 
 class ProfileDetailsPage {
     selectors = {
-        contractorCard: {
-            droid: '~~usertype-select-contractor',
-            ios: ''
-        },
-        painterCard: {
-            droid: '~~usertype-select-painter',
-            ios: ''
-        },
-        firstNameInput: {
-            droid: '~~user-details-firstname-input',
-            ios: ''
-        },
-        lastNameInput: {
-            droid: '~~user-details-lastname-input',
-            ios: ''
-        },
-        finishButton: {
-            droid: '~~user-details-finish-button',
-            ios: ''
-        },
-        profileDetailsStep: {
-            droid: '~~required-step-item-0',
-            ios: ''
-        },
-        contractorPhoneInput: {
-            droid: '~~validate-mobile-phone-input',
-            ios: ''
-        },
-        contractorPhoneNextButton: {
-            droid: '~~validate-mobile-next-button',
-            ios: ''
-        },
-        contractorDetailsNextButton: {
-            droid: '~~contractor-details-next-button',
-            ios: ''
-        },
-        skipHomeButton: {
-            droid: '~~required-steps-skip-home-button',
-            ios: ''
-        },
-        emailInput: {
-            droid: '~~user-details-email-input',
-            ios: ''
-        },
-        profileImagePicker: {
-            droid: '~~user-details-profile-image-picker',
-            ios: ''
-        },
-        galleryButton: {
-            droid: '~~profile-image-gallery-button',
-            ios: ''
-        },
-        selectionOk: {
-            droid: 'android=new UiSelector().className("android.widget.Button").instance(6)',
-            ios: ''
-        },
-        cropbutton: {
-            droid: '~Crop',
-            ios: ''
-        },
-        dateofbirth: {
-            droid: '~~user-details-dob',
-            ios: ''
-        },
-        datepickerbutton: {
-            droid: '~~datepicker-ok-button',
-            ios: ''
-        },
-        galleryImages:
-            'android=new UiSelector().descriptionMatches("^Photo taken on.*")',
+        contractorCard: { droid: '~~usertype-select-contractor', ios: '' },
+        painterCard: { droid: '~~usertype-select-painter', ios: '' },
+        memberTypeTitle: 'android=new UiSelector().text("Member contractor")', 
+        kycDetailsButton: { droid: '~KYC Details', ios: '' },
+        shareIdButton: { droid: '~~card-view-share-button', ios: '' },
+        shareIdImage: { droid: '~Image', ios: '' },
+        shareIdPDF: { droid: '~PDF', ios: '' },
+        shareIdContact: { droid: '~Contact', ios: '' },
+        downloadIdButton: { droid: '~~card-view-download-button', ios: '' },
+        downloadIdImage: { droid: '~Image', ios: '' },
+        downloadIdPDF: { droid: '~PDF', ios: '' }, 
+        downloadIdContact: { droid: '~Contact', ios: '' },
+        firstNameInput: { droid: '~~user-details-firstname-input', ios: '' },
+        lastNameInput: { droid: '~~user-details-lastname-input', ios: '' },
+        finishButton: { droid: '~~user-details-finish-button', ios: '' },
+        profileDetailsStep: { droid: '~~required-step-item-0', ios: '' },
+        contractorPhoneInput: { droid: '~~validate-mobile-phone-input', ios: '' },
+        contractorPhoneNextButton: { droid: '~~validate-mobile-next-button', ios: '' },
+        contractorDetailsNextButton: { droid: '~~contractor-details-next-button', ios: '' },
+        skipHomeButton: { droid: '~~required-steps-skip-home-button', ios: '' },
+        emailInput: { droid: '~~user-details-email-input', ios: '' },
+        profileImagePicker: { droid: '~~user-details-profile-image-picker', ios: '' },
+        profileCompletePercentage: { droid: '~profile-picture-completion-percentage', ios: '' },
+        galleryButton: { droid: '~~profile-image-gallery-button', ios: '' },
+        selectionOk: { droid: 'android=new UiSelector().className("android.widget.Button").instance(6)', ios: '' },
+        cropbutton: { droid: '~Crop', ios: '' },
+        dateofbirth: { droid: '~~user-details-dob', ios: '' },
+        datepickerbutton: { droid: '~~datepicker-ok-button', ios: '' },
+        galleryImages: 'android=new UiSelector().descriptionMatches("^Photo taken on.*")'
     };
 
     async selectContractorPersona() {
@@ -82,6 +41,53 @@ class ProfileDetailsPage {
         await waitAndClick(this.selectors.painterCard);
     }
 
+    async verifyOpusIdCardDetails() {
+        await waitForElementVisible(this.selectors.memberTypeTitle);
+    }
+
+    async openKycDetails() {
+        await waitAndClick(this.selectors.kycDetailsButton);
+    }
+
+    async shareOpusId(option) {
+        await waitAndClick(this.selectors.shareIdButton);
+        switch (option) {
+            case 'Image':
+                await waitAndClick(this.selectors.shareIdImage);
+                await waitAndClick('android=new UiSelector().resourceId("android:id/icon").instance(5)');
+                await driver.back();
+                break;
+            case 'PDF':
+                await waitAndClick(this.selectors.shareIdPDF);
+                break;
+            case 'Contact':
+                await waitAndClick(this.selectors.shareIdContact);
+                break;
+            default:
+                throw new Error(`Unknown share option: ${option}`);
+        }
+    }
+
+    async downloadOpusId(option) {
+        await waitAndClick(this.selectors.downloadIdButton);
+        switch (option) {
+            case 'Image':
+                await waitAndClick(this.selectors.downloadIdImage);
+                await waitAndClick('~Open');
+                await waitAndClick('android=new UiSelector().resourceId("android:id/icon").instance(0)');
+                await waitAndClick('~Navigate up');
+                break;
+            case 'PDF':
+                await waitAndClick(this.selectors.downloadIdPDF);
+                break;
+            case 'Contact':
+                await waitAndClick(this.selectors.downloadIdContact);
+                break;
+            default:
+                throw new Error(`Unknown download option: ${option}`);
+        }
+    }  
+    
     async addContractorDetails(phone) {
         await waitForElementVisible(this.selectors.contractorPhoneInput);
         await setValueFast(this.selectors.contractorPhoneInput, phone);
@@ -89,7 +95,7 @@ class ProfileDetailsPage {
         await waitAndClick(this.selectors.contractorDetailsNextButton);
     }
     async uploadProfileImage() {
-        await waitAndClick(this.selectors.profileImagePicker);
+        await waitAndClick(this.selectors.profileCompletePercentage);
         await waitAndClick(this.selectors.galleryButton);
         await driver.waitUntil(
             async () => (await $$(this.selectors.galleryImages)).length > 0,
@@ -97,7 +103,7 @@ class ProfileDetailsPage {
         );
         const firstImage = (await $$(this.selectors.galleryImages))[0];
         await firstImage.click();
-        await waitAndClick(this.selectors.selectionOk);
+        //await waitAndClick(this.selectors.selectionOk);
         const cropBtn = await $(this.selectors.cropbutton.droid);
         await cropBtn.waitForDisplayed({ timeout: 10000 });
         await cropBtn.click();

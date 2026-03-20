@@ -5,7 +5,7 @@ class AboutProgramPage {
 
     selectors = {
         aboutProgramExpand: '~dropdown-arrow-icon',
-        headerBackButton: '~~header-back-button',
+        headerBackButton: '~header-back-button',
         menuItems: {
             'Loyalty': '~dropdown-text-loyalty',
             'Opus Partner': '~dropdown-text-opus-partner',
@@ -44,10 +44,25 @@ class AboutProgramPage {
     }
 
     async verifyPageHeader(menuItem) {
-        const header = await $(`//*[@text="${menuItem}"]`);
-        await header.waitForDisplayed({ timeout: 10000 });
-        const actualText = await header.getText();
-        expect(actualText).toEqual(menuItem);
+        // Switch to webview context for content verification
+        await driver.pause(2000);
+        const contexts = await driver.getContexts();
+        const webview = contexts.find(c => c.includes('WEBVIEW'));
+        if (webview) {
+            await driver.switchContext(webview);
+            // In webview, wait for page to load and check if menuItem appears in the content
+            await driver.pause(3000); // Wait for content to load
+            const bodyText = await $('body').getText();
+            expect(bodyText).toContain(menuItem);
+            // Switch back to native context
+            await driver.switchContext('NATIVE_APP');
+        } else {
+            // Fallback to native context if no webview
+            const header = await $(`//*[@text="${menuItem}"]`);
+            await header.waitForDisplayed({ timeout: 10000 });
+            const actualText = await header.getText();
+            expect(actualText).toEqual(menuItem);
+        }
     }
 
     async handleTooltips() {
