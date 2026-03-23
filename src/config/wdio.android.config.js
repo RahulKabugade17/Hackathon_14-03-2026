@@ -75,7 +75,7 @@ export const config = {
         require: [
             path.resolve(__dirname, '../step-definitions/**/*.js')
         ],
-        timeout: 250000,
+        timeout: 300000,
         scenarioLevelReporter: true,
         tagExpression: process.env.TAGS || ''
     }

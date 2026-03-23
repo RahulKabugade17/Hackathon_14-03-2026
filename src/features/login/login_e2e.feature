@@ -9,5 +9,6 @@ Feature: Login functionality for all personas
       | persona                  | 
       | painter                  |
       | contractor               |
+      | contractor-no-kyc        |
       | trade_contractor         |
       | institutional_contractor |

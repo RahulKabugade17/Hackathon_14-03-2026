@@ -102,6 +102,11 @@ class GeneralDetailsPage {
         await this.scrollUntilVisible(this.selectors.workLocationDetails);
         await waitForElementVisible(this.selectors.workLocationDetails);
     }
+
+    async verifyWorkLocation() {
+        await this.scrollUntilVisible(this.selectors.workLocationDetails);
+        await waitForElementVisible(this.selectors.workLocationDetails);
+    }
 }
 
 export default new GeneralDetailsPage();

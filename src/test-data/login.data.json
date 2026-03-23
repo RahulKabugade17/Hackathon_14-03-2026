@@ -7,6 +7,10 @@
     "mobileNumber": "8200589287",
     "otp": "123456"
   },
+  "contractor-no-kyc": {
+    "mobileNumber": "7121212188",
+    "otp": "123456"
+  },  
   "trade_contractor": {
     "mobileNumber": "6888777777",
     "otp": "123456"

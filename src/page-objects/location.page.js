@@ -7,7 +7,8 @@ class LocationPage {
         districtDropdown: { droid: '~~location-district-dropdown', ios: '' },
         pincodeDropdown: { droid: '~~location-pincode-dropdown', ios: '' },
         nextButton: { droid: '~~location-next-button', ios: '' },
-        confirmButton: { droid: '~~confirm-location-confirm-button', ios: '' }
+        confirmButton: { droid: '~~confirm-location-confirm-button', ios: '' },
+        useCurrentLocationButton: { droid: 'android=new UiSelector().text("Use current location")', ios: '' }
     };
     getDropdownOption(value) {
         return {
@@ -27,6 +28,12 @@ class LocationPage {
             await waitAndClick(step.dropdown);
             await waitAndClick(this.getDropdownOption(step.value));
         }
+        await waitAndClick(this.selectors.nextButton);
+        await waitAndClick(this.selectors.confirmButton);
+    }
+
+    async useCurrentLocation() {
+        await waitAndClick(this.selectors.useCurrentLocationButton);
         await waitAndClick(this.selectors.nextButton);
         await waitAndClick(this.selectors.confirmButton);
     }

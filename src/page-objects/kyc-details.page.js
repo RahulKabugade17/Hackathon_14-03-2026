@@ -33,8 +33,10 @@ class KycDetailsPage {
     async verifyKycDetails() {
         await waitForElementVisible(this.selectors.verifiedPan);
         await waitForElementVisible(this.selectors.defaultUPI);
+        driver.back();
+        driver.pause(60000);
     }
 
-}
+}  
 
 export default new KycDetailsPage();

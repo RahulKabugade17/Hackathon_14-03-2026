@@ -6,6 +6,8 @@ Feature: Validate user registration
     Then I should land on the home dashboard
 
     Examples:
-      | persona     |
-      | painter     |
-      | contractor  |
+      | persona           |
+      | painter           |
+      | contractor        |
+      | painter-no-kyc    |
+      | contractor-no-kyc |
