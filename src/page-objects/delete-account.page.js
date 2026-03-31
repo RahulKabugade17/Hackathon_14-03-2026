@@ -4,10 +4,13 @@ import { execSync } from 'child_process';
 
 class DeleteAccountPage {
     selectors = {
-        deleteAccountClickHere: '~~delete-account-click-here',
+        deleteAccountClickHere: 'android=new UiSelector().resourceId("~delete-account-click-here")',
         deleteAnywayButton: '~~delete-account-confirm-button',
         deleteOtpInput0: '~~delete-account-otp-input-0',
-        deleteAccountSubmit: '~~delete-account-otp-submit-button'
+        deleteAccountSubmit: '~~delete-account-otp-submit-button',
+        yesIUnderstandButton: '//android.widget.Button[@resource-id="understand-btn"]',
+        deleteAccountButton: '//android.widget.Button[@resource-id="delete-btn"]',
+        deletedSuccessfullyMessage: '//*[@resource-id="delete-heading"]'
     };
 
     async enterOtp(otp) {
@@ -73,13 +76,20 @@ class DeleteAccountPage {
 
     async deleteAccount(otp) {
         for (let i = 0; i < 2; i++) await Gestures.swipeUp(0.6);
+        await waitForElementVisible(this.selectors.deleteAccountClickHere, 10000);
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);
         await waitForElementVisible(this.selectors.deleteOtpInput0, 30000);
         await this.enterOtp(otp);
-        await waitAndClick(this.selectors.deleteAccountSubmit);
-        const url = await this.extractDeleteUrl();
-        await this.completeDeleteInWeb(url);
+        await driver.pause(5000);
+        await waitForElementVisible(this.selectors.yesIUnderstandButton, 10000);
+        await waitAndClick(this.selectors.yesIUnderstandButton);
+        await waitForElementVisible(this.selectors.deleteAccountButton, 10000);
+        await waitAndClick(this.selectors.deleteAccountButton);
+        await waitForElementVisible(this.selectors.deletedSuccessfullyMessage, 15000);
+        // await waitAndClick(this.selectors.deleteAccountSubmit);
+        // const url = await this.extractDeleteUrl();
+        // await this.completeDeleteInWeb(url);
     }
 }
 

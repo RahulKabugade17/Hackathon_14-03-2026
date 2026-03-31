@@ -14,7 +14,7 @@ export async function signupAs(persona) {
     const signup = signupData[persona];
     await LanguagePage.selectEnglishLanguage();
     await handleSystemPermissions();
-    await LoginPage.login(signupData['contractor-no-kyc'].mobileNumber, signupData['contractor-no-kyc'].otp);
+    await LoginPage.login(signupData['painter-no-kyc'].mobileNumber, signupData['painter-no-kyc'].otp);
     await LoginPage.handleOverlays();
     await ProfileDetailsPage.openProfileDetails();
     switch (persona) {
@@ -30,8 +30,8 @@ export async function signupAs(persona) {
         case 'painter-no-kyc':
             await ProfileDetailsPage.selectPainterPersona();
             await ProfileDetailsPage.addContractorDetails(signup.contractorMobileNumber);
-            await LocationPage.selectcurrentlocation();
-            await ProfileDetailsPage.uploadProfileImage();
+            await LocationPage.useCurrentLocation();
+            // await ProfileDetailsPage.uploadProfileImage();
             await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName, signup.email);
             break;
         case 'contractor':
@@ -45,7 +45,7 @@ export async function signupAs(persona) {
         case 'contractor-no-kyc':
             await ProfileDetailsPage.selectContractorPersona();
             await LocationPage.useCurrentLocation();
-            //await ProfileDetailsPage.uploadProfileImage();
+            await ProfileDetailsPage.uploadProfileImage();
             await ProfileDetailsPage.enterDetails(signupData['contractor-no-kyc'].firstName, signupData['contractor-no-kyc'].lastName, signupData['contractor-no-kyc'].email);
             break;
 

@@ -1,6 +1,6 @@
 import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/custom-commands.js';
 
-import contractorData from '../test-data/contractor.data.json' with { type: 'json' };
+import painterData from '../test-data/painter.data.json' with { type: 'json' };
 
 class KycDetailsPage {
     selectors = {
@@ -17,7 +17,7 @@ class KycDetailsPage {
     };
 
     async editKycDetails() {
-        const data = contractorData.kyc;
+        const data = painterData.kyc;
         await waitAndClick(this.selectors.panNumber);
         await waitForElementVisible(this.selectors.panInput);
         await setValueFast(this.selectors.panInput, data.pan);
@@ -33,8 +33,6 @@ class KycDetailsPage {
     async verifyKycDetails() {
         await waitForElementVisible(this.selectors.verifiedPan);
         await waitForElementVisible(this.selectors.defaultUPI);
-        driver.back();
-        driver.pause(60000);
     }
 
 }  
