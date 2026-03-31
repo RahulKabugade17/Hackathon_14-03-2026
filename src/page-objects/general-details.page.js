@@ -1,8 +1,7 @@
-import { waitAndClick, waitForElementVisible, setValueFast } from '../utils/custom-commands.js';
+import { setValueFast, waitAndClick, waitForElementVisible } from '../utils/custom-commands.js';
 
-import { swipeScreen } from '../utils/custom-commands.js';
 import painterData from '../test-data/painter.data.json' with { type: 'json' };
-import { d } from '@serenity-js/core';
+import { swipeScreen } from '../utils/custom-commands.js';
 
 class GeneralDetailsPage {
     selectors = { 

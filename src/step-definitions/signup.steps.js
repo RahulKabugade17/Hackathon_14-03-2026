@@ -10,6 +10,4 @@ Given('I am registered as {string}', async function (persona) {
 Then('I should land on the home dashboard', async function () {
     await HomePage.verifyHomePageLoaded();
     await HomePage.clickOnProfileSection();
-    //const otp = signupData[this.persona].otp
-    //await DeleteAccountPage.deleteAccount(otp);
 });

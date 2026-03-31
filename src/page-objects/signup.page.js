@@ -31,7 +31,6 @@ export async function signupAs(persona) {
             await ProfileDetailsPage.selectPainterPersona();
             await ProfileDetailsPage.addContractorDetails(signup.contractorMobileNumber);
             await LocationPage.useCurrentLocation();
-            // await ProfileDetailsPage.uploadProfileImage();
             await ProfileDetailsPage.enterDetails(signup.firstName, signup.lastName, signup.email);
             break;
         case 'contractor':

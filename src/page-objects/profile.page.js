@@ -103,7 +103,6 @@ class ProfileDetailsPage {
         );
         const firstImage = (await $$(this.selectors.galleryImages))[0];
         await firstImage.click();
-        //await waitAndClick(this.selectors.selectionOk);
         const cropBtn = await $(this.selectors.cropbutton.droid);
         await cropBtn.waitForDisplayed({ timeout: 10000 });
         await cropBtn.click();
