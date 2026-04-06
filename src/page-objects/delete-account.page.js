@@ -87,9 +87,6 @@ class DeleteAccountPage {
         await waitForElementVisible(this.selectors.deleteAccountButton, 10000);
         await waitAndClick(this.selectors.deleteAccountButton);
         await waitForElementVisible(this.selectors.deletedSuccessfullyMessage, 15000);
-        // await waitAndClick(this.selectors.deleteAccountSubmit);
-        // const url = await this.extractDeleteUrl();
-        // await this.completeDeleteInWeb(url);
     }
 }
 
