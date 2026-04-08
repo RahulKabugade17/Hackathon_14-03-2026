@@ -96,9 +96,6 @@ class DeleteAccountPage {
       this.selectors.deletedSuccessfullyMessage,
       15000,
     );
-    // await waitAndClick(this.selectors.deleteAccountSubmit);
-    // const url = await this.extractDeleteUrl();
-    // await this.completeDeleteInWeb(url);
   }
 }
 
