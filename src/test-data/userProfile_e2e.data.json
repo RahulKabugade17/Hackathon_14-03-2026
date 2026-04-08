@@ -13,11 +13,6 @@
     },
     "email": "johndoe@gmail.com"
   },
-  "businessInformation": {
-    "gstNumber": "29AAACH7409R1ZX",
-    "companyName": "ABC Construction",
-    "firmAddress": "Mumbai, India"
-  },
   "kyc": {
     "pan": "AAJFB9072E",
     "upi": "9876543219@axl"
