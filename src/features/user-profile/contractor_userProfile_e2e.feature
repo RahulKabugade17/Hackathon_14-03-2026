@@ -13,9 +13,11 @@ Feature: User Profile End to End
 
     # Share OPUS ID
     When user share his Opus ID as Image
+    Then user should be able to see share options
 
     # Download OPUS ID
     When user download his Opus ID as Image
+    Then user should be able to see Opus ID downloaded successfully alert
 
     # Personal Details
     When user open general details

@@ -4,7 +4,7 @@ import {
   setValueFast,
 } from "../utils/custom-commands.js";
 
-import userProfileData from "../test-data/userProfile_e2e.data.json" with { type: "json" };
+import userProfileData from "../test-data/contractor_userProfile.data.json" with { type: "json" };
 
 class KycDetailsPage {
   selectors = {

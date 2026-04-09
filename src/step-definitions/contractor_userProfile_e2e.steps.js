@@ -6,7 +6,7 @@ import HomePage from "../page-objects/home.page.js";
 import EditKycPage from "../page-objects/kyc-details.page.js";
 import ProfileDetailsPage from "../page-objects/profile.page.js";
 import DeleteAccountPage from "../page-objects/delete-account.page.js";
-import userProfileData from "../test-data/userProfile_e2e.data.json" with { type: "json" };
+import userProfileData from "../test-data/contractor_userProfile.data.json" with { type: "json" };
 
 When("user click on Loyalty Tier Card", async function () {
   await HomePage.skipOnboarding();
@@ -28,9 +28,20 @@ When("user share his Opus ID as Image", async function () {
   await ProfileDetailsPage.shareOpusId("Image");
 });
 
+Then("user should be able to see share options", async function () {
+  await ProfileDetailsPage.verifyShareOptionsVisible();
+});
+
 When("user download his Opus ID as Image", async function () {
   await ProfileDetailsPage.downloadOpusId("Image");
 });
+
+Then(
+  "user should be able to see Opus ID downloaded successfully alert",
+  async function () {
+    await ProfileDetailsPage.verifyOpusIdDownloadSuccessfully();
+  },
+);
 
 When("user open general details", async function () {
   await GeneralDetailsPage.clickGeneralDetails();

@@ -5,7 +5,7 @@ import {
 } from "../utils/custom-commands.js";
 import Gestures from "../utils/gestures.js";
 
-import userProfileData from "../test-data/userProfile_e2e.data.json" with { type: "json" };
+import userProfileData from "../test-data/contractor_userProfile.data.json" with { type: "json" };
 
 class GeneralDetailsPage {
   selectors = {
@@ -33,7 +33,6 @@ class GeneralDetailsPage {
     },
     firstNameInput: { droid: "~first-name-edit-modal-input", ios: "" },
     lastNameInput: { droid: "~last-name-edit-modal-input", ios: "" },
-    dateSelect: { droid: "~~datepicker-day-2008-04-04", ios: "" },
     datePickerOkButton: { droid: "~~datepicker-ok-button", ios: "" },
     communicationAddressInput1: {
       droid: "~com-address-edit-modal-address-line1-input",
@@ -115,7 +114,6 @@ class GeneralDetailsPage {
 
   async updateDOB() {
     await waitAndClick(this.selectors.editDOB);
-    await waitAndClick(this.selectors.dateSelect);
     await waitAndClick(this.selectors.datePickerOkButton);
   }
 

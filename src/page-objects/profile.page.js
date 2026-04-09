@@ -19,6 +19,15 @@ class ProfileDetailsPage {
     downloadIdImage: { droid: "~Image", ios: "" },
     downloadIdPDF: { droid: "~PDF", ios: "" },
     downloadIdContact: { droid: "~Contact", ios: "" },
+    cardShareOptions: {
+      droid:
+        '//com.android.internal.widget.RecyclerView[@resource-id="android:id/sem_chooser_recycler_ranked_app"]',
+      ios: "",
+    },
+    cardDowloadedSuccessfully: {
+      droid: 'android=new UiSelector().text("Card Downloaded successfully")',
+      ios: "",
+    },
     firstNameInput: { droid: "~~user-details-firstname-input", ios: "" },
     lastNameInput: { droid: "~~user-details-lastname-input", ios: "" },
     finishButton: { droid: "~~user-details-finish-button", ios: "" },
@@ -39,7 +48,8 @@ class ProfileDetailsPage {
       ios: "",
     },
     profileCompletePercentage: {
-      droid: "~profile-picture-completion-percentage",
+      droid:
+        '//android.widget.TextView[@content-desc="profile-picture-completion-percentage"]',
       ios: "",
     },
     galleryButton: { droid: "~~profile-image-gallery-button", ios: "" },
@@ -76,10 +86,6 @@ class ProfileDetailsPage {
     switch (option) {
       case "Image":
         await waitAndClick(this.selectors.shareIdImage);
-        await waitAndClick(
-          'android=new UiSelector().resourceId("android:id/icon").instance(5)',
-        );
-        await driver.back();
         break;
       case "PDF":
         await waitAndClick(this.selectors.shareIdPDF);
@@ -92,16 +98,20 @@ class ProfileDetailsPage {
     }
   }
 
+  async verifyShareOptionsVisible() {
+    await waitForElementVisible(this.selectors.cardShareOptions);
+
+    const shareOptions = await $(this.selectors.cardShareOptions);
+    await expect(shareOptions).toBeDisplayed();
+
+    await driver.back();
+  }
+
   async downloadOpusId(option) {
     await waitAndClick(this.selectors.downloadIdButton);
     switch (option) {
       case "Image":
         await waitAndClick(this.selectors.downloadIdImage);
-        await waitAndClick("~Open");
-        await waitAndClick(
-          'android=new UiSelector().resourceId("android:id/icon").instance(0)',
-        );
-        await waitAndClick("~Navigate up");
         break;
       case "PDF":
         await waitAndClick(this.selectors.downloadIdPDF);
@@ -112,6 +122,11 @@ class ProfileDetailsPage {
       default:
         throw new Error(`Unknown download option: ${option}`);
     }
+  }
+
+  async verifyOpusIdDownloadSuccessfully() {
+    const successMessage = await $(this.selectors.cardDowloadedSuccessfully);
+    await expect(successMessage).toBeDisplayed();
   }
 
   async addContractorDetails(phone) {
@@ -126,8 +141,8 @@ class ProfileDetailsPage {
     const currentPercentageText = await $(
       this.selectors.profileCompletePercentage,
     ).getText();
-    const currentProfileCompletion = currentPercentageText.trim();
-    return currentProfileCompletion === "43%";
+    const currentProfileCompletion = await currentPercentageText.trim();
+    return (await currentProfileCompletion) === "43%";
   }
 
   async uploadProfileImage() {
