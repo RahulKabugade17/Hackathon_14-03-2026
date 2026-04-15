@@ -73,12 +73,13 @@ class DeleteAccountPage {
 
     async deleteAccount(otp) {
         execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
-        for (let i = 0; i < 2; i++) await Gestures.swipeUp(0.6);
+        await driver.pause(50000);
+        await Gestures.scrollUntilElementVisible(this.selectors.deleteAccountClickHere, 3);
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);
-        await waitForElementVisible(this.selectors.deleteOtpInput0, 30000);
+        await waitForElementVisible(this.selectors.deleteOtpInput0, 25000);
         await this.enterOtp(otp);
-        await waitAndClick(this.selectors.deleteAccountSubmit);
+        //await waitAndClick(this.selectors.deleteAccountSubmit);
         const url = await this.extractDeleteUrl();
         await this.completeDeleteInWeb(url);
     }

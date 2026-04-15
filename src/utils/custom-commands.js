@@ -6,7 +6,7 @@ const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
-export async function waitForVisible(selector, timeout = 7000) {
+export async function waitForVisible(selector, timeout = 12000) {
   return waitAndFindElement(selector, timeout);
 }
 /* =====================================================
@@ -103,7 +103,7 @@ function getPlatform() {
    COMMON ACTIONS
 ===================================================== */
 
-export async function waitAndFindElement(selector, timeout = 15000) {
+export async function waitAndFindElement(selector, timeout = 10000) {
   if (!selector) {
     throw new Error('❌ waitAndFindElement called with undefined selector');
   }
@@ -116,11 +116,11 @@ export async function waitAndFindElement(selector, timeout = 15000) {
   return element;
 }
 
-export async function waitForElementVisible(selector, timeout = 15000) {
+export async function waitForElementVisible(selector, timeout = 10000) {
   return waitAndFindElement(selector, timeout);
 }
 
-export async function waitAndClick(selector, timeout = 15000) {
+export async function waitAndClick(selector, timeout = 10000) {
   const el = await waitAndFindElement(selector, timeout);
   try {
     await el.click();
@@ -161,56 +161,27 @@ export async function handleSystemPermissions(timeout = 7000) {
     'id=com.android.permissioncontroller:id/permission_allow_button',
     'id=com.android.permissioncontroller:id/permission_allow_foreground_only_button',
     'id=com.android.permissioncontroller:id/permission_allow_one_time_button',
-    'id=android:id/button1',
-    'id=android:id/button2'
+    'android=new UiSelector().textContains("Allow")',
+    'id=android:id/button1'
   ];
 
   const endTime = Date.now() + timeout;
-  let anyHandled = false;
   while (Date.now() < endTime) {
-    let handledThisRound = false;
+    let clicked = false;
     for (const selector of permissionButtons) {
       try {
         const el = await $(selector);
-        if (await el.isDisplayed()) {
+        if (await el.isExisting() && await el.isDisplayed()) {
           await el.click();
-          anyHandled = true;
-          handledThisRound = true;
-          await driver.pause(600);
+          await driver.pause(800);
+          clicked = true;
           break;
         }
-      } catch { }
+      } catch (err) {
+      }
     }
-    if (!handledThisRound && !anyHandled) {
-      break;
-    }
-    if (!handledThisRound) {
-      await driver.pause(300);
+    if (!clicked) {
+      await driver.pause(500);
     }
   }
-}
-
-/* =====================================================
-   SWIPE UTILITY
-===================================================== */
-
-export async function swipeScreen(startY = 0.8, endY = 0.2) {
-  const { width, height } = await driver.getWindowRect();
-
-  await driver.performActions([
-    {
-      type: 'pointer',
-      id: 'finger1',
-      parameters: { pointerType: 'touch' },
-      actions: [
-        { type: 'pointerMove', duration: 0, x: width / 2, y: height * startY },
-        { type: 'pointerDown', button: 0 },
-        { type: 'pause', duration: 500 },
-        { type: 'pointerMove', duration: 800, x: width / 2, y: height * endY },
-        { type: 'pointerUp', button: 0 }
-      ]
-    }
-  ]);
-
-  await driver.releaseActions();
 }

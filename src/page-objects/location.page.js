@@ -1,4 +1,5 @@
 import { waitAndClick } from '../utils/custom-commands.js';
+import Gestures from '../utils/gestures.js';
 
 class LocationPage {
     selectors = {
@@ -15,6 +16,8 @@ class LocationPage {
     }
     async selectcurrentlocation() {
         await waitAndClick(this.selectors.currentlocation);
+        await driver.pause(2000);
+        await Gestures.swipeScreen('up', 2);
         await waitAndClick(this.selectors.nextButton);
         await waitAndClick(this.selectors.confirmButton);
     }
@@ -30,6 +33,7 @@ class LocationPage {
             await waitAndClick(step.dropdown);
             await waitAndClick(this.getDropdownOption(step.value));
         }
+        await Gestures.swipeScreen('up', 2);
         await waitAndClick(this.selectors.nextButton);
         await waitAndClick(this.selectors.confirmButton);
     }

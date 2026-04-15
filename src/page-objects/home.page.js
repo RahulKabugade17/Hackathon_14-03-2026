@@ -41,8 +41,8 @@ class HomePage {
     async verifyDashboardAndDeleteUser(persona) {
         await this.verifyHomePageLoaded();
         await this.clickProfileBasedOnPersona(persona);
-        //const otp = signupData[persona].otp;
-        //await DeleteAccountPage.deleteAccount(otp);
+        const otp = signupData[persona].otp;
+        await DeleteAccountPage.deleteAccount(otp);
     }
 }
 export default new HomePage();

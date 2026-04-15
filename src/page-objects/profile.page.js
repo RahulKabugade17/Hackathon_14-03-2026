@@ -64,7 +64,6 @@ class ProfileDetailsPage {
     async openProfileDetails() {
         await waitAndClick(this.selectors.profileDetailsStep);
     }
-
     async skipToHome() {
         await waitAndClick(this.selectors.skipHomeButton);
     }
