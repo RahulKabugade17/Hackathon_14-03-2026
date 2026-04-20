@@ -3,18 +3,18 @@
 ===================================================== */
 
 const platformKeyMap = {
-  android: 'droid',
-  ios: 'ios'
+  android: "droid",
+  ios: "ios",
 };
-export async function waitForVisible(selector, timeout = 10000) {
+export async function waitForVisible(selector, timeout = 7000) {
   return waitAndFindElement(selector, timeout);
 }
 /* =====================================================
    OVERWRITE $
 ===================================================== */
-browser.overwriteCommand('$', async (original$, selector) => {
+browser.overwriteCommand("$", async (original$, selector) => {
   if (!selector) {
-    throw new Error('❌ $ called with undefined selector');
+    throw new Error("❌ $ called with undefined selector");
   }
 
   // Already WebdriverIO element
@@ -23,7 +23,7 @@ browser.overwriteCommand('$', async (original$, selector) => {
   }
 
   // Plain string selector
-  if (typeof selector === 'string') {
+  if (typeof selector === "string") {
     return original$(selector);
   }
 
@@ -45,7 +45,7 @@ browser.overwriteCommand('$', async (original$, selector) => {
       }
 
       throw new Error(
-        `[SELECTOR ERROR] None of the selectors matched: ${JSON.stringify(resolved)}`
+        `[SELECTOR ERROR] None of the selectors matched: ${JSON.stringify(resolved)}`,
       );
     }
 
@@ -53,7 +53,7 @@ browser.overwriteCommand('$', async (original$, selector) => {
   }
 
   throw new Error(
-    `[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`
+    `[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`,
   );
 });
 
@@ -61,12 +61,12 @@ browser.overwriteCommand('$', async (original$, selector) => {
    OVERWRITE $$
 ===================================================== */
 
-browser.overwriteCommand('$$', async (original$$, selector) => {
+browser.overwriteCommand("$$", async (original$$, selector) => {
   if (!selector) {
-    throw new Error('❌ $$ called with undefined selector');
+    throw new Error("❌ $$ called with undefined selector");
   }
 
-  if (typeof selector === 'string') {
+  if (typeof selector === "string") {
     return original$$(selector);
   }
 
@@ -75,7 +75,7 @@ browser.overwriteCommand('$$', async (original$$, selector) => {
   }
 
   throw new Error(
-    `[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`
+    `[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`,
   );
 });
 
@@ -95,8 +95,8 @@ function getSelectorByPlatform(selector) {
 }
 
 function getPlatform() {
-  if (!driver.isMobile) return 'web';
-  return driver.isIOS ? 'ios' : 'android';
+  if (!driver.isMobile) return "web";
+  return driver.isIOS ? "ios" : "android";
 }
 
 /* =====================================================
@@ -105,7 +105,7 @@ function getPlatform() {
 
 export async function waitAndFindElement(selector, timeout = 30000) {
   if (!selector) {
-    throw new Error('❌ waitAndFindElement called with undefined selector');
+    throw new Error("❌ waitAndFindElement called with undefined selector");
   }
 
   const element = selector?.elementId ? selector : await $(selector);
@@ -156,13 +156,13 @@ export async function clickIfPresent(selector, timeout = 2000) {
    SYSTEM PERMISSIONS (ANDROID)
 ===================================================== */
 
-export async function handleSystemPermissions(timeout = 5000) {
+export async function handleSystemPermissions(timeout = 7000) {
   const permissionButtons = [
-    'id=com.android.permissioncontroller:id/permission_allow_button',
-    'id=com.android.permissioncontroller:id/permission_allow_foreground_only_button',
-    'id=com.android.permissioncontroller:id/permission_allow_one_time_button',
-    'id=android:id/button1',
-    'id=android:id/button2'
+    "id=com.android.permissioncontroller:id/permission_allow_button",
+    "id=com.android.permissioncontroller:id/permission_allow_foreground_only_button",
+    "id=com.android.permissioncontroller:id/permission_allow_one_time_button",
+    "id=android:id/button1",
+    "id=android:id/button2",
   ];
 
   const endTime = Date.now() + timeout;
@@ -179,7 +179,7 @@ export async function handleSystemPermissions(timeout = 5000) {
           await driver.pause(600);
           break;
         }
-      } catch { }
+      } catch {}
     }
     if (!handledThisRound && !anyHandled) {
       break;
@@ -199,18 +199,18 @@ export async function swipeScreen(startY = 0.8, endY = 0.2) {
 
   await driver.performActions([
     {
-      type: 'pointer',
-      id: 'finger1',
-      parameters: { pointerType: 'touch' },
+      type: "pointer",
+      id: "finger1",
+      parameters: { pointerType: "touch" },
       actions: [
-        { type: 'pointerMove', duration: 0, x: width / 2, y: height * startY },
-        { type: 'pointerDown', button: 0 },
-        { type: 'pause', duration: 500 },
-        { type: 'pointerMove', duration: 800, x: width / 2, y: height * endY },
-        { type: 'pointerUp', button: 0 }
-      ]
-    }
-  ]); 
+        { type: "pointerMove", duration: 0, x: width / 2, y: height * startY },
+        { type: "pointerDown", button: 0 },
+        { type: "pause", duration: 500 },
+        { type: "pointerMove", duration: 800, x: width / 2, y: height * endY },
+        { type: "pointerUp", button: 0 },
+      ],
+    },
+  ]);
 
   await driver.releaseActions();
 }
