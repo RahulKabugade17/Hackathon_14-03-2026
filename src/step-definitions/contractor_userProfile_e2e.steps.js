@@ -108,6 +108,7 @@ Then("added payment method should be marked as default", async function () {
   await driver.back();
 
   await HomePage.clickOnProfileSection();
+  await GeneralDetailsPage.clickGeneralDetails();
   const data = userProfileData;
   await DeleteAccountPage.deleteAccount(data.otp);
 });
