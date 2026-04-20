@@ -2,14 +2,15 @@ import { baseConfig } from "./wdio.base.config.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import os from "os";
+import { execSync } from "child_process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const appPath = path.resolve(__dirname, "../../apps/app-uat.apk");
+const appPath = path.resolve("apps/app-uat.apk");
 
 const deviceName = "RZ8R91YMHJR";
-const deviceVersion = "12.0";
+const deviceVersion = "12";
 
 export const config = {
   ...baseConfig,
@@ -48,6 +49,17 @@ export const config = {
       "appium:chromedriverAutodownload": true,
       "appium:autoWebviewTimeout": 20000,
       "appium:appWaitActivity": "*",
+      "cjson:metadata": {
+        app: {
+          name: "Birla Opus App (MainActivity)",
+          version: "1.0.0",
+        },
+        device: deviceName,
+        platform: {
+          name: "Android",
+          version: deviceVersion,
+        },
+      },
     },
   ],
 
@@ -59,7 +71,7 @@ export const config = {
       "allure",
       {
         outputDir: "allure-results",
-        disableWebdriverStepsReporting: false,
+        disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: false,
         reportedEnvironmentVars: {
           Application: "Birla Opus App",
@@ -72,14 +84,59 @@ export const config = {
         },
       },
     ],
+    [
+      "cucumberjs-json",
+      {
+        jsonFolder: "./reports/json/",
+        language: "en",
+        useCucumberStepReporter: true,
+        displayDuration: true,
+        metadata: {
+          browser: {
+            name: "Android App",
+            version: "N/A",
+          },
+          device: deviceName,
+          platform: {
+            name: "Android",
+            version: deviceVersion,
+          },
+          app: {
+            name: "Birla Opus App",
+            version: "1.0.0",
+          },
+        },
+      },
+    ],
   ],
 
   cucumberOpts: {
     require: [path.resolve(__dirname, "../step-definitions/**/*.js")],
-    timeout: 300000,
-    scenarioLevelReporter: true,
+    timeout: 200000,
     tagExpression: process.env.TAGS || "",
   },
-};
 
-export default config;
+  onComplete: async function (exitCode, config, capabilities, results) {
+    try {
+      console.log("\x1b[36mGenerating Cucumber HTML Report...\x1b[0m");
+      // Calculate duration
+      const durationMs = Date.now() - global.testStartTime;
+      const seconds = Math.floor((durationMs / 1000) % 60);
+      const minutes = Math.floor((durationMs / (1000 * 60)) % 60);
+      process.env.TEST_DURATION = `${minutes}m ${seconds}s`;
+
+      // Pass environment data to the report generator script
+      process.env.APP_NAME = "Birla Opus App";
+      process.env.PLATFORM_NAME = "Android";
+      process.env.TEST_ENV = "QA";
+      process.env.DEVICE_NAME = deviceName;
+      process.env.DEVICE_VERSION = deviceVersion;
+
+      // Execute the generation script independently after tests
+      execSync("node ./src/utils/generate-report.js", { stdio: "inherit" });
+      console.log("✅ HTML Report generated successfully");
+    } catch (error) {
+      console.error("❌ Failed to generate HTML Report:", error);
+    }
+  },
+};

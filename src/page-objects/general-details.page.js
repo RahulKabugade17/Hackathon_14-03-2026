@@ -9,7 +9,7 @@ import userProfileData from "../test-data/contractor_userProfile.data.json" with
 
 class GeneralDetailsPage {
   selectors = {
-    generalDetailsButton: { droid: "~General Details", ios: "" },
+    generalDetailsButton: { droid: "~Your details", ios: "" },
     editFirstName: {
       droid: "~general-details-item-first-name-subtitle",
       ios: "",

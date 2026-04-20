@@ -8,6 +8,7 @@ class ProfileDetailsPage {
   selectors = {
     contractorCard: { droid: "~~usertype-select-contractor", ios: "" },
     painterCard: { droid: "~~usertype-select-painter", ios: "" },
+    headerBackButton: { droid: "~header-back-button", ios: "" },
     memberTypeTitle: 'android=new UiSelector().text("Member contractor")',
     profileCompletePercentage: "~profile-picture-completion-percentage",
     kycDetailsButton: { droid: "~KYC Details", ios: "" },
