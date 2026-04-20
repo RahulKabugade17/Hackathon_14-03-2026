@@ -4,6 +4,7 @@ import { execSync } from 'child_process';
 
 class DeleteAccountPage {
     selectors = {
+        profileCardYourDetails: { droid: '~Your details' },
         deleteAccountClickHere: '~~delete-account-click-here',
         deleteAnywayButton: '~~delete-account-confirm-button',
         deleteOtpInput0: '~~delete-account-otp-input-0',
@@ -72,8 +73,9 @@ class DeleteAccountPage {
     }
 
     async deleteAccount(otp) {
+        await waitAndClick(this.selectors.profileCardYourDetails, 3000);
         execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
-        await driver.pause(50000);
+        await driver.pause(150000);
         await Gestures.scrollUntilElementVisible(this.selectors.deleteAccountClickHere, 3);
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);

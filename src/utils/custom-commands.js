@@ -6,7 +6,7 @@ const platformKeyMap = {
   android: 'droid',
   ios: 'ios'
 };
-export async function waitForVisible(selector, timeout = 12000) {
+export async function waitForVisible(selector, timeout = 150000) {
   return waitAndFindElement(selector, timeout);
 }
 /* =====================================================

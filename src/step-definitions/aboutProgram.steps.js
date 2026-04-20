@@ -3,5 +3,6 @@ import AboutProgramPage from '../page-objects/about-program.page.js';
 
 
 When('I verify all About Program menu items', async function () {
-    await AboutProgramPage.verifyAllMenuItems();
+    const persona = this.userType || global.userType;
+    await AboutProgramPage.verifyAllMenuItems(persona);
 });

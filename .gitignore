@@ -13,4 +13,3 @@ allure-results/
 screenshots/
 .eslintignore
 reports/
-test-data/login.data.json

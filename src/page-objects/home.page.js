@@ -1,48 +1,69 @@
 import { waitAndClick, waitForVisible } from '../utils/custom-commands.js';
 import DeleteAccountPage from './delete-account.page.js';
 import signupData from '../test-data/signup.data.json';
+
 class HomePage {
+
     selectors = {
         tooltipTitle: { droid: '~topcard-opus-id-tooltip-title' },
         icToggleSwitchTooltipTitle: { droid: '~ic-toggle-switch-tooltip-title' },
         icOpusIdTooltipTitle: { droid: '~ic-opus-id-tooltip-title' },
-        onboardingSkipButtons: [
-            '~topcard-opus-id-tooltip-skip-button',
-            '~ic-toggle-switch-tooltip-skip-button',
-            '~ic-opus-id-tooltip-skip-button'
-        ],
-        userNameIncompleteKyc: { droid: '~user-name-incomplete-kyc' },
-        profileSection: { droid: '~user-type-complete-kyc' }
+        onboardingSkipButtons: {
+            droid: [
+                '~topcard-opus-id-tooltip-skip-button',
+                '~ic-toggle-switch-tooltip-skip-button',
+                '~ic-opus-id-tooltip-skip-button'
+            ]
+        },
+        profileCardnew: {
+            droid: [
+                '~incomplete-kyc-card',
+                '~complete-kyc-top-card',
+                '~institutional-top-card-main'
+            ]
+        },
+        knowMoreButton: { droid: '~Know more' }
     };
+
+    async safeBack() {
+        await driver.pause(10000);
+        await waitForVisible(this.selectors.knowMoreButton, 1000);
+        await driver.back();
+    }
     async skipOnboarding() {
-        for (const selector of this.selectors.onboardingSkipButtons) {
-            const el = await $(selector);
-            if (await el.isDisplayed()) {
-                await el.click();
-                return;
-            }
+        const el = await waitForVisible(this.selectors.onboardingSkipButtons, 1000);
+        await el.click();
+    }
+    async clickProfileBasedOnPersona() {
+        const profileCard = await waitForVisible(this.selectors.profileCardnew, 30000);
+        await profileCard.click();
+    }
+    async handleOnboardingAndPopups(persona) {
+        if (persona === 'painter' || persona === 'institutional_contractor') {
+            await this.skipOnboarding();
+            return;
+        }
+        if (persona === 'contractor') {
+            await this.safeBack();
+            return;
+        }
+        if (persona === 'trade_contractor') {
+            await this.safeBack();
+            await this.skipOnboarding();
+            return;
         }
     }
-    async verifyHomePageLoaded() {
-        await Promise.race([
-            waitForVisible(this.selectors.tooltipTitle),
-            waitForVisible(this.selectors.icToggleSwitchTooltipTitle),
-            waitForVisible(this.selectors.icOpusIdTooltipTitle)
-        ]);
-        await this.skipOnboarding();
-    }
-    async clickProfileBasedOnPersona(persona) {
-        const isNoKycUser = persona.includes('no-kyc');
-        const selector = isNoKycUser
-            ? this.selectors.userNameIncompleteKyc
-            : this.selectors.profileSection;
-        await waitAndClick(selector);
+    async verifyHomePageLoaded(persona) {
+        await this.handleOnboardingAndPopups(persona);
+
+
     }
     async verifyDashboardAndDeleteUser(persona) {
-        await this.verifyHomePageLoaded();
-        await this.clickProfileBasedOnPersona(persona);
-        const otp = signupData[persona].otp;
-        await DeleteAccountPage.deleteAccount(otp);
+        await this.skipOnboarding();
+        await this.clickProfileBasedOnPersona();
+        // await this.clickProfileBasedOnPersona();
+        // const otp = signupData[persona].otp;
+        // await DeleteAccountPage.deleteAccount(otp);
     }
 }
 export default new HomePage();

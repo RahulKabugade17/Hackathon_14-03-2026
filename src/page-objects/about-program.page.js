@@ -70,8 +70,8 @@ class AboutProgramPage {
         }
     }
 
-    async verifyAllMenuItems() {
-        await HomePage.verifyHomePageLoaded();
+    async verifyAllMenuItems(persona) {
+        await HomePage.verifyHomePageLoaded(persona)
         await this.handleTooltips();
         await this.expandAboutProgram();
         for (const [menuItem, selector] of Object.entries(this.selectors.menuItems)) {
