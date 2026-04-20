@@ -11,3 +11,5 @@ allure-results/
 *.apk
 *.app
 screenshots/
+.eslintignore
+reports/

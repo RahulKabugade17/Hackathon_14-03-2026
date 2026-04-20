@@ -1,30 +1,33 @@
 import allure from '@wdio/allure-reporter';
-
-const APP_ID = 'com.birlaopusid.contractorportal.uat';
+import cucumberJson from 'wdio-cucumberjs-json-reporter';
+import fs from 'fs-extra';
 
 export const baseConfig = {
-    runner: 'local',
-    maxInstances: 1,
-    framework: 'cucumber',
-    waitforTimeout: 20000,
 
-    before: async function () {
-        await import('../utils/CustomCommands.js');
+    onPrepare: function (config, capabilities) {
+        global.testStartTime = Date.now();
+        fs.removeSync('./reports/json/');
+        fs.removeSync('./allure-results');
+        fs.ensureDirSync('./reports/json/');
     },
 
     beforeScenario: async function () {
-        await driver.execute('mobile: clearApp', { appId: APP_ID });
-        await driver.activateApp(APP_ID);
+        await driver.reloadSession();
     },
 
     afterStep: async function (step, scenario, { error }) {
         if (error) {
             const screenshot = await browser.takeScreenshot();
+
+            // For Allure
             allure.addAttachment(
                 'Failure Screenshot',
                 Buffer.from(screenshot, 'base64'),
                 'image/png'
             );
+
+            // For Cucumber HTML Reporter
+            cucumberJson.attach(screenshot, 'image/png');
         }
     }
 };

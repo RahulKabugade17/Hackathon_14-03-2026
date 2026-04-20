@@ -1,10 +1,9 @@
-@smoke @login
-Feature: Login works for all personas
+@about-program
+Feature: About Program - WebView content verification
 
-  Scenario Outline: Login validation - <persona>
+  Scenario Outline: Verify About Program pages for <persona>
     Given I am logged in as "<persona>"
-    Then I should see the dashboard
-    Then I should be able to sign out as "<persona>"
+    When I verify all About Program menu items
 
     Examples:
       | persona                  |

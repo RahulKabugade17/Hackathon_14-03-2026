@@ -1,0 +1,44 @@
+{
+    "contractor": {
+        "mobileNumber": "8382838286",
+        "otp": "123456",
+        "firstName": "Test",
+        "lastName": "Contractor With KYC",
+        "email": "test@gmail.com"
+    },
+    "painter": {
+        "mobileNumber": "7121212127",
+        "otp": "123456",
+        "contractorMobileNumber": "8200589287",
+        "firstName": "Test",
+        "lastName": "Painter With KYC",
+        "email": "test@gmail.com"
+    },
+    "contractor-no-kyc": {
+        "mobileNumber": "7121212188",
+        "otp": "123456",
+        "firstName": "Test",
+        "lastName": "Contractor Without KYC",
+        "email": "test@gmail.com"
+    },
+    "painter-no-kyc": {
+        "mobileNumber": "7121212128",
+        "otp": "123456",
+        "contractorMobileNumber": "8200589287",
+        "firstName": "Test",
+        "lastName": "Painter Without KYC",
+        "email": "test@gmail.com"
+    },
+    "defaultLocation": {
+        "state": "Andhra Pradesh",
+        "area": "Anantapur",
+        "district": "Anantapur",
+        "pincode": "515001"
+    },
+    "gujaratLocation": {
+        "state": "Gujarat",
+        "area": "Surat",
+        "district": "Surat",
+        "pincode": "395007"
+    }
+}
