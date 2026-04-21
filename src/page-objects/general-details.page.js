@@ -77,6 +77,7 @@ class GeneralDetailsPage {
   async clickGeneralDetails() {
     await waitAndClick(this.selectors.generalDetailsButton);
     await waitForElementVisible(this.selectors.editFirstName);
+    for (let i = 0; i < 1; i++) await Gestures.swipeUp(0.4);
   }
 
   async editGeneralInformation() {

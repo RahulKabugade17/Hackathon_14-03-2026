@@ -7,11 +7,12 @@ import EditKycPage from "../page-objects/kyc-details.page.js";
 import ProfileDetailsPage from "../page-objects/profile.page.js";
 import DeleteAccountPage from "../page-objects/delete-account.page.js";
 import userProfileData from "../test-data/contractor_userProfile.data.json" with { type: "json" };
+import homePage from "../page-objects/home.page.js";
+import Gestures from "../utils/gestures.js";
 
 When("user click on Loyalty Tier Card", async function () {
-  await HomePage.skipOnboarding();
-  await HomePage.verifyHomePageLoaded();
-  await HomePage.clickCompleteKyc();
+  await HomePage.skipToolTipTitle();
+  await HomePage.clickOnApprovalStatusCard();
   await ProfileDetailsPage.verifyOpusIdCardDetails();
 });
 
@@ -105,11 +106,11 @@ Then("added payment method should be marked as default", async function () {
     "Added payment method is marked as default",
   );
 
-  await driver.back();
-
-  await HomePage.clickOnProfileSection();
-  await driver.pause(5000);
+  await ProfileDetailsPage.goBack();
+  await homePage.clickIncompleteKycCard();
   await GeneralDetailsPage.clickGeneralDetails();
+  await driver.pause(2000);
+  for (let i = 0; i < 3; i++) await Gestures.swipeUp(0.6);
   const data = userProfileData;
   await DeleteAccountPage.deleteAccount(data.otp);
 });

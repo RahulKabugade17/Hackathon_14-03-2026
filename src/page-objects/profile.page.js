@@ -8,15 +8,15 @@ class ProfileDetailsPage {
   selectors = {
     contractorCard: { droid: "~~usertype-select-contractor", ios: "" },
     painterCard: { droid: "~~usertype-select-painter", ios: "" },
-    headerBackButton: { droid: "~header-back-button", ios: "" },
-    memberTypeTitle: 'android=new UiSelector().text("Member contractor")',
-    profileCompletePercentage: "~profile-picture-completion-percentage",
+    headerBackButton: { droid: "~~header-back-button", ios: "" },
+    memberTypeTitle: 'android=new UiSelector().text("TEST CONTRACTOR")',
+    avatarImage: "~avatar-image",
     kycDetailsButton: { droid: "~KYC Details", ios: "" },
-    shareIdButton: { droid: "~~card-view-share-button", ios: "" },
+    shareIdButton: { droid: "~Share ID", ios: "" },
     shareIdImage: { droid: "~Image", ios: "" },
     shareIdPDF: { droid: "~PDF", ios: "" },
     shareIdContact: { droid: "~Contact", ios: "" },
-    downloadIdButton: { droid: "~~card-view-download-button", ios: "" },
+    downloadIdButton: { droid: "~Download", ios: "" },
     downloadIdImage: { droid: "~Image", ios: "" },
     downloadIdPDF: { droid: "~PDF", ios: "" },
     downloadIdContact: { droid: "~Contact", ios: "" },
@@ -49,8 +49,7 @@ class ProfileDetailsPage {
       ios: "",
     },
     profileCompletePercentage: {
-      droid:
-        '//android.widget.TextView[@content-desc="profile-picture-completion-percentage"]',
+      droid: '//android.widget.TextView[@text="43%"]',
       ios: "",
     },
     galleryButton: { droid: "~~profile-image-gallery-button", ios: "" },
@@ -72,6 +71,10 @@ class ProfileDetailsPage {
 
   async selectPainterPersona() {
     await waitAndClick(this.selectors.painterCard);
+  }
+
+  async goBack() {
+    await waitAndClick(this.selectors.headerBackButton);
   }
 
   async verifyOpusIdCardDetails() {
@@ -147,7 +150,7 @@ class ProfileDetailsPage {
   }
 
   async uploadProfileImage() {
-    await waitAndClick(this.selectors.profileCompletePercentage);
+    await waitAndClick(this.selectors.avatarImage);
     await waitAndClick(this.selectors.galleryButton);
     await driver.waitUntil(
       async () => (await $$(this.selectors.galleryImages)).length > 0,
