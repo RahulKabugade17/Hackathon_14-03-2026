@@ -1,4 +1,4 @@
-import { waitAndClick, waitForVisible } from '../utils/custom-commands.js';
+import { waitForVisible } from '../utils/custom-commands.js';
 import DeleteAccountPage from './delete-account.page.js';
 import signupData from '../test-data/signup.data.json';
 
@@ -25,7 +25,7 @@ class HomePage {
         knowMoreButton: { droid: '~Know more' }
     };
     async skipOnboarding() {
-        await driver.pause(2000);
+        await driver.pause(1000);
         const el = await waitForVisible(this.selectors.onboardingSkipButtons);
         await el.click();
     }
@@ -44,12 +44,13 @@ class HomePage {
         }
     }
     async verifyHomePageLoaded(persona) {
-        await driver.pause(15000);
+        await driver.pause(10000);
         await this.handleOnboardingAndPopups(persona);
 
     }
     async verifyDashboardAndDeleteUser(persona) {
         await this.handleOnboardingAndPopups(persona)
+        await driver.pause(40000);
         await this.clickProfileBasedOnPersona();
         const otp = signupData[persona].otp;
         await DeleteAccountPage.deleteAccount(otp);

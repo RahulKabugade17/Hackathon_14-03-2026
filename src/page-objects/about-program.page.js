@@ -21,6 +21,10 @@ class AboutProgramPage {
             droid: '~language-tooltip-submit-button',
             ios: ''
         },
+        languageTooltipSkipButton: {
+            droid: '~language-tooltip-skip-button',
+            ios: ''
+        },
         myProjectsTooltipSubmitButton: {
             droid: '~my-projects-tooltip-submit-button',
             ios: ''
@@ -53,21 +57,21 @@ class AboutProgramPage {
     async handleTooltips() {
         await this.openDrawerMenu();
         const tooltipSelectors = [
+            this.selectors.languageTooltipSkipButton,
             this.selectors.languageTooltipSubmitButton,
             this.selectors.myProjectsTooltipSubmitButton,
             this.selectors.icMyProjectsTooltipSubmitButton
         ];
-        let tooltipFound = true;
+        let tooltipFound = true; 
         while (tooltipFound) {
-            tooltipFound = false;
-            for (const selector of tooltipSelectors) {
-                const clicked = await clickIfPresent(selector);
-                if (clicked) {
-                    tooltipFound = true;
-                    break;
-                }
-            }
-        }
+            tooltipFound = false; 
+            for (const selector of tooltipSelectors) { 
+                const clicked = await clickIfPresent(selector); 
+                if (clicked) { tooltipFound = true; 
+                    break; 
+                } 
+            } 
+        } 
     }
 
     async verifyAllMenuItems(persona) {
