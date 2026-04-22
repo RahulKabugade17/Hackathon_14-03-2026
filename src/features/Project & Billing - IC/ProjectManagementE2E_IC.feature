@@ -3,7 +3,7 @@ Feature: Project & Billing Management - IC
 
   Scenario Outline: Validate Project and Billing flows for "<persona>"
 
-    Given I am logged in as "<persona>"
+    Given the user is logged in as "<persona>"
 
     When user opens Projects screen
     Then Projects screen should be displayed

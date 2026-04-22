@@ -10,15 +10,24 @@ dayjs.extend(customParseFormat);
 
 export default class BaseListWithDateFilter {
 
-    DATE_PICKER = {
-        PREV_YEAR: '~from-to-date-picker-previous-year',
-        NEXT_YEAR: '~from-to-date-picker-next-year',
-        PREV_MONTH: '~from-to-date-picker-previous-month',
-        NEXT_MONTH: '~from-to-date-picker-next-month',
-        OK: '~from-to-date-picker-ok-button'
-    };
+    LOCATORS = {
+        DATE_PICKER: {
+            PREV_YEAR: '~from-to-date-picker-previous-year',
+            NEXT_YEAR: '~from-to-date-picker-next-year',
+            PREV_MONTH: '~from-to-date-picker-previous-month',
+            NEXT_MONTH: '~from-to-date-picker-next-month',
+            OK: '~from-to-date-picker-ok-button'
+        },
 
-    headerBackButton = '~~header-back-button';
+        HEADER_BACK_BUTTON: '~header-back-button',
+
+        BILLING_NAME: 'android=new UiSelector().descriptionContains("product-billing-item-name")',
+        BILLING_CODE: 'android=new UiSelector().descriptionContains("product-billing-item-code")',
+        BILLING_QTY: 'android=new UiSelector().textContains("Ltr")',
+        BILLING_DATE: 'android=new UiSelector().textMatches("\\d{4}-\\d{2}-\\d{2}")',
+
+        NO_DATA_TEXT: 'android=new UiSelector().textContains("No")'
+    };
 
     constructor(selectors) {
         this.selectors = selectors;
@@ -32,6 +41,13 @@ export default class BaseListWithDateFilter {
         const el = await $(selector);
         await browser.waitUntil(async () => el.isDisplayed().catch(() => false), { timeout: 8000 });
         await el.click();
+    }
+    async triggerAndroidSearchFallback() {
+        try {
+            await driver.execute('mobile: performEditorAction', { action: 'search' });
+        } catch {
+            await driver.execute('mobile: pressKey', { keycode: 66 });
+        }
     }
 
     async search(text, submit = true) {
@@ -47,14 +63,6 @@ export default class BaseListWithDateFilter {
 
         await input.addValue(`${text}\n`);
         await this.triggerAndroidSearchFallback();
-    }
-
-    async triggerAndroidSearchFallback() {
-        try {
-            await driver.execute('mobile: performEditorAction', { action: 'search' });
-        } catch {
-            await driver.execute('mobile: pressKey', { keycode: 66 });
-        }
     }
 
     async openFilter() {
@@ -89,6 +97,16 @@ export default class BaseListWithDateFilter {
 
         if (!clicked) throw new Error('Failed to click Apply button');
     }
+    async clearSearch() {
+        const input = await $(this.getSelector(this.selectors.searchInput));
+        await input.waitForDisplayed();
+        await input.click();
+        await input.setValue('');
+        await driver.execute('mobile: pressKey', { keycode: 66 });
+    }
+    async clearAllFilters() {
+        await waitAndClick(this.getSelector(this.selectors.clearAllButton));
+    }
 
     async selectDateFromAndroidPicker(dateValue) {
         const target = dayjs(dateValue, ['DD-MM-YYYY', 'YYYY-MM-DD'], true);
@@ -104,7 +122,10 @@ export default class BaseListWithDateFilter {
     async adjustYear(targetYear, currentYear) {
         let diff = targetYear - currentYear;
         while (diff !== 0) {
-            const selector = diff > 0 ? this.DATE_PICKER.NEXT_YEAR : this.DATE_PICKER.PREV_YEAR;
+            const selector = diff > 0
+                ? this.LOCATORS.DATE_PICKER.NEXT_YEAR
+                : this.LOCATORS.DATE_PICKER.PREV_YEAR;
+
             await this.clickPickerButton(selector);
             diff += diff > 0 ? -1 : 1;
         }
@@ -113,19 +134,24 @@ export default class BaseListWithDateFilter {
     async adjustMonth(targetMonth, currentMonth) {
         let diff = targetMonth - currentMonth;
         while (diff !== 0) {
-            const selector = diff > 0 ? this.DATE_PICKER.NEXT_MONTH : this.DATE_PICKER.PREV_MONTH;
+            const selector = diff > 0
+                ? this.LOCATORS.DATE_PICKER.NEXT_MONTH
+                : this.LOCATORS.DATE_PICKER.PREV_MONTH;
+
             await this.clickPickerButton(selector);
             diff += diff > 0 ? -1 : 1;
         }
     }
 
     async selectDay(day) {
-        const el = await $(`android=new UiSelector().text("${day}").enabled(true)`);
+        const selector = `android=new UiSelector().text("${day}").enabled(true)`;
+        const el = await $(selector);
         await el.waitForDisplayed({ timeout: 8000 });
         await el.click();
     }
     async confirmDateSelection() {
-        const okBtn = await $(this.DATE_PICKER.OK);
+        const okBtn = await $(this.LOCATORS.DATE_PICKER.OK);
+
         await okBtn.waitForDisplayed({ timeout: 15000 });
         await okBtn.waitForEnabled({ timeout: 15000 });
         let clicked = false;
@@ -134,21 +160,20 @@ export default class BaseListWithDateFilter {
                 await okBtn.click();
                 clicked = true;
                 break;
-            } catch (e) {
+            } catch {
                 await driver.pause(500);
             }
         }
-        if (!clicked) {
-            throw new Error('Failed to click OK button');
-        }
+
+        if (!clicked) throw new Error('Failed to click OK button');
+
         await browser.waitUntil(async () => {
             const okGone = !(await okBtn.isDisplayed().catch(() => false));
-            const pickerStillExists = await $(this.DATE_PICKER.OK)
+            const pickerStillExists = await $(this.LOCATORS.DATE_PICKER.OK)
                 .isExisting()
                 .catch(() => false);
 
             return okGone || !pickerStillExists;
-
         }, {
             timeout: 20000,
             timeoutMsg: 'Date picker did not close after clicking OK'
@@ -159,17 +184,17 @@ export default class BaseListWithDateFilter {
     async verifyBillingDetails(siteId) {
         await waitAndClick(`~my-billing-view-details-${siteId.toLowerCase()}`);
 
-        const name = (await $(`android=new UiSelector().descriptionContains("product-billing-item-name")`).getText()).trim();
-        const code = (await $(`android=new UiSelector().descriptionContains("product-billing-item-code")`).getText()).trim();
-        const qty = await $(`android=new UiSelector().textContains("Ltr")`).getText();
-        const date = await $(`android=new UiSelector().textMatches("\\d{4}-\\d{2}-\\d{2}")`);
+        const name = (await $(this.LOCATORS.BILLING_NAME).getText()).trim();
+        const code = (await $(this.LOCATORS.BILLING_CODE).getText()).trim();
+        const qty = await $(this.LOCATORS.BILLING_QTY).getText();
+        const date = await $(this.LOCATORS.BILLING_DATE);
 
         expect(name).not.toBe('');
         expect(code).toMatch(/^\d+$/);
         expect(qty).toContain('Ltr');
         expect(await date.isDisplayed()).toBe(true);
 
-        await waitAndClick(this.headerBackButton);
+        await waitAndClick(this.LOCATORS.HEADER_BACK_BUTTON);
     }
 
     async verifyDatesWithinRange(dateSelector, fromDate, toDate) {
@@ -178,12 +203,11 @@ export default class BaseListWithDateFilter {
 
         await browser.waitUntil(async () => {
             const items = await $$(dateSelector);
-            const noData = await $('android=new UiSelector().textContains("No")').isDisplayed().catch(() => false);
+            const noData = await $(this.LOCATORS.NO_DATA_TEXT).isDisplayed().catch(() => false);
             return items.length > 0 || noData;
         }, { timeout: 10000 });
 
         const elements = await $$(dateSelector);
-
         if (!elements.length) return;
 
         for (const el of elements) {
@@ -206,18 +230,6 @@ export default class BaseListWithDateFilter {
 
     async verifyCountVisible() {
         await waitForElementVisible(this.getSelector(this.selectors.countText));
-    }
-
-    async clearSearch() {
-        const input = await $(this.getSelector(this.selectors.searchInput));
-        await input.waitForDisplayed();
-        await input.click();
-        await input.setValue('');
-        await driver.execute('mobile: pressKey', { keycode: 66 });
-    }
-
-    async clearAllFilters() {
-        await waitAndClick(this.getSelector(this.selectors.clearAllButton));
     }
 
     async scrollUntilAllLoaded(selector, max = 10) {
