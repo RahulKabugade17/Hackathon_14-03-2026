@@ -52,7 +52,7 @@ export default class BaseListWithDateFilter {
     async triggerAndroidSearchFallback() {
         try {
             await driver.execute('mobile: performEditorAction', { action: 'search' });
-        } catch (err) {
+        } catch {
             await driver.execute('mobile: pressKey', { keycode: 66 });
         }
     }
@@ -72,22 +72,22 @@ export default class BaseListWithDateFilter {
     }
 
     async applyFilter() {
-        // Add extra wait and retry for Apply button
-        const applyBtnSelector = this.getSelector(this.selectors.applyButton);
-        const applyBtn = await $(applyBtnSelector);
+        const applyBtn = await $(this.getSelector(this.selectors.applyButton));
         await applyBtn.waitForDisplayed({ timeout: 10000 });
         await applyBtn.waitForEnabled({ timeout: 10000 });
+
         let clicked = false;
         for (let i = 0; i < 3; i++) {
             try {
                 await applyBtn.click();
                 clicked = true;
                 break;
-            } catch (e) {
+            } catch {
                 await browser.pause(500);
             }
         }
-        if (!clicked) throw new Error('Failed to click Apply button after retries');
+
+        if (!clicked) throw new Error('Failed to click Apply button');
     }
 
     async selectDateFromAndroidPicker(dateValue) {
@@ -124,50 +124,37 @@ export default class BaseListWithDateFilter {
         await el.waitForDisplayed({ timeout: 8000 });
         await el.click();
     }
-
-async confirmDateSelection() {
-    const okBtn = await $(this.DATE_PICKER.OK);
-
-    await okBtn.waitForDisplayed({ timeout: 15000 });
-    await okBtn.waitForEnabled({ timeout: 15000 });
-
-    // Click with retry
-    let clicked = false;
-    for (let i = 0; i < 3; i++) {
-        try {
-            await okBtn.click();
-            clicked = true;
-            break;
-        } catch (e) {
-            await driver.pause(500);
+    async confirmDateSelection() {
+        const okBtn = await $(this.DATE_PICKER.OK);
+        await okBtn.waitForDisplayed({ timeout: 15000 });
+        await okBtn.waitForEnabled({ timeout: 15000 });
+        let clicked = false;
+        for (let i = 0; i < 3; i++) {
+            try {
+                await okBtn.click();
+                clicked = true;
+                break;
+            } catch (e) {
+                await driver.pause(500);
+            }
         }
+        if (!clicked) {
+            throw new Error('Failed to click OK button');
+        }
+        await browser.waitUntil(async () => {
+            const okGone = !(await okBtn.isDisplayed().catch(() => false));
+            const pickerStillExists = await $(this.DATE_PICKER.OK)
+                .isExisting()
+                .catch(() => false);
+
+            return okGone || !pickerStillExists;
+
+        }, {
+            timeout: 20000,
+            timeoutMsg: 'Date picker did not close after clicking OK'
+        });
+        await driver.pause(500);
     }
-
-    if (!clicked) {
-        throw new Error('Failed to click OK button');
-    }
-
-    // 🔥 IMPORTANT FIX: wait for picker to close OR screen to change
-    await browser.waitUntil(async () => {
-
-        // Case 1: OK button gone
-        const okGone = !(await okBtn.isDisplayed().catch(() => false));
-
-        // Case 2: picker container gone (better signal)
-        const pickerStillExists = await $(this.DATE_PICKER.OK)
-            .isExisting()
-            .catch(() => false);
-
-        return okGone || !pickerStillExists;
-
-    }, {
-        timeout: 20000,
-        timeoutMsg: 'Date picker did not close after clicking OK'
-    });
-
-    // Small buffer for UI stability
-    await driver.pause(500);
-}
 
     async verifyBillingDetails(siteId) {
         await waitAndClick(`~my-billing-view-details-${siteId.toLowerCase()}`);
@@ -191,10 +178,7 @@ async confirmDateSelection() {
 
         await browser.waitUntil(async () => {
             const items = await $$(dateSelector);
-            const noData = await $('android=new UiSelector().textContains("No")')
-                .isDisplayed()
-                .catch(() => false);
-
+            const noData = await $('android=new UiSelector().textContains("No")').isDisplayed().catch(() => false);
             return items.length > 0 || noData;
         }, { timeout: 10000 });
 

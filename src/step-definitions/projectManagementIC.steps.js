@@ -1,13 +1,7 @@
-import { Given, When, Then } from '@wdio/cucumber-framework';
+import { When, Then } from '@wdio/cucumber-framework';
 import ProjectsPage from '../page-objects/project.page.js';
 import BillingPage from '../page-objects/billing.page.js';
-import HomePage from '../page-objects/home.page.js';
 
-// =========================
-// 📁 PROJECTS
-// =========================
-
-// OPEN PROJECTS
 When('user opens Projects screen', async function () {
     await ProjectsPage.openProjects(this.userType);
 });
@@ -16,20 +10,18 @@ Then('Projects screen should be displayed', async function () {
     await ProjectsPage.verifySearchVisible();
 });
 
-// 🔍 SEARCH FLOW (USING EXISTING METHODS ONLY)
 When('user searches project for {string}', async function (siteId) {
-    this.siteId = siteId; // store for later validation
+    this.siteId = siteId;
     await ProjectsPage.search(siteId);
 });
 
 Then('project search results should be correct', async function () {
     await ProjectsPage.scrollUntilAllLoaded(ProjectsPage.selectors.itemCard);
-    await ProjectsPage.verifyCountVisible(); // using existing method only
+    await ProjectsPage.verifyCountVisible();
     await ProjectsPage.clearSearch();
     await ProjectsPage.verifyCountVisible();
 });
 
-// 📅 FILTER FLOW (USING EXISTING METHODS ONLY)
 When('user applies project date filter from {string} to {string}', async function (from, to) {
     this.fromDate = from;
     this.toDate = to;
@@ -43,7 +35,6 @@ When('user applies project date filter from {string} to {string}', async functio
 Then('project results should match selected date range', async function () {
     await ProjectsPage.scrollUntilAllLoaded(ProjectsPage.selectors.itemCard);
 
-    // using your existing method (with params)
     await ProjectsPage.verifyDatesWithinRange(
         ProjectsPage.selectors.itemDate,
         this.fromDate,
@@ -58,11 +49,6 @@ Then('user clears project filters', async function () {
     await ProjectsPage.clickHeaderBack();
 });
 
-// =========================
-// 🧾 BILLING
-// =========================
-
-// OPEN BILLING
 When('user opens Billing screen', async function () {
     await BillingPage.openBilling();
 });
@@ -71,7 +57,6 @@ Then('Billing screen should be displayed', async function () {
     await BillingPage.verifySearchVisible();
 });
 
-// 🔍 SEARCH FLOW
 When('user searches billing for {string}', async function (siteId) {
     this.siteId = siteId;
     await BillingPage.search(siteId);
@@ -79,12 +64,11 @@ When('user searches billing for {string}', async function (siteId) {
 
 Then('billing details should display valid product information for {string}', async function (siteId) {
     await BillingPage.scrollUntilAllLoaded(BillingPage.selectors.itemCard);
-    await BillingPage.verifyBillingDetails(siteId); // already exists
+    await BillingPage.verifyBillingDetails(siteId);
     await BillingPage.clearSearch();
     await BillingPage.verifyCountVisible();
 });
 
-// 📅 FILTER FLOW
 When('user applies billing date filter from {string} to {string}', async function (from, to) {
     this.fromDate = from;
     this.toDate = to;
