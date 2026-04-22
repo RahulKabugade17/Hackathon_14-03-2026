@@ -12,3 +12,4 @@ allure-results/
 *.app
 screenshots/
 .eslintignore
+reports/

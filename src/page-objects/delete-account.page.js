@@ -8,6 +8,7 @@ import { execSync } from "child_process";
 
 class DeleteAccountPage {
   selectors = {
+    profileCardYourDetails: { droid: "~Your details" },
     deleteAccountClickHere: "~~delete-account-click-here",
     deleteAnywayButton: "~~delete-account-confirm-button",
     deleteOtpInput0: "~~delete-account-otp-input-0",
@@ -46,7 +47,6 @@ class DeleteAccountPage {
       return null;
     }
   }
-
   async switchToWebView() {
     await driver.pause(3000);
     const webview = (await driver.getContexts()).find((c) =>
@@ -78,16 +78,22 @@ class DeleteAccountPage {
       deleteBtn.click(),
     ]);
     await this.verifyDeletionSuccess(page);
+    await page.waitForTimeout(1000);
+    await browser.close();
   }
 
   async deleteAccount(otp) {
-    for (let i = 0; i < 2; i++) await Gestures.swipeUp(0.6);
-    await waitForElementVisible(this.selectors.deleteAccountClickHere, 10000);
+    await waitAndClick(this.selectors.profileCardYourDetails, 3000);
+    //execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
+    await Gestures.scrollUntilElementVisible(
+      this.selectors.deleteAccountClickHere,
+      3,
+    );
+    await driver.pause(100000);
     await waitAndClick(this.selectors.deleteAccountClickHere);
     await waitAndClick(this.selectors.deleteAnywayButton);
-    await waitForElementVisible(this.selectors.deleteOtpInput0, 30000);
+    await waitForElementVisible(this.selectors.deleteOtpInput0, 25000);
     await this.enterOtp(otp);
-    await driver.pause(5000);
     await waitForElementVisible(this.selectors.yesIUnderstandButton, 10000);
     await waitAndClick(this.selectors.yesIUnderstandButton);
     await waitForElementVisible(this.selectors.deleteAccountButton, 10000);
@@ -96,6 +102,8 @@ class DeleteAccountPage {
       this.selectors.deletedSuccessfullyMessage,
       15000,
     );
+    // const url = await this.extractDeleteUrl();
+    // await this.completeDeleteInWeb(url);
   }
 }
 

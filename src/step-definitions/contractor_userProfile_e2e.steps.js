@@ -108,9 +108,7 @@ Then("added payment method should be marked as default", async function () {
 
   await ProfileDetailsPage.goBack();
   await homePage.clickIncompleteKycCard();
-  await GeneralDetailsPage.clickGeneralDetails();
   await driver.pause(2000);
-  for (let i = 0; i < 3; i++) await Gestures.swipeUp(0.6);
   const data = userProfileData;
   await DeleteAccountPage.deleteAccount(data.otp);
 });

@@ -76,8 +76,10 @@ class GeneralDetailsPage {
 
   async clickGeneralDetails() {
     await waitAndClick(this.selectors.generalDetailsButton);
-    await waitForElementVisible(this.selectors.editFirstName);
-    for (let i = 0; i < 1; i++) await Gestures.swipeUp(0.4);
+    await Gestures.scrollUntilElementVisible(
+      this.selectors.editPermanentAddress,
+      1,
+    );
   }
 
   async editGeneralInformation() {
@@ -182,8 +184,10 @@ class GeneralDetailsPage {
   }
 
   async scrollToWorkInformationSection() {
-    for (let i = 0; i < 2; i++) await Gestures.swipeUp(0.6);
-    await waitForElementVisible(this.selectors.workLocationDetails);
+    await Gestures.scrollUntilElementVisible(
+      this.selectors.workLocationDetails,
+      2,
+    );
   }
 
   async isWorkLocationDisplayed() {
