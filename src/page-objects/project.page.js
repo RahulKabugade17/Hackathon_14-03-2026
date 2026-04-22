@@ -1,4 +1,4 @@
-import BaseListWithDateFilter from '../utils/BaseListWithDateFilter.page.js';
+import BaseListWithDateFilter from '../utils/base-list-with-date-filter.page.js';
 import HomePage from './home.page.js';
 import { waitAndClick } from '../utils/custom-commands.js';
 
