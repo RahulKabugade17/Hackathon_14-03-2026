@@ -1,8 +1,9 @@
+@notification
 Feature: Contractor notification
 
   Scenario: Complete Contractor Notification Flow
 
-    Given I am logged in as "contractor"
+    Given the user is logged in as "contractor"
 
     When User navigate to dashboard
     Then User see notification button
