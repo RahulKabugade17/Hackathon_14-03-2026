@@ -1,4 +1,4 @@
-import { waitAndClick, waitForElementVisible, clickAndType } from '../utils/custom-commands.js';
+import { waitAndClick, waitForElementVisible } from '../utils/custom-commands.js';
 import Gestures from '../utils/gestures.js';
 import { execSync } from 'child_process';
 
@@ -73,9 +73,9 @@ class DeleteAccountPage {
     }
 
     async deleteAccount(otp) {
+        await waitForElementVisible(this.selectors.profileCardYourDetails, 8000);
         await waitAndClick(this.selectors.profileCardYourDetails, 3000);
         execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
-        await driver.pause(150000);
         await Gestures.scrollUntilElementVisible(this.selectors.deleteAccountClickHere, 3);
         await waitAndClick(this.selectors.deleteAccountClickHere);
         await waitAndClick(this.selectors.deleteAnywayButton);

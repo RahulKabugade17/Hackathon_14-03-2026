@@ -1,5 +1,7 @@
-import { waitAndClick, clickIfPresent } from '../utils/custom-commands.js';
+import { waitAndClick, waitForVisible } from '../utils/custom-commands.js';
 import HomePage from './home.page.js';
+import Gestures from '../utils/gestures.js';
+
 
 class AboutProgramPage {
 
@@ -17,16 +19,17 @@ class AboutProgramPage {
             droid: '~open-drawer-menu',
             ios: ''
         },
-        languageTooltipSubmitButton: {
-            droid: '~language-tooltip-submit-button',
-            ios: ''
+        TooltipSkip: {
+            droid: [
+                '~language-tooltip-skip-button',
+                '~language-tooltip-submit-button',
+
+                '~my-projects-tooltip-submit-button',
+                '~ic-my-projects-tooltip-submit-button'
+            ]
         },
-        myProjectsTooltipSubmitButton: {
-            droid: '~my-projects-tooltip-submit-button',
-            ios: ''
-        },
-        icMyProjectsTooltipSubmitButton: {
-            droid: '~ic-my-projects-tooltip-submit-button',
+        signOutButton: {
+            droid: '~sign-out-button',
             ios: ''
         }
     };
@@ -49,31 +52,18 @@ class AboutProgramPage {
         const actualText = await header.getText();
         expect(actualText).toEqual(menuItem);
     }
-
     async handleTooltips() {
         await this.openDrawerMenu();
-        const tooltipSelectors = [
-            this.selectors.languageTooltipSubmitButton,
-            this.selectors.myProjectsTooltipSubmitButton,
-            this.selectors.icMyProjectsTooltipSubmitButton
-        ];
-        let tooltipFound = true;
-        while (tooltipFound) {
-            tooltipFound = false;
-            for (const selector of tooltipSelectors) {
-                const clicked = await clickIfPresent(selector);
-                if (clicked) {
-                    tooltipFound = true;
-                    break;
-                }
-            }
-        }
+        await driver.pause(1000);
+        const el = await waitForVisible(this.selectors.TooltipSkip);
+        await el.click();
     }
 
     async verifyAllMenuItems(persona) {
         await HomePage.verifyHomePageLoaded(persona)
         await this.handleTooltips();
         await this.expandAboutProgram();
+        await Gestures.scrollUntilElementVisible(this.selectors.signOutButton, 2);
         for (const [menuItem, selector] of Object.entries(this.selectors.menuItems)) {
             const el = await $(selector);
             if (!(await el.isExisting())) continue;

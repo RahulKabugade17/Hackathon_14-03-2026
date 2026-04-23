@@ -1,4 +1,4 @@
-import { waitAndClick, waitForVisible } from '../utils/custom-commands.js';
+import { waitForVisible } from '../utils/custom-commands.js';
 import DeleteAccountPage from './delete-account.page.js';
 import signupData from '../test-data/signup.data.json';
 
@@ -24,46 +24,36 @@ class HomePage {
         },
         knowMoreButton: { droid: '~Know more' }
     };
-
-    async safeBack() {
-        await driver.pause(10000);
-        await waitForVisible(this.selectors.knowMoreButton, 1000);
-        await driver.back();
-    }
     async skipOnboarding() {
-        const el = await waitForVisible(this.selectors.onboardingSkipButtons, 1000);
+        await driver.pause(1000);
+        const el = await waitForVisible(this.selectors.onboardingSkipButtons);
         await el.click();
     }
     async clickProfileBasedOnPersona() {
-        const profileCard = await waitForVisible(this.selectors.profileCardnew, 30000);
+        await driver.pause(2000);
+        const profileCard = await waitForVisible(this.selectors.profileCardnew);
         await profileCard.click();
     }
     async handleOnboardingAndPopups(persona) {
-        if (persona === 'painter' || persona === 'institutional_contractor') {
+        if (persona === 'painter' || persona === 'institutional_contractor' || persona === 'trade_contractor' || persona === 'painter-no-kyc') {
             await this.skipOnboarding();
             return;
         }
-        if (persona === 'contractor') {
-            await this.safeBack();
-            return;
-        }
-        if (persona === 'trade_contractor') {
-            await this.safeBack();
-            await this.skipOnboarding();
+        if (persona === 'contractor' || persona === 'contractor-no-kyc') {
             return;
         }
     }
     async verifyHomePageLoaded(persona) {
+        await driver.pause(10000);
         await this.handleOnboardingAndPopups(persona);
-
 
     }
     async verifyDashboardAndDeleteUser(persona) {
-        await this.skipOnboarding();
+        await this.handleOnboardingAndPopups(persona)
+        await driver.pause(70000);
         await this.clickProfileBasedOnPersona();
-        // await this.clickProfileBasedOnPersona();
-        // const otp = signupData[persona].otp;
-        // await DeleteAccountPage.deleteAccount(otp);
+        const otp = signupData[persona].otp;
+        await DeleteAccountPage.deleteAccount(otp);
     }
 }
 export default new HomePage();
