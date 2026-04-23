@@ -19,7 +19,7 @@ export default class BaseListWithDateFilter {
             OK: '~from-to-date-picker-ok-button'
         },
 
-        HEADER_BACK_BUTTON: '~header-back-button',
+        HEADER_BACK_BUTTON: '~~header-back-button',
 
         BILLING_NAME: 'android=new UiSelector().descriptionContains("product-billing-item-name")',
         BILLING_CODE: 'android=new UiSelector().descriptionContains("product-billing-item-code")',
@@ -39,7 +39,7 @@ export default class BaseListWithDateFilter {
 
     async clickPickerButton(selector) {
         const el = await $(selector);
-        await browser.waitUntil(async () => el.isDisplayed().catch(() => false), { timeout: 8000 });
+        await browser.waitUntil(async () => el.isDisplayed().catch(() => false), { timeout: 10000 });
         await el.click();
     }
     async triggerAndroidSearchFallback() {
@@ -146,7 +146,7 @@ export default class BaseListWithDateFilter {
     async selectDay(day) {
         const selector = `android=new UiSelector().text("${day}").enabled(true)`;
         const el = await $(selector);
-        await el.waitForDisplayed({ timeout: 8000 });
+        await el.waitForDisplayed({ timeout: 10000 });
         await el.click();
     }
     async confirmDateSelection() {

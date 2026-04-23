@@ -73,7 +73,8 @@ class DeleteAccountPage {
     }
 
     async deleteAccount(otp) {
-        await waitAndClick(this.selectors.profileCardYourDetails, 5000);
+        await waitForElementVisible(this.selectors.profileCardYourDetails, 8000);
+        await waitAndClick(this.selectors.profileCardYourDetails, 3000);
         execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
         await Gestures.scrollUntilElementVisible(this.selectors.deleteAccountClickHere, 3);
         await waitAndClick(this.selectors.deleteAccountClickHere);
