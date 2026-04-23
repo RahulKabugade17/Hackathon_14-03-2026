@@ -150,35 +150,20 @@ export default class BaseListWithDateFilter {
         await el.click();
     }
     async confirmDateSelection() {
-        const okBtn = await $(this.LOCATORS.DATE_PICKER.OK);
-
+        const selector = this.LOCATORS.DATE_PICKER.OK;
+        const okBtn = await $(selector);
         await okBtn.waitForDisplayed({ timeout: 15000 });
         await okBtn.waitForEnabled({ timeout: 15000 });
-        let clicked = false;
-        for (let i = 0; i < 3; i++) {
-            try {
-                await okBtn.click();
-                clicked = true;
-                break;
-            } catch {
-                await driver.pause(500);
-            }
-        }
-
-        if (!clicked) throw new Error('Failed to click OK button');
-
+        await driver.execute('mobile: clickGesture', {
+            elementId: okBtn.elementId
+        });
         await browser.waitUntil(async () => {
-            const okGone = !(await okBtn.isDisplayed().catch(() => false));
-            const pickerStillExists = await $(this.LOCATORS.DATE_PICKER.OK)
-                .isExisting()
-                .catch(() => false);
-
-            return okGone || !pickerStillExists;
+            const elements = await $$(selector);
+            return elements.length === 0;
         }, {
             timeout: 20000,
             timeoutMsg: 'Date picker did not close after clicking OK'
         });
-        await driver.pause(500);
     }
 
     async verifyBillingDetails(siteId) {

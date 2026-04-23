@@ -50,7 +50,7 @@ class HomePage {
     }
     async verifyDashboardAndDeleteUser(persona) {
         await this.handleOnboardingAndPopups(persona)
-        await driver.pause(40000);
+        await driver.pause(70000);
         await this.clickProfileBasedOnPersona();
         const otp = signupData[persona].otp;
         await DeleteAccountPage.deleteAccount(otp);
