@@ -9,8 +9,8 @@ const __dirname = path.dirname(__filename);
 
 const appPath = path.resolve('apps/app-uat.apk');
 
-const deviceName = 'PRFINVZXHEN7BEHY';
-const deviceVersion = '14';
+const deviceName = 'RZCWA000BGL';
+const deviceVersion = '15';
 
 export const config = {
     ...baseConfig,

@@ -43,7 +43,7 @@ class AboutProgramPage {
     }
 
     async openDrawerMenu() {
-        await waitAndClick(this.selectors.openDrawerMenu);
+        await waitAndClick(this.selectors.openDrawerMenu.droid);
     }
 
     async verifyPageHeader(menuItem) {
@@ -63,7 +63,7 @@ class AboutProgramPage {
         await HomePage.verifyHomePageLoaded(persona)
         await this.handleTooltips();
         await this.expandAboutProgram();
-        await Gestures.scrollUntilElementVisible(this.selectors.signOutButton, 2);
+        await Gestures.scrollUntilElementVisible(this.selectors.signOutButton.droid, 2);
         for (const [menuItem, selector] of Object.entries(this.selectors.menuItems)) {
             const el = await $(selector);
             if (!(await el.isExisting())) continue;

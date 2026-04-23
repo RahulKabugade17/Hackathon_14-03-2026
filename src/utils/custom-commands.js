@@ -30,7 +30,7 @@ browser.overwriteCommand('$', async (original$, selector) => {
         try {
           const el = await original$(sel);
           if (await el.isExisting()) return el;
-        } catch {}
+        } catch { }
       }
       throw new Error(`[SELECTOR ERROR] None matched: ${JSON.stringify(resolved)}`);
     }
@@ -103,7 +103,7 @@ export async function waitForVisible(selector, timeout = 5000) {
 }
 
 
-export async function waitAndClick(selector, timeout = 10000) {
+export async function waitAndClick(selector, timeout = 15000) {
   const el = await waitAndFindElement(selector, timeout);
   try {
     await el.click();
@@ -121,7 +121,7 @@ export async function clickIfPresent(selector, timeout = 2000) {
       await el.click();
       return true;
     }
-  } catch {}
+  } catch { }
   return false;
 }
 
@@ -163,7 +163,7 @@ export async function handleSystemPermissions(timeout = 7000) {
           clicked = true;
           break;
         }
-      } catch {}
+      } catch { }
     }
 
     if (!clicked) {
@@ -212,6 +212,6 @@ export async function closeWebViewPopup() {
     await driver.switchContext('NATIVE_APP');
   } catch (e) {
     console.warn(`WebView popup handling failed: ${e.message}`);
-    try { await driver.switchContext('NATIVE_APP'); } catch {}
+    try { await driver.switchContext('NATIVE_APP'); } catch { }
   }
 }
