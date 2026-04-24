@@ -75,8 +75,8 @@ class Gestures {
         const size = await container.getSize();
 
         const startX = Math.floor(location.x + size.width / 2);
-        const startY = Math.floor(location.y + size.height * 0.8);
-        const endY = Math.floor(location.y + size.height * 0.2);
+        const startY = Math.floor(location.y + size.height * 0.7);
+        const endY = Math.floor(location.y + size.height * 0.4);
 
         await driver.performActions([
           {

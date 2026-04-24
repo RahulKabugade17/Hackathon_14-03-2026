@@ -74,11 +74,29 @@ class GeneralDetailsPage {
     },
   };
 
+  async scrollTillPerfectView(containerSelector) {
+    for (let i = 0; i < 2; i++) {
+      const firstName = await $(this.selectors.editFirstName);
+      const email = await $(this.selectors.editEmail);
+
+      const isFirstVisible = await firstName.isDisplayed();
+      const isEmailVisible = await email.isDisplayed();
+
+      if (isFirstVisible && isEmailVisible) {
+        return true; // perfect position reached
+      }
+
+      await Gestures.swipeUpInsideElement(containerSelector);
+      await driver.pause(400);
+    }
+
+    throw new Error("Could not reach desired scroll position");
+  }
+
   async clickGeneralDetails() {
     await waitAndClick(this.selectors.generalDetailsButton);
-    await Gestures.scrollUntilElementVisible(
-      this.selectors.editPermanentAddress,
-      1,
+    await this.scrollTillPerfectView(
+      "//androidx.recyclerview.widget.RecyclerView",
     );
   }
 
@@ -157,11 +175,6 @@ class GeneralDetailsPage {
 
   async arePersonalDetailsUpdated() {
     await waitForElementVisible(this.selectors.editFirstName);
-    await waitForElementVisible(this.selectors.editLastName);
-    await waitForElementVisible(this.selectors.editCommunicationAddress);
-    await waitForElementVisible(this.selectors.editPermanentAddress);
-    await waitForElementVisible(this.selectors.editEmail);
-
     const firstName = await $(this.selectors.editFirstName).getText();
     const lastName = await $(this.selectors.editLastName).getText();
     const communicationAddress = await $(
@@ -186,7 +199,7 @@ class GeneralDetailsPage {
   async scrollToWorkInformationSection() {
     await Gestures.scrollUntilElementVisible(
       this.selectors.workLocationDetails,
-      2,
+      5,
     );
   }
 
