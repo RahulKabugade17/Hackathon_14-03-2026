@@ -199,7 +199,7 @@ class GeneralDetailsPage {
   async scrollToWorkInformationSection() {
     await Gestures.scrollUntilElementVisible(
       this.selectors.workLocationDetails,
-      5,
+      3,
     );
   }
 

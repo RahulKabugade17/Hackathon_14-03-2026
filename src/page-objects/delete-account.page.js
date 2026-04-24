@@ -87,7 +87,7 @@ class DeleteAccountPage {
     //execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
     await Gestures.scrollUntilElementVisible(
       this.selectors.deleteAccountClickHere,
-      7,
+      3,
     );
     await driver.pause(100000);
     await waitAndClick(this.selectors.deleteAccountClickHere);
