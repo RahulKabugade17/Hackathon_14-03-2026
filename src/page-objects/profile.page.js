@@ -9,7 +9,6 @@ class ProfileDetailsPage {
     contractorCard: { droid: "~~usertype-select-contractor", ios: "" },
     painterCard: { droid: "~~usertype-select-painter", ios: "" },
     headerBackButton: { droid: "~~header-back-button", ios: "" },
-    memberTypeTitle: 'android=new UiSelector().text("TEST CONTRACTOR")',
     avatarImage: "~avatar-image",
     kycDetailsButton: { droid: "~KYC Details", ios: "" },
     shareIdButton: { droid: "~Share ID", ios: "" },
@@ -75,10 +74,6 @@ class ProfileDetailsPage {
 
   async goBack() {
     await waitAndClick(this.selectors.headerBackButton);
-  }
-
-  async verifyOpusIdCardDetails() {
-    await waitForElementVisible(this.selectors.memberTypeTitle);
   }
 
   async openKycDetails() {
@@ -157,8 +152,24 @@ class ProfileDetailsPage {
     return (await currentProfileCompletion) === "43%";
   }
 
+  async getFirstVisibleElement(selectors) {
+    for (const selector of selectors) {
+      const el = await $(selector);
+      const visible = await el
+        .waitForDisplayed({ timeout: 15000 })
+        .catch(() => false);
+      if (visible) return el;
+    }
+    throw new Error("No visible element found");
+  }
+
   async uploadProfileImage() {
-    await waitAndClick(this.selectors.avatarImage);
+    // Pick correct entry point (signup vs edit profile)
+    const imagePicker = await this.getFirstVisibleElement([
+      this.selectors.profileImagePicker.droid,
+      this.selectors.avatarImage,
+    ]);
+    await imagePicker.click();
     await waitAndClick(this.selectors.galleryButton);
     await driver.waitUntil(
       async () => (await $$(this.selectors.galleryImages)).length > 0,

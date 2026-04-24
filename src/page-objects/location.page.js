@@ -40,7 +40,7 @@ class LocationPage {
     await waitAndClick(this.selectors.confirmButton);
   }
 
-  async useCurrentLocation() {
+  async selectCurrentLocation() {
     await waitAndClick(this.selectors.useCurrentLocationButton);
     await waitAndClick(this.selectors.nextButton);
     await waitAndClick(this.selectors.confirmButton);

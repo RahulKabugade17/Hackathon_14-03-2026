@@ -15,7 +15,7 @@
         "email": "test@gmail.com"
     },
     "contractor-no-kyc": {
-        "mobileNumber": "7121212189",
+        "mobileNumber": "7121212188",
         "otp": "123456",
         "firstName": "Test",
         "lastName": "Contractor Without KYC",

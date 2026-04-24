@@ -4,7 +4,7 @@ Feature: User Profile End to End
   Scenario Outline: Validate complete user profile flow for <persona>
 
     # Login
-    Given I am registered as "<persona>"
+    Given the user is registered as "<persona>"
 
     # Update Profile Picture
     When user click on Loyalty Tier Card

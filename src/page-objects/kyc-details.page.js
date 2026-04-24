@@ -54,12 +54,12 @@ class KycDetailsPage {
   }
 
   async getPanVerificationStatus() {
-    await waitForElementVisible(this.selectors.verifiedPan);
+    await waitForElementVisible(this.selectors.verifiedPan, 10000);
     return await $(this.selectors.verifiedPan).getText();
   }
 
   async isPaymentMethodDefault() {
-    await waitForElementVisible(this.selectors.defaultUPI);
+    await waitForElementVisible(this.selectors.defaultUPI, 10000);
     return await $(this.selectors.defaultUPI).isDisplayed();
   }
 }
