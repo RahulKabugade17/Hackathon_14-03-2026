@@ -10,7 +10,6 @@ import userProfileData from "../test-data/contractor_userProfile.data.json" with
 import homePage from "../page-objects/home.page.js";
 
 When("user click on Loyalty Tier Card", async function () {
-  await HomePage.skipToolTipTitle();
   await HomePage.clickOnApprovalStatusCard();
 });
 
