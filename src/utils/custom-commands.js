@@ -6,46 +6,34 @@ const platformKeyMap = {
   android: "droid",
   ios: "ios",
 };
-export async function waitForVisible(selector, timeout = 7000) {
-  return waitAndFindElement(selector, timeout);
-}
+
 /* =====================================================
    OVERWRITE $
 ===================================================== */
+
 browser.overwriteCommand("$", async (original$, selector) => {
   if (!selector) {
     throw new Error("❌ $ called with undefined selector");
   }
 
-  // Already WebdriverIO element
-  if (selector?.elementId) {
-    return selector;
-  }
+  if (selector?.elementId) return selector;
 
-  // Plain string selector
   if (typeof selector === "string") {
     return original$(selector);
   }
 
-  // Platform-based selector object
   if (selector?.droid || selector?.ios) {
     const resolved = getSelectorByPlatform(selector);
 
-    // ✅ ARRAY fallback support
     if (Array.isArray(resolved)) {
       for (const sel of resolved) {
         try {
           const el = await original$(sel);
-          if (await el.isExisting()) {
-            return el;
-          }
-        } catch {
-          // ignore and try next
-        }
+          if (await el.isExisting()) return el;
+        } catch {}
       }
-
       throw new Error(
-        `[SELECTOR ERROR] None of the selectors matched: ${JSON.stringify(resolved)}`,
+        `[SELECTOR ERROR] None matched: ${JSON.stringify(resolved)}`,
       );
     }
 
@@ -53,7 +41,7 @@ browser.overwriteCommand("$", async (original$, selector) => {
   }
 
   throw new Error(
-    `[SELECTOR ERROR] Invalid selector passed to $(): ${JSON.stringify(selector)}`,
+    `[SELECTOR ERROR] Invalid selector: ${JSON.stringify(selector)}`,
   );
 });
 
@@ -66,16 +54,14 @@ browser.overwriteCommand("$$", async (original$$, selector) => {
     throw new Error("❌ $$ called with undefined selector");
   }
 
-  if (typeof selector === "string") {
-    return original$$(selector);
-  }
+  if (typeof selector === "string") return original$$(selector);
 
   if (selector?.droid || selector?.ios) {
     return original$$(getSelectorByPlatform(selector));
   }
 
   throw new Error(
-    `[SELECTOR ERROR] Invalid selector passed to $$(): ${JSON.stringify(selector)}`,
+    `[SELECTOR ERROR] Invalid selector: ${JSON.stringify(selector)}`,
   );
 });
 
@@ -88,7 +74,7 @@ function getSelectorByPlatform(selector) {
   const key = platformKeyMap[platform];
 
   if (!key || !selector[key]) {
-    throw new Error(`Selector not set for ${platform} platform`);
+    throw new Error(`Selector not set for ${platform}`);
   }
 
   return selector[key];
@@ -108,15 +94,17 @@ export async function waitAndFindElement(selector, timeout = 30000) {
     throw new Error("❌ waitAndFindElement called with undefined selector");
   }
 
-  const element = selector?.elementId ? selector : await $(selector);
+  const el = selector?.elementId ? selector : await $(selector);
+  await el.waitForExist({ timeout });
+  await el.waitForDisplayed({ timeout });
 
-  await element.waitForExist({ timeout });
-  await element.waitForDisplayed({ timeout });
-
-  return element;
+  return el;
 }
 
-export async function waitForElementVisible(selector, timeout = 30000) {
+export async function waitForElementVisible(selector, timeout = 5000) {
+  return waitAndFindElement(selector, timeout);
+}
+export async function waitForVisible(selector, timeout = 5000) {
   return waitAndFindElement(selector, timeout);
 }
 
@@ -125,9 +113,21 @@ export async function waitAndClick(selector, timeout = 30000) {
   try {
     await el.click();
   } catch (err) {
+    console.warn("Retry click due to failure:", err.message);
     await driver.pause(300);
     await el.click();
   }
+}
+
+export async function clickIfPresent(selector, timeout = 2000) {
+  try {
+    const el = await $(selector);
+    if (await el.waitForDisplayed({ timeout })) {
+      await el.click();
+      return true;
+    }
+  } catch {}
+  return false;
 }
 
 export async function setValueFast(selector, value) {
@@ -141,19 +141,8 @@ export async function clickAndType(selector, value) {
   await driver.keys(value);
 }
 
-export async function clickIfPresent(selector, timeout = 2000) {
-  try {
-    const el = await $(selector);
-    if (await el.waitForDisplayed({ timeout })) {
-      await el.click();
-    }
-  } catch {
-    // Element not present — ignore safely
-  }
-}
-
 /* =====================================================
-   SYSTEM PERMISSIONS (ANDROID)
+   SYSTEM PERMISSIONS
 ===================================================== */
 
 export async function handleSystemPermissions(timeout = 7000) {
@@ -161,37 +150,35 @@ export async function handleSystemPermissions(timeout = 7000) {
     "id=com.android.permissioncontroller:id/permission_allow_button",
     "id=com.android.permissioncontroller:id/permission_allow_foreground_only_button",
     "id=com.android.permissioncontroller:id/permission_allow_one_time_button",
+    'android=new UiSelector().textContains("Allow")',
     "id=android:id/button1",
-    "id=android:id/button2",
   ];
 
   const endTime = Date.now() + timeout;
-  let anyHandled = false;
+
   while (Date.now() < endTime) {
-    let handledThisRound = false;
+    let clicked = false;
+
     for (const selector of permissionButtons) {
       try {
         const el = await $(selector);
-        if (await el.isDisplayed()) {
+        if ((await el.isExisting()) && (await el.isDisplayed())) {
           await el.click();
-          anyHandled = true;
-          handledThisRound = true;
-          await driver.pause(600);
+          await driver.pause(800);
+          clicked = true;
           break;
         }
       } catch {}
     }
-    if (!handledThisRound && !anyHandled) {
-      break;
-    }
-    if (!handledThisRound) {
-      await driver.pause(300);
+
+    if (!clicked) {
+      await driver.pause(500);
     }
   }
 }
 
 /* =====================================================
-   SWIPE UTILITY
+   EXTRA UTILITIES (FROM FILE 1)
 ===================================================== */
 
 export async function swipeScreen(startY = 0.8, endY = 0.2) {
@@ -213,4 +200,27 @@ export async function swipeScreen(startY = 0.8, endY = 0.2) {
   ]);
 
   await driver.releaseActions();
+}
+
+export async function closeWebViewPopup() {
+  try {
+    const contexts = await driver.getContexts();
+    const webview = contexts.find((c) => c.includes("WEBVIEW"));
+
+    if (!webview) return;
+
+    await driver.switchContext(webview);
+
+    const closeBtn = await $("span");
+    if (await closeBtn.isDisplayed()) {
+      await closeBtn.click();
+    }
+
+    await driver.switchContext("NATIVE_APP");
+  } catch (e) {
+    console.warn(`WebView popup handling failed: ${e.message}`);
+    try {
+      await driver.switchContext("NATIVE_APP");
+    } catch {}
+  }
 }

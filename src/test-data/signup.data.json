@@ -3,7 +3,7 @@
         "mobileNumber": "8382838286",
         "otp": "123456",
         "firstName": "Test",
-        "lastName": "Contractor",
+        "lastName": "Contractor With KYC",
         "email": "test@gmail.com"
     },
     "painter": {
@@ -11,14 +11,14 @@
         "otp": "123456",
         "contractorMobileNumber": "8200589287",
         "firstName": "Test",
-        "lastName": "Painter",
+        "lastName": "Painter With KYC",
         "email": "test@gmail.com"
     },
     "contractor-no-kyc": {
-        "mobileNumber": "7121212188",
+        "mobileNumber": "7121212189",
         "otp": "123456",
         "firstName": "Test",
-        "lastName": "Contractor",
+        "lastName": "Contractor Without KYC",
         "email": "test@gmail.com"
     },
     "painter-no-kyc": {
@@ -26,7 +26,7 @@
         "otp": "123456",
         "contractorMobileNumber": "8200589287",
         "firstName": "Test",
-        "lastName": "Painter",
+        "lastName": "Painter Without KYC",
         "email": "test@gmail.com"
     },
     "defaultLocation": {

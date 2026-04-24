@@ -1,15 +1,12 @@
-import { Given, Then } from '@wdio/cucumber-framework';
-import HomePage from '../page-objects/home.page.js';
-import { signupAs } from '../page-objects/signup.page.js';
+import { Given, Then } from "@wdio/cucumber-framework";
+import HomePage from "../page-objects/home.page.js";
+import { signupAs } from "../page-objects/signup.page.js";
 
-Given('I am registered as {string}', async function (persona) {
-    this.persona = persona;
-    await signupAs(persona);
+Given("the user is registered as {string}", async function (persona) {
+  this.persona = persona;
+  await signupAs(persona);
 });
 
-Then('I should land on the home dashboard', async function () {
-    await HomePage.verifyHomePageLoaded();
-    await HomePage.clickOnProfileSection();
-    //const otp = signupData[this.persona].otp
-    //await DeleteAccountPage.deleteAccount(otp);
+Then("the user should land on the home dashboard", async function () {
+  await HomePage.verifyDashboardAndDeleteUser(this.persona);
 });
