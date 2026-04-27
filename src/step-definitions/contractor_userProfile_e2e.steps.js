@@ -9,8 +9,8 @@ import DeleteAccountPage from "../page-objects/delete-account.page.js";
 import userProfileData from "../test-data/contractor_userProfile.data.json" with { type: "json" };
 import homePage from "../page-objects/home.page.js";
 
-When("user click on Loyalty Tier Card", async function () {
-  await HomePage.clickOnApprovalStatusCard();
+When("user click on user profile card on home screen", async function () {
+  await HomePage.clickApprovalStatusCard();
 });
 
 When("user update his profile image", async function () {
@@ -42,7 +42,7 @@ Then(
 );
 
 When("user open general details", async function () {
-  await GeneralDetailsPage.clickGeneralDetails();
+  await GeneralDetailsPage.navigateToYourDetails();
 });
 
 When("edit personal details", async function () {
@@ -104,7 +104,7 @@ Then("added payment method should be marked as default", async function () {
   );
 
   await ProfileDetailsPage.goBack();
-  await homePage.clickIncompleteKycCard();
+  await homePage.clickProfileBasedOnPersona();
   const data = userProfileData;
   await DeleteAccountPage.deleteAccount(data.otp);
 });

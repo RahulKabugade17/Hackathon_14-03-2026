@@ -7,7 +7,7 @@ Feature: User Profile End to End
     Given the user is registered as "<persona>"
 
     # Update Profile Picture
-    When user click on Loyalty Tier Card
+    When user click on user profile card on home screen
     And user update his profile image
     Then user should able to see updated profile picture
 

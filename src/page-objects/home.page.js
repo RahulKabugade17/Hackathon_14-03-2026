@@ -21,9 +21,8 @@ class HomePage {
         "~institutional-top-card-main",
       ],
     },
+    approvalStatusCard: { droid: "~approval-status-card" },
     knowMoreButton: { droid: "~Know more" },
-    approvalStatusCard: "~approval-status-card",
-    profileSection: { droid: "~user-type-complete-kyc" },
   };
 
   async skipOnboarding() {
@@ -35,6 +34,10 @@ class HomePage {
     await driver.pause(2000);
     const profileCard = await waitForVisible(this.selectors.profileCardnew);
     await profileCard.click();
+  }
+  async clickApprovalStatusCard() {
+    await waitForVisible(this.selectors.approvalStatusCard, 10000);
+    await waitAndClick(this.selectors.approvalStatusCard);
   }
   async handleOnboardingAndPopups(persona) {
     if (
@@ -53,19 +56,6 @@ class HomePage {
   async verifyHomePageLoaded(persona) {
     await driver.pause(10000);
     await this.handleOnboardingAndPopups(persona);
-  }
-
-  async clickOnApprovalStatusCard() {
-    await waitAndClick(this.selectors.approvalStatusCard);
-  }
-
-  async verifyHomePageLoaded() {
-    await Promise.race([
-      waitForVisible(this.selectors.tooltipTitle),
-      waitForVisible(this.selectors.icToggleSwitchTooltipTitle),
-      waitForVisible(this.selectors.icOpusIdTooltipTitle),
-    ]);
-    await this.skipOnboarding();
   }
 
   async verifyDashboardAndDeleteUser(persona) {

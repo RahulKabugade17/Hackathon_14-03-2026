@@ -9,7 +9,7 @@ import userProfileData from "../test-data/contractor_userProfile.data.json" with
 
 class GeneralDetailsPage {
   selectors = {
-    generalDetailsButton: { droid: "~Your details", ios: "" },
+    yourDetails: { droid: "~Your details", ios: "" },
     editFirstName: {
       droid: "~general-details-item-first-name-subtitle",
       ios: "",
@@ -93,8 +93,8 @@ class GeneralDetailsPage {
     throw new Error("Could not reach desired scroll position");
   }
 
-  async clickGeneralDetails() {
-    await waitAndClick(this.selectors.generalDetailsButton);
+  async navigateToYourDetails() {
+    await waitAndClick(this.selectors.yourDetails);
     await this.scrollTillPerfectView(
       "//androidx.recyclerview.widget.RecyclerView",
     );

@@ -1,7 +1,6 @@
 import {
   waitAndClick,
   waitForElementVisible,
-  clickAndType,
 } from "../utils/custom-commands.js";
 import Gestures from "../utils/gestures.js";
 import { execSync } from "child_process";
@@ -13,10 +12,6 @@ class DeleteAccountPage {
     deleteAnywayButton: "~~delete-account-confirm-button",
     deleteOtpInput0: "~~delete-account-otp-input-0",
     deleteAccountSubmit: "~~delete-account-otp-submit-button",
-    yesIUnderstandButton:
-      '//android.widget.Button[@resource-id="understand-btn"]',
-    deleteAccountButton: '//android.widget.Button[@resource-id="delete-btn"]',
-    deletedSuccessfullyMessage: '//*[@resource-id="delete-heading"]',
   };
 
   async enterOtp(otp) {
@@ -83,27 +78,20 @@ class DeleteAccountPage {
   }
 
   async deleteAccount(otp) {
+    await waitForElementVisible(this.selectors.profileCardYourDetails, 8000);
     await waitAndClick(this.selectors.profileCardYourDetails, 3000);
-    //execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
+    execSync(`adb -s ${driver.capabilities.udid} logcat -c`);
     await Gestures.scrollUntilElementVisible(
       this.selectors.deleteAccountClickHere,
       3,
     );
-    await driver.pause(100000);
     await waitAndClick(this.selectors.deleteAccountClickHere);
     await waitAndClick(this.selectors.deleteAnywayButton);
     await waitForElementVisible(this.selectors.deleteOtpInput0, 25000);
     await this.enterOtp(otp);
-    await waitForElementVisible(this.selectors.yesIUnderstandButton, 10000);
-    await waitAndClick(this.selectors.yesIUnderstandButton);
-    await waitForElementVisible(this.selectors.deleteAccountButton, 10000);
-    await waitAndClick(this.selectors.deleteAccountButton);
-    await waitForElementVisible(
-      this.selectors.deletedSuccessfullyMessage,
-      15000,
-    );
-    // const url = await this.extractDeleteUrl();
-    // await this.completeDeleteInWeb(url);
+    //await waitAndClick(this.selectors.deleteAccountSubmit);
+    const url = await this.extractDeleteUrl();
+    await this.completeDeleteInWeb(url);
   }
 }
 
