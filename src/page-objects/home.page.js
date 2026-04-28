@@ -57,7 +57,9 @@ class HomePage {
     await driver.pause(10000);
     await this.handleOnboardingAndPopups(persona);
   }
-
+  async verifyUserOnHomePage() {
+    await waitForVisible(this.selectors.approvalStatusCard, 10000);
+  }
   async verifyDashboardAndDeleteUser(persona) {
     await this.handleOnboardingAndPopups(persona);
     await driver.pause(70000);

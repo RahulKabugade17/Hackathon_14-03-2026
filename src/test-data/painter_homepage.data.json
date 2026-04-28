@@ -1,0 +1,14 @@
+{
+    "businessInformation": {
+        "gstNumber": "29AAACH7409R1ZX",
+        "companyName": "ABC Construction",
+        "firmAddress": "Mumbai, India"
+    },
+    "teamMember": {
+        "firstName": "Test",
+        "lastName": "Contactor",
+        "opusId": "",
+        "mobileNumber": "9876543210"
+    },
+    "otp": "123456"
+}
