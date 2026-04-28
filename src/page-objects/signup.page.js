@@ -1,14 +1,14 @@
-import LoginPage from "./login.page.js";
-import ProfileDetailsPage from "./profile.page.js";
-import LocationPage from "./location.page.js";
-import PanKycPage from "./pankyc.page.js";
-import BankKycPage from "./bankupi.page.js";
-import BankAccountPage from "./bank-account.page.js";
-import signupData from "../test-data/signup.data.json";
-import kycData from "../test-data/kyc.data.json";
-import LanguagePage from "../page-objects/language.page.js";
-import { handleSystemPermissions } from "../utils/custom-commands.js";
-import Gestures from "../utils/gestures.js";
+import LoginPage from './login.page.js';
+import ProfileDetailsPage from './profile.page.js';
+import LocationPage from './location.page.js';
+import PanKycPage from './pankyc.page.js';
+import BankKycPage from './bankupi.page.js';
+import BankAccountPage from './bank-account.page.js';
+import signupData from '../test-data/signup.data.json';
+import kycData from '../test-data/kyc.data.json';
+import LanguagePage from '../page-objects/language.page.js';
+import { handleSystemPermissions } from '../utils/custom-commands.js';
+import Gestures from '../utils/gestures.js';
 
 export async function signupAs(persona) {
   const signup = signupData[persona];
@@ -18,7 +18,7 @@ export async function signupAs(persona) {
   await LoginPage.handleOverlays();
   await ProfileDetailsPage.openProfileDetails();
   switch (persona) {
-    case "painter":
+    case 'painter':
       await ProfileDetailsPage.selectPainterPersona();
       await ProfileDetailsPage.addContractorDetails(
         signup.contractorMobileNumber,
@@ -36,7 +36,7 @@ export async function signupAs(persona) {
         kycData.ifsc_code,
       );
       break;
-    case "painter-no-kyc":
+    case 'painter-no-kyc':
       await ProfileDetailsPage.selectPainterPersona();
       await ProfileDetailsPage.addContractorDetails(
         signup.contractorMobileNumber,
@@ -49,7 +49,7 @@ export async function signupAs(persona) {
         signup.email,
       );
       break;
-    case "contractor":
+    case 'contractor':
       await ProfileDetailsPage.selectContractorPersona();
       await LocationPage.selectLocation(signupData.defaultLocation);
       await ProfileDetailsPage.uploadProfileImage();
@@ -61,7 +61,7 @@ export async function signupAs(persona) {
       await PanKycPage.verifyPan(kycData.pan);
       await BankKycPage.verifyBank(kycData.upi);
       break;
-    case "contractor-no-kyc":
+    case 'contractor-no-kyc':
       await ProfileDetailsPage.selectContractorPersona();
       await LocationPage.selectCurrentLocation();
       await ProfileDetailsPage.uploadProfileImage();

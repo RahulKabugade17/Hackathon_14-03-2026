@@ -1,28 +1,28 @@
-import { waitAndClick, waitForVisible } from "../utils/custom-commands.js";
-import DeleteAccountPage from "./delete-account.page.js";
-import signupData from "../test-data/signup.data.json";
+import { waitAndClick, waitForVisible } from '../utils/custom-commands.js';
+import DeleteAccountPage from './delete-account.page.js';
+import signupData from '../test-data/signup.data.json';
 
 class HomePage {
   selectors = {
-    tooltipTitle: { droid: "~topcard-opus-id-tooltip-title" },
-    icToggleSwitchTooltipTitle: { droid: "~ic-toggle-switch-tooltip-title" },
-    icOpusIdTooltipTitle: { droid: "~ic-opus-id-tooltip-title" },
+    tooltipTitle: { droid: '~topcard-opus-id-tooltip-title' },
+    icToggleSwitchTooltipTitle: { droid: '~ic-toggle-switch-tooltip-title' },
+    icOpusIdTooltipTitle: { droid: '~ic-opus-id-tooltip-title' },
     onboardingSkipButtons: {
       droid: [
-        "~topcard-opus-id-tooltip-skip-button",
-        "~ic-toggle-switch-tooltip-skip-button",
-        "~ic-opus-id-tooltip-skip-button",
+        '~topcard-opus-id-tooltip-skip-button',
+        '~ic-toggle-switch-tooltip-skip-button',
+        '~ic-opus-id-tooltip-skip-button',
       ],
     },
     profileCardnew: {
       droid: [
-        "~incomplete-kyc-card",
-        "~complete-kyc-top-card",
-        "~institutional-top-card-main",
+        '~incomplete-kyc-card',
+        '~complete-kyc-top-card',
+        '~institutional-top-card-main',
       ],
     },
-    approvalStatusCard: { droid: "~approval-status-card" },
-    knowMoreButton: { droid: "~Know more" },
+    approvalStatusCard: { droid: '~approval-status-card' },
+    knowMoreButton: { droid: '~Know more' },
   };
 
   async skipOnboarding() {
@@ -41,15 +41,15 @@ class HomePage {
   }
   async handleOnboardingAndPopups(persona) {
     if (
-      persona === "painter" ||
-      persona === "institutional_contractor" ||
-      persona === "trade_contractor" ||
-      persona === "painter-no-kyc"
+      persona === 'painter' ||
+      persona === 'institutional_contractor' ||
+      persona === 'trade_contractor' ||
+      persona === 'painter-no-kyc'
     ) {
       await this.skipOnboarding();
       return;
     }
-    if (persona === "contractor" || persona === "contractor-no-kyc") {
+    if (persona === 'contractor' || persona === 'contractor-no-kyc') {
       return;
     }
   }

@@ -1,23 +1,23 @@
-import { waitAndClick } from "../utils/custom-commands.js";
-import Gestures from "../utils/gestures.js";
+import { waitAndClick } from '../utils/custom-commands.js';
+import Gestures from '../utils/gestures.js';
 
 class LocationPage {
   selectors = {
-    stateDropdown: { droid: "~~location-state-dropdown", ios: "" },
-    areaDropdown: { droid: "~~location-area-dropdown", ios: "" },
-    districtDropdown: { droid: "~~location-district-dropdown", ios: "" },
-    pincodeDropdown: { droid: "~~location-pincode-dropdown", ios: "" },
-    nextButton: { droid: "~~location-next-button", ios: "" },
-    confirmButton: { droid: "~~confirm-location-confirm-button", ios: "" },
+    stateDropdown: { droid: '~~location-state-dropdown', ios: '' },
+    areaDropdown: { droid: '~~location-area-dropdown', ios: '' },
+    districtDropdown: { droid: '~~location-district-dropdown', ios: '' },
+    pincodeDropdown: { droid: '~~location-pincode-dropdown', ios: '' },
+    nextButton: { droid: '~~location-next-button', ios: '' },
+    confirmButton: { droid: '~~confirm-location-confirm-button', ios: '' },
     useCurrentLocationButton: {
       droid: 'android=new UiSelector().text("Use current location")',
-      ios: "",
+      ios: '',
     },
   };
   getDropdownOption(value) {
     return {
       droid: `~~dropdown-item-${value.trim()}`,
-      ios: "",
+      ios: '',
     };
   }
 
@@ -35,7 +35,7 @@ class LocationPage {
       await waitAndClick(step.dropdown);
       await waitAndClick(this.getDropdownOption(step.value));
     }
-    await Gestures.swipeScreen("up", 2);
+    await Gestures.swipeScreen('up', 2);
     await waitAndClick(this.selectors.nextButton);
     await waitAndClick(this.selectors.confirmButton);
   }

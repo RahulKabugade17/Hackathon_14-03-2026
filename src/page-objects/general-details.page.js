@@ -2,121 +2,121 @@ import {
   setValueFast,
   waitAndClick,
   waitForElementVisible,
-} from "../utils/custom-commands.js";
-import ProfileDetailsPage from "./profile.page.js";
-import Gestures from "../utils/gestures.js";
-import userProfileData from "../test-data/contractor_userProfile.data.json" with { type: "json" };
-import painterData from "../test-data/painter_homepage.data.json" with { type: "json" };
+} from '../utils/custom-commands.js';
+import ProfileDetailsPage from './profile.page.js';
+import Gestures from '../utils/gestures.js';
+import userProfileData from '../test-data/contractor_userProfile.data.json' with { type: 'json' };
+import painterData from '../test-data/painter_homepage.data.json' with { type: 'json' };
 
 class GeneralDetailsPage {
   selectors = {
-    yourDetails: { droid: "~Your details", ios: "" },
+    yourDetails: { droid: '~Your details', ios: '' },
     editFirstName: {
-      droid: "~general-details-item-first-name-subtitle",
-      ios: "",
+      droid: '~general-details-item-first-name-subtitle',
+      ios: '',
     },
     editLastName: {
-      droid: "~general-details-item-last-name-subtitle",
-      ios: "",
+      droid: '~general-details-item-last-name-subtitle',
+      ios: '',
     },
-    editDOB: { droid: "~general-details-item-dob-subtitle", ios: "" },
+    editDOB: { droid: '~general-details-item-dob-subtitle', ios: '' },
     editCommunicationAddress: {
-      droid: "~general-details-item-communication-address-subtitle",
-      ios: "",
+      droid: '~general-details-item-communication-address-subtitle',
+      ios: '',
     },
     editPermanentAddress: {
-      droid: "~general-details-item-permanent-address-subtitle",
-      ios: "",
+      droid: '~general-details-item-permanent-address-subtitle',
+      ios: '',
     },
     editEmail: {
-      droid: "~general-details-item-email-address-subtitle",
-      ios: "",
+      droid: '~general-details-item-email-address-subtitle',
+      ios: '',
     },
-    firstNameInput: { droid: "~first-name-edit-modal-input", ios: "" },
-    lastNameInput: { droid: "~last-name-edit-modal-input", ios: "" },
-    datePickerOkButton: { droid: "~~datepicker-ok-button", ios: "" },
+    firstNameInput: { droid: '~first-name-edit-modal-input', ios: '' },
+    lastNameInput: { droid: '~last-name-edit-modal-input', ios: '' },
+    datePickerOkButton: { droid: '~~datepicker-ok-button', ios: '' },
     communicationAddressInput1: {
-      droid: "~com-address-edit-modal-address-line1-input",
-      ios: "",
+      droid: '~com-address-edit-modal-address-line1-input',
+      ios: '',
     },
     communicationAddressInput2: {
-      droid: "~com-address-edit-modal-address-line2-input",
-      ios: "",
+      droid: '~com-address-edit-modal-address-line2-input',
+      ios: '',
     },
     permanentAddressInput1: {
-      droid: "~perm-address-edit-modal-address-line1-input",
-      ios: "",
+      droid: '~perm-address-edit-modal-address-line1-input',
+      ios: '',
     },
     permanentAddressInput2: {
-      droid: "~perm-address-edit-modal-address-line2-input",
-      ios: "",
+      droid: '~perm-address-edit-modal-address-line2-input',
+      ios: '',
     },
-    editEmailInput: { droid: "~email-address-edit-modal-input", ios: "" },
+    editEmailInput: { droid: '~email-address-edit-modal-input', ios: '' },
     saveButtonFirstName: {
-      droid: "~first-name-edit-modal-save-button",
-      ios: "",
+      droid: '~first-name-edit-modal-save-button',
+      ios: '',
     },
-    saveButtonLastName: { droid: "~last-name-edit-modal-save-button", ios: "" },
+    saveButtonLastName: { droid: '~last-name-edit-modal-save-button', ios: '' },
     saveButtonCommunicationAddress: {
-      droid: "~com-address-edit-modal-save-button",
-      ios: "",
+      droid: '~com-address-edit-modal-save-button',
+      ios: '',
     },
     saveButtonPermanentAddress: {
-      droid: "~perm-address-edit-modal-save-button",
-      ios: "",
+      droid: '~perm-address-edit-modal-save-button',
+      ios: '',
     },
     saveButtonEmail: {
-      droid: "~email-address-edit-modal-save-button",
-      ios: "",
+      droid: '~email-address-edit-modal-save-button',
+      ios: '',
     },
     workLocationDetails: {
-      droid: "~general-details-item-work-location-subtitle",
-      ios: "",
+      droid: '~general-details-item-work-location-subtitle',
+      ios: '',
     },
-    editGST: { droid: "~general-details-item-gst-number-subtitle", ios: "" },
+    editGST: { droid: '~general-details-item-gst-number-subtitle', ios: '' },
     editCompanyName: {
-      droid: "~general-details-item-company-name-subtitle",
-      ios: "",
+      droid: '~general-details-item-company-name-subtitle',
+      ios: '',
     },
     editFirmAddress: {
-      droid: "~general-details-item-firm-address-subtitle",
-      ios: "",
+      droid: '~general-details-item-firm-address-subtitle',
+      ios: '',
     },
-    teamSizeTitle: { droid: "~general-details-item-team-size-title", ios: "" },
-    editGSTInput: { droid: "~gst-number-modal-input", ios: "" },
-    editCompanyNameInput: { droid: "~firm-name-edit-modal-input", ios: "" },
-    editFirmAddressInput: { droid: "~firm-address-edit-modal-input", ios: "" },
-    verifyGST: { droid: "~gst-number-modal-verify-button", ios: "" },
-    cancelGST: { droid: "~gst-number-modal-cancel-button", ios: "" },
+    teamSizeTitle: { droid: '~general-details-item-team-size-title', ios: '' },
+    editGSTInput: { droid: '~gst-number-modal-input', ios: '' },
+    editCompanyNameInput: { droid: '~firm-name-edit-modal-input', ios: '' },
+    editFirmAddressInput: { droid: '~firm-address-edit-modal-input', ios: '' },
+    verifyGST: { droid: '~gst-number-modal-verify-button', ios: '' },
+    cancelGST: { droid: '~gst-number-modal-cancel-button', ios: '' },
     saveButtonCompanyName: {
-      droid: "~firm-name-edit-modal-save-button",
-      ios: "",
+      droid: '~firm-name-edit-modal-save-button',
+      ios: '',
     },
     saveButtonFirmAddress: {
-      droid: "~firm-address-edit-modal-save-button",
-      ios: "",
+      droid: '~firm-address-edit-modal-save-button',
+      ios: '',
     },
     workLocationDetails: {
-      droid: "~general-details-item-work-location-subtitle",
-      ios: "",
+      droid: '~general-details-item-work-location-subtitle',
+      ios: '',
     },
-    manageYourTeamButton: { droid: "~~manage-your-team-button-text", ios: "" },
-    teamMemberTab: { droid: "~my-team-tab-text-1", ios: "" },
-    addNewTeamMemberButton: { droid: "~add-new-member-text", ios: "" },
-    addMemberFirstNameInput: { droid: "~~add-member-firstname-input", ios: "" },
-    addMemberLastNameInput: { droid: "~~add-member-lastname-input", ios: "" },
-    addMemberOpusIdInput: { droid: "~~add-member-opusid-input", ios: "" },
-    addMemberMobileInput: { droid: "~~add-member-phone-input", ios: "" },
-    addMemberSubmitButton: { droid: "~~add-member-submit-button", ios: "" },
-    addMemberCancelButton: { droid: "~add-member-cancel-button", ios: "" },
-    sendRequestButton: { droid: "~~add-member-confirm-submit-button", ios: "" },
+    manageYourTeamButton: { droid: '~~manage-your-team-button-text', ios: '' },
+    teamMemberTab: { droid: '~my-team-tab-text-1', ios: '' },
+    addNewTeamMemberButton: { droid: '~add-new-member-text', ios: '' },
+    addMemberFirstNameInput: { droid: '~~add-member-firstname-input', ios: '' },
+    addMemberLastNameInput: { droid: '~~add-member-lastname-input', ios: '' },
+    addMemberOpusIdInput: { droid: '~~add-member-opusid-input', ios: '' },
+    addMemberMobileInput: { droid: '~~add-member-phone-input', ios: '' },
+    addMemberSubmitButton: { droid: '~~add-member-submit-button', ios: '' },
+    addMemberCancelButton: { droid: '~add-member-cancel-button', ios: '' },
+    sendRequestButton: { droid: '~~add-member-confirm-submit-button', ios: '' },
     sendRequestCancelButton: {
-      droid: "~~add-member-confirm-cancel-button",
-      ios: "",
+      droid: '~~add-member-confirm-cancel-button',
+      ios: '',
     },
     pendingRequestCard: {
-      droid: "~~team-member-card-Ram CrmTesting0708 dubey",
-      ios: "",
+      droid: '~~team-member-card-Ram CrmTesting0708 dubey',
+      ios: '',
     },
   };
 
@@ -136,7 +136,7 @@ class GeneralDetailsPage {
       await driver.pause(400);
     }
 
-    throw new Error("Could not reach desired scroll position");
+    throw new Error('Could not reach desired scroll position');
   }
 
   async navigateToYourDetails() {
@@ -155,7 +155,7 @@ class GeneralDetailsPage {
     };
 
     await this.scrollTillPerfectView(
-      "//androidx.recyclerview.widget.RecyclerView",
+      '//androidx.recyclerview.widget.RecyclerView',
     );
     await this.updateFirstName(data.firstName);
     await this.updateLastName(data.lastName);

@@ -2,25 +2,25 @@ import {
   waitAndClick,
   waitForElementVisible,
   setValueFast,
-} from "../utils/custom-commands.js";
+} from '../utils/custom-commands.js';
 
-import userProfileData from "../test-data/contractor_userProfile.data.json" with { type: "json" };
+import userProfileData from '../test-data/contractor_userProfile.data.json' with { type: 'json' };
 
 class KycDetailsPage {
   selectors = {
-    panNumber: { droid: "~~kyc-item-edit-button-PAN Number", ios: "" },
-    addNewUPI: { droid: "~~kyc-item-edit-button-Add new UPI ID", ios: "" },
-    panInput: { droid: "~~pan-input", ios: "" },
-    verifyButton: { droid: "~~pan-verify-button", ios: "" },
-    saveButton: { droid: "~~verify-pan-save-button", ios: "" },
-    upiIdInput: { droid: "~~upi-details-upi-id-input", ios: "" },
-    upiNextButton: { droid: "~~upi-details-next-button", ios: "" },
-    confirmUPIIDButton: { droid: "~~confirm-upi-add-button", ios: "" },
+    panNumber: { droid: '~~kyc-item-edit-button-PAN Number', ios: '' },
+    addNewUPI: { droid: '~~kyc-item-edit-button-Add new UPI ID', ios: '' },
+    panInput: { droid: '~~pan-input', ios: '' },
+    verifyButton: { droid: '~~pan-verify-button', ios: '' },
+    saveButton: { droid: '~~verify-pan-save-button', ios: '' },
+    upiIdInput: { droid: '~~upi-details-upi-id-input', ios: '' },
+    upiNextButton: { droid: '~~upi-details-next-button', ios: '' },
+    confirmUPIIDButton: { droid: '~~confirm-upi-add-button', ios: '' },
     verifiedPan: {
       droid: 'android=new UiSelector().text("Verified")',
-      ios: "",
+      ios: '',
     },
-    defaultUPI: { droid: 'android=new UiSelector().text("Default")', ios: "" },
+    defaultUPI: { droid: 'android=new UiSelector().text("Default")', ios: '' },
   };
 
   async updatePanDetails() {
@@ -37,7 +37,7 @@ class KycDetailsPage {
     const data = userProfileData.kyc;
 
     switch (paymentType.toLowerCase()) {
-      case "upi":
+      case 'upi':
         await this.addNewUpiId(data.upi);
         break;
 

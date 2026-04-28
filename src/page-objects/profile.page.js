@@ -2,64 +2,64 @@ import {
   setValueFast,
   waitAndClick,
   waitForElementVisible,
-} from "../utils/custom-commands.js";
+} from '../utils/custom-commands.js';
 
 class ProfileDetailsPage {
   selectors = {
-    contractorCard: { droid: "~~usertype-select-contractor", ios: "" },
-    painterCard: { droid: "~~usertype-select-painter", ios: "" },
-    headerBackButton: { droid: "~~header-back-button", ios: "" },
-    avatarImage: "~avatar-image",
-    kycDetailsButton: { droid: "~KYC Details", ios: "" },
-    shareIdButton: { droid: "~Share ID", ios: "" },
-    shareIdImage: { droid: "~Image", ios: "" },
-    shareIdPDF: { droid: "~PDF", ios: "" },
-    shareIdContact: { droid: "~Contact", ios: "" },
-    downloadIdButton: { droid: "~Download", ios: "" },
-    downloadIdImage: { droid: "~Image", ios: "" },
-    downloadIdPDF: { droid: "~PDF", ios: "" },
-    downloadIdContact: { droid: "~Contact", ios: "" },
+    contractorCard: { droid: '~~usertype-select-contractor', ios: '' },
+    painterCard: { droid: '~~usertype-select-painter', ios: '' },
+    headerBackButton: { droid: '~~header-back-button', ios: '' },
+    avatarImage: '~avatar-image',
+    kycDetailsButton: { droid: '~KYC Details', ios: '' },
+    shareIdButton: { droid: '~Share ID', ios: '' },
+    shareIdImage: { droid: '~Image', ios: '' },
+    shareIdPDF: { droid: '~PDF', ios: '' },
+    shareIdContact: { droid: '~Contact', ios: '' },
+    downloadIdButton: { droid: '~Download', ios: '' },
+    downloadIdImage: { droid: '~Image', ios: '' },
+    downloadIdPDF: { droid: '~PDF', ios: '' },
+    downloadIdContact: { droid: '~Contact', ios: '' },
     cardShareOptions: {
       droid:
         '//com.android.internal.widget.RecyclerView[@resource-id="android:id/sem_chooser_recycler_ranked_app"]',
-      ios: "",
+      ios: '',
     },
     cardDowloadedSuccessfully: {
       droid: 'android=new UiSelector().text("Card Downloaded successfully")',
-      ios: "",
+      ios: '',
     },
-    firstNameInput: { droid: "~~user-details-firstname-input", ios: "" },
-    lastNameInput: { droid: "~~user-details-lastname-input", ios: "" },
-    finishButton: { droid: "~~user-details-finish-button", ios: "" },
-    profileDetailsStep: { droid: "~~required-step-item-0", ios: "" },
-    contractorPhoneInput: { droid: "~~validate-mobile-phone-input", ios: "" },
+    firstNameInput: { droid: '~~user-details-firstname-input', ios: '' },
+    lastNameInput: { droid: '~~user-details-lastname-input', ios: '' },
+    finishButton: { droid: '~~user-details-finish-button', ios: '' },
+    profileDetailsStep: { droid: '~~required-step-item-0', ios: '' },
+    contractorPhoneInput: { droid: '~~validate-mobile-phone-input', ios: '' },
     contractorPhoneNextButton: {
-      droid: "~~validate-mobile-next-button",
-      ios: "",
+      droid: '~~validate-mobile-next-button',
+      ios: '',
     },
     contractorDetailsNextButton: {
-      droid: "~~contractor-details-next-button",
-      ios: "",
+      droid: '~~contractor-details-next-button',
+      ios: '',
     },
-    skipHomeButton: { droid: "~~required-steps-skip-home-button", ios: "" },
-    emailInput: { droid: "~~user-details-email-input", ios: "" },
+    skipHomeButton: { droid: '~~required-steps-skip-home-button', ios: '' },
+    emailInput: { droid: '~~user-details-email-input', ios: '' },
     profileImagePicker: {
-      droid: "~~user-details-profile-image-picker",
-      ios: "",
+      droid: '~~user-details-profile-image-picker',
+      ios: '',
     },
     profileCompletePercentage: {
       droid: '//android.widget.TextView[@text="43%"]',
-      ios: "",
+      ios: '',
     },
-    galleryButton: { droid: "~~profile-image-gallery-button", ios: "" },
+    galleryButton: { droid: '~~profile-image-gallery-button', ios: '' },
     selectionOk: {
       droid:
         'android=new UiSelector().className("android.widget.Button").instance(6)',
-      ios: "",
+      ios: '',
     },
-    cropbutton: { droid: "~Crop", ios: "" },
-    dateofbirth: { droid: "~~user-details-dob", ios: "" },
-    datepickerbutton: { droid: "~~datepicker-ok-button", ios: "" },
+    cropbutton: { droid: '~Crop', ios: '' },
+    dateofbirth: { droid: '~~user-details-dob', ios: '' },
+    datepickerbutton: { droid: '~~datepicker-ok-button', ios: '' },
     galleryImages:
       'android=new UiSelector().descriptionMatches("^Photo taken on.*")',
   };
@@ -83,13 +83,13 @@ class ProfileDetailsPage {
   async shareOpusId(option) {
     await waitAndClick(this.selectors.shareIdButton);
     switch (option) {
-      case "Image":
+      case 'Image':
         await waitAndClick(this.selectors.shareIdImage);
         break;
-      case "PDF":
+      case 'PDF':
         await waitAndClick(this.selectors.shareIdPDF);
         break;
-      case "Contact":
+      case 'Contact':
         await waitAndClick(this.selectors.shareIdContact);
         break;
       default:
@@ -117,13 +117,13 @@ class ProfileDetailsPage {
   async downloadOpusId(option) {
     await waitAndClick(this.selectors.downloadIdButton);
     switch (option) {
-      case "Image":
+      case 'Image':
         await waitAndClick(this.selectors.downloadIdImage);
         break;
-      case "PDF":
+      case 'PDF':
         await waitAndClick(this.selectors.downloadIdPDF);
         break;
-      case "Contact":
+      case 'Contact':
         await waitAndClick(this.selectors.downloadIdContact);
         break;
       default:
@@ -149,7 +149,7 @@ class ProfileDetailsPage {
       this.selectors.profileCompletePercentage,
     ).getText();
     const currentProfileCompletion = await currentPercentageText.trim();
-    return (await currentProfileCompletion) === "43%";
+    return (await currentProfileCompletion) === '43%';
   }
 
   async getFirstVisibleElement(selectors) {
@@ -160,7 +160,7 @@ class ProfileDetailsPage {
         .catch(() => false);
       if (visible) return el;
     }
-    throw new Error("No visible element found");
+    throw new Error('No visible element found');
   }
 
   async uploadProfileImage() {
@@ -173,7 +173,7 @@ class ProfileDetailsPage {
     await waitAndClick(this.selectors.galleryButton);
     await driver.waitUntil(
       async () => (await $$(this.selectors.galleryImages)).length > 0,
-      { timeout: 15000, timeoutMsg: "Gallery images not loaded" },
+      { timeout: 15000, timeoutMsg: 'Gallery images not loaded' },
     );
     const firstImage = (await $$(this.selectors.galleryImages))[0];
     await firstImage.click();
