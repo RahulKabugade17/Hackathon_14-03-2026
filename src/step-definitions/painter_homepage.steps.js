@@ -18,7 +18,6 @@ When("navigate to Your details", async function () {
 
 When("edit Business Information details", async function () {
   await GeneralDetailsPage.editBusinessInformation();
-  await driver.pause(3000);
 });
 
 Then(
@@ -30,7 +29,6 @@ Then(
 
 When("user navigate to KYC Details page", async function () {
   await ProfileDetailsPage.openKycDetails();
-  await driver.pause(5000);
 });
 
 Then("payment method should be marked as default", async function () {
