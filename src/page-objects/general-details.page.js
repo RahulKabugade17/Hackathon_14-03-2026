@@ -6,7 +6,7 @@ import {
 import ProfileDetailsPage from './profile.page.js';
 import Gestures from '../utils/gestures.js';
 import userProfileData from '../test-data/contractor_userProfile.data.json' with { type: 'json' };
-import painterData from '../test-data/painter_homepage.data.json' with { type: 'json' };
+import painterData from '../test-data/signup.data.json' with { type: 'json' };
 
 class GeneralDetailsPage {
   selectors = {

@@ -5,7 +5,7 @@ import GeneralDetailsPage from "../page-objects/general-details.page.js";
 import HomePage from "../page-objects/home.page.js";
 import kycDetailsPage from "../page-objects/kyc-details.page.js";
 import ProfileDetailsPage from "../page-objects/profile.page.js";
-import painterData from "../test-data/painter_homepage.data.json" with { type: "json" };
+import painterData from "../test-data/signup.data.json" with { type: "json" };
 
 When("user click on profile completion", async function () {
   await HomePage.handleOnboardingAndPopups(this.persona);
@@ -78,6 +78,6 @@ When("user navigate back to the Home page", async function () {
 Then("user should land on the Home page successfully", async function () {
   await HomePage.verifyUserOnHomePage();
   await HomePage.clickProfileBasedOnPersona();
-  const data = painterData;
+  const data = painterData[this.persona];
   await DeleteAccountPage.deleteAccount(data.otp);
 });
